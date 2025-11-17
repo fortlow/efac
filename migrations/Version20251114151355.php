@@ -58,7 +58,7 @@ final class Version20251114151355 extends AbstractMigration
         $this->addSql('INSERT INTO `status_client` (`id`, `label`) VALUES (NULL, \'SUSPENDU\')');
 
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, client_id INT DEFAULT NULL, email VARCHAR(180) NOT NULL, auth_code VARCHAR(255) DEFAULT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, lastname VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, photo VARCHAR(255) DEFAULT NULL, lastcnx_at DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), UNIQUE INDEX UNIQ_8D93D64919EB6921 (client_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-
+        $this->addSql('INSERT INTO `user` (`id`, `client_id`, `email`, `auth_code`, `roles`, `password`, `is_verified`, `lastname`, `firstname`, `photo`, `lastcnx_at`) VALUES (1, NULL, "r.desire92@gmail.com", NULL, "[\"ROLE_ADMIN\"]", "$2y$13$8BK57Zp4GhwH1yp3hCrDO.4QC9NpZupksye/auxxFctMplDKIH55.", 1, "BIY-NZE", "Désiré Roch", NULL, NULL)');
 
         $this->addSql('ALTER TABLE bill ADD CONSTRAINT FK_7A2119E319EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');
         $this->addSql('ALTER TABLE bill ADD CONSTRAINT FK_7A2119E35AA1164F FOREIGN KEY (payment_method_id) REFERENCES ref_payment_method (id)');
