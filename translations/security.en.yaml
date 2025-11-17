@@ -1,0 +1,7 @@
+# config/packages/translation.yaml
+# ... framework:
+# default_locale: fr # Set your default locale here if needed
+# ...
+
+# translations/security.en.yaml
+invalid_credentials: "Invalid credentials"

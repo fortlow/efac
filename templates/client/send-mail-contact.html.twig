@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}eFac | Client - Envoi mail contact {% endblock %}
+
+{% block content %}
+
+    <section id="service-details" class="service-details section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row" style="text-align: center">
+                <div class="col-lg-11 mx-auto" style="text-align: center">
+                    <div class="service-sidebar">
+
+                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300">
+                            <h3>Client - Envoi de courriel au contact {{ contact.firstname }} {{ contact.lastname }}</h3>
+                        </div>
+
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
+                            <!-- .sous-menu rubrique -->
+                            <div class="meta-bottom" style="text-align: right; margin-bottom: 2em;">
+                                <div class="share-section">
+                                    <div class="social-links">
+                                        <a href="{{ path('app_client') }}" title="Liste des clients"><i class="bi bi-person-vcard-fill h3"></i></a>
+                                        <span class="ml-5">&nbsp;</span>
+                                        <a href="{{ path('app_client_contact', {'id':id}) }}" title="Listing des contacts"><i class="bi bi-person-rolodex h3"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .sous-menu rubrique -->
+                        {% endif %}
+
+                        <div class="quick-contact-card" data-aos="slide-up" data-aos-delay="200">
+                            <div class="contact-header">
+                                <h4>Pour envoyer un courriel au contact</h4>
+                                <p>Veuillez remplir le formulaire ci-dessous.</p>
+                            </div>
+
+                            {{ form_start(form) }}
+                            {% if form is defined and form is not null %}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <!-- begin form -->
+                                        <div class="row formRow" style="text-align: left">
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    {{ form_row(form.from) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    {{ form_row(form.to) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    {{ form_row(form.subject) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    {{ form_row(form.message) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end form -->
+                                        <div class="btnrow row mx-auto gap-4">
+                                            <button type="submit" class="btn-submit">
+                                                <span>Valider pour envoyer le courriel au contact</span>
+                                                <i class="bi bi-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

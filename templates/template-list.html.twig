@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}eFac | Titre{% endblock %}
+
+{% block content %}
+
+    <!-- .dynamic content -->
+    <section id="privacy" class="privacy section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row">
+                <div class="col-lg-11 mx-auto">
+                    <div class="privacy-content">
+
+                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
+                            <h3>Rubrique - Titre</h3>
+                        </div>
+
+                        <!-- .sous-menu rubrique -->
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
+                            <div class="meta-bottom" style="text-align: right;">
+                                <div class="share-section">
+                                    <div class="social-links" style="vertical-align: middle">
+                                        Lien 1
+                                        <span class="ml-5">&nbsp;</span>
+                                        Lien 2
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endif %}
+                        <!-- .sous-menu rubrique -->
+
+                        <!-- start table -->
+
+                        <!-- end table -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.dynamic content -->
+{% endblock %}
+

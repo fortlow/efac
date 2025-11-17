@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}eFac | Liste des services{% endblock %}
+
+{% block content %}
+
+    <!-- .dynamic content -->
+    <section id="privacy" class="privacy section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row">
+                <div class="col-lg-11 mx-auto">
+                    <div class="privacy-content">
+
+                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
+                            <h3>Référentiel - Services</h3>
+                        </div>
+
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
+                            <!-- .sous-menu rubrique -->
+                            <div class="meta-bottom" style="text-align: right; margin-bottom: 2em;">
+                                <div class="share-section" style="vertical-align: middle">
+                                    <div class="social-links">
+                                        <a href="#" title="Téléverser votre référentiel service" class="twitter"><i class="bi bi-cloud-arrow-up h4"></i></a>
+                                        <span class="ml-5">&nbsp;</span>
+                                        <a href="{{ path('app_reference_add_service') }}" title="Ajouter un service" class="twitter"><i class="bi bi-plus-circle h5"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .sous-menu rubrique -->
+                        {% endif %}
+
+                        <table id="myTable" class="display" style="width:100%; margin-top: 2rem;">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th style="width:5%">Référence</th>
+                                <th style="width:75%">Nom</th>
+                                <th style="width:10%">Prix (hj)</th>
+                                <th style="text-align: center; width: 10%">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if references is defined and references is not null and references|length > 0 %}
+                                {% set nb = 1 %}
+                                {% for ref in references %}
+                                    <tr>
+                                        <td class="odd">{{ nb }}</td>
+                                        <td class="odd">{{ ref.reference }}</td>
+                                        <td class="odd">
+                                            {% if ref.picture is defined and ref.picture is not null %}
+                                                {% set photo = ref.picture %}
+                                                <img src="{{ asset('img/photo/'~ ref.picture ) }}" class="imgRounded" alt="" width="50" height="46">&nbsp;
+                                            {% endif %}
+                                            {{ ref.name }}
+                                        </td>
+                                        <td class="odd">{{ ref.pricePerDay|number_format(0, '.', ' ') }} XAF</td>
+                                        <td class="odd" style="text-align: center">
+                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
+                                                <a href="{{ path('app_reference_edit_service', { 'id':ref.id }) }}" title="Modifier" class="mr-3"><i class="bi bi-pencil-square h4"></i></a>
+                                                <a href="{{ path('app_reference_delete_service', { 'id':ref.id }) }}" title="Supprimer" style="margin-left: .7em; color: orangered"><i class="bi bi-trash3 h4"></i></a>
+                                            {% elseif app.user.roles is defined and app.user.roles is not null and 'ROLE_GESTIONNAIRE' in app.user.roles %}
+                                                <a href="{{ path('app_reference_edit_service', { 'id':ref.id }) }}" title="Modifier" class="mr-3"><i class="bi bi-pencil-square h4"></i></a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% set nb = (nb + 1) %}
+                                {% endfor %}
+                            {% endif %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.dynamic content -->
+{% endblock %}
+

@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}eFac - Bienvenue!{% endblock %}
+
+{% block content %}
+    <!-- Featured Services Section -->
+    <section id="featured-services" class="featured-services section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>eFac : la numérisation de vos proforma et factures</h2>
+            <p>Gérer vos clients, proforma et factures en toute simplicité pour une conservation illimitée</p>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row g-4 justify-content-center">
+
+                <!-- .clients -->
+                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="service-number">01</div>
+                        </div>
+                        <div class="service-content">
+                            <h3><a href="#">Clients</a></h3>
+                            <p>Gérez votre base clients</p>
+                            <ul class="service-features">
+                                <li><i class="bi bi-check2"></i> Filtres de recherche avancée</li>
+                                <li><i class="bi bi-check2"></i> Accès à la liste des contacts</li>
+                                <li><i class="bi bi-check2"></i> Accès aux devis</li>
+                                <li><i class="bi bi-check2"></i> Accès aux factures</li>
+                                <li><i class="bi bi-check2"></i> Envoi de mail au client</li>
+                                <li><i class="bi bi-check2"></i> Modification des informations client</li>
+                            </ul>
+                        </div>
+                        <div class="service-action">
+                            <a href="#" class="service-btn">
+                                <span>Liste des clients</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.clients -->
+
+                <!-- .référentiel -->
+                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="service-card featured">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="bi bi-journals"></i>
+                            </div>
+                            <div class="service-number">02</div>
+                        </div>
+                        <div class="service-content">
+                            <h3><a href="#">Référentiel</a></h3>
+                            <p>Gérez votre référentiel</p>
+                            <ul class="service-features">
+                                <li><i class="bi bi-check2"></i> Produits référencés</li>
+                                <li><i class="bi bi-check2"></i> Services référencés</li>
+                                <li><i class="bi bi-check2"></i> Source unique du prix des services</li>
+                                <li><i class="bi bi-check2"></i> Source unique du prix des produits</li>
+                            </ul>
+                        </div>
+                        <div class="service-action" style="margin-top: 7rem">
+                            <a href="{{ path('app_reference_list_service') }}" class="service-btn">
+                                <span>Accès au référentiel</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.référentiel -->
+
+                <!-- .proforma -->
+                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="bi bi-file-earmark-ruled"></i>
+                            </div>
+                            <div class="service-number">03</div>
+                        </div>
+                        <div class="service-content">
+                            <h3><a href="#">Proforma</a></h3>
+                            <p>Gérez vos proforma</p>
+                            <ul class="service-features">
+                                <li><i class="bi bi-check2"></i> Filtres de recherche avancée</li>
+                                <li><i class="bi bi-check2"></i> Modifications illimitées</li>
+                                <li><i class="bi bi-check2"></i> Génération en PDF</li>
+                                <li><i class="bi bi-check2"></i> Signature électronique par QR-code</li>
+                                <li><i class="bi bi-check2"></i> Envoi par mail au client</li>
+                                <li><i class="bi bi-check2"></i> Transformation en facture</li>
+                            </ul>
+                        </div>
+                        <div class="service-action" style="margin-top: 2rem">
+                            <a href="#" class="service-btn">
+                                <span>Liste des proforma</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.proforma -->
+
+                <!-- .facture -->
+                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="service-card">
+                        <div class="service-header">
+                            <div class="service-icon">
+                                <i class="bi bi-file-earmark-post-fill"></i>
+                            </div>
+                            <div class="service-number">04</div>
+                        </div>
+                        <div class="service-content">
+                            <h3><a href="#">Factures</a></h3>
+                            <p>Gérez vos factures</p>
+                            <ul class="service-features">
+                                <li><i class="bi bi-check2"></i> Filtres de recherche avancée</li>
+                                <li><i class="bi bi-check2"></i> Modifications illimitées</li>
+                                <li><i class="bi bi-check2"></i> Génération en PDF</li>
+                                <li><i class="bi bi-check2"></i> Signature électronique par QR-code</li>
+                                <li><i class="bi bi-check2"></i> Envoi par mail au client</li>
+                            </ul>
+                        </div>
+                        <div class="service-action" style="margin-top: 4rem">
+                            <a href="#" class="service-btn">
+                                <span>Liste des factures</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.facture -->
+
+            </div>
+
+        </div>
+
+    </section>
+
+{% endblock %}

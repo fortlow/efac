@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}eFac | Liste des clients{% endblock %}
+
+{% block content %}
+
+    <!-- .dynamic content -->
+    <section id="privacy" class="privacy section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row">
+                <div class="col-lg-11 mx-auto">
+                    <div class="privacy-content">
+
+                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
+                            <h3>Clients - Liste</h3>
+                        </div>
+
+                        <!-- .sous-menu rubrique -->
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
+                            <div class="meta-bottom" style="text-align: right;">
+                                <div class="share-section">
+                                    <div class="social-links" style="vertical-align: middle">
+                                        <a href="{{ path('app_client_add') }}" title="Ajouter un client"><i class="bi bi-person-plus h3"></i></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endif %}
+                        <!-- .sous-menu rubrique -->
+
+                        <!-- start table -->
+                        <table id="myTable" class="display">
+                            <thead>
+                            <tr>
+                                <th style="width: 2% !important;">#</th>
+                                <th style="width: 5% !important;">Compte</th>
+                                <th style="width: 22% !important;">Raison sociale</th>
+                                <th style="width: 12% !important; text-align: center">Type client</th>
+                                <th style="width: 15% !important; text-align: center">Téléphone</th>
+                                <th style="width: 16% !important; text-align: center">Email</th>
+                                <th style="width: 10% !important; text-align: center">Statut</th>
+                                <th style="width: 18% !important; text-align: center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if clients is defined and clients is not null and clients|length > 0 %}
+                                {% set nb = 1 %}
+                                {% for client in clients %}
+                                    <tr>
+                                        <td class="odd">{{ nb }}</td>
+                                        <td class="odd" style="text-align: center">
+                                            {% if client.numAccount is defined and client.numAccount is not null %}
+                                                {{ client.numAccount }}
+                                            {% endif %}
+                                        </td>
+                                        <td class="odd">{{ client.sreason }}</td>
+                                        <td class="odd" style="text-align: center">
+                                            {% if client.typeClient is defined and client.typeClient is not null %}
+                                                {{ client.typeClient.label }}
+                                            {% endif %}
+                                        </td>
+                                        <td class="odd" style="text-align: center"><a href="tel:{{ client.phone }}" target="_blank" style="text-decoration: none; text-underline: none">{{ client.phone }}</a></td>
+                                        <td class="odd" style="text-align: center">
+                                            {% if client.email is defined and client.email is not null %}
+                                                <a href="mailto:{{ client.email }}" target="_blank" style="text-decoration: none; text-underline: none">{{ client.email }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td class="odd" style="text-align: center">
+                                            {% if client.statusClient is defined and client.statusClient is not null %}
+                                                {{ client.statusClient.label }}
+                                            {% endif %}
+                                        </td>
+                                        <td class="odd" style="text-align: right">
+                                            <a href="{{ path('app_client_contact', {'id':client.id }) }}" title="Liste des contacts"><i class="bi bi-person-vcard-fill h4"></i></a>
+                                            <a href="#" title="Proforma" style="margin-left: .1em;"><i class="bi bi-card-heading h4"></i></a>
+                                            <a href="#" title="Factures" style="margin-left: .1em;"><i class="bi bi-card-checklist h4"></i></a>
+                                            <a href="{{ path('app_client_edit', {'id':client.id }) }}" title="Modifier" style="margin-left: .4em;"><i class="bi bi-pencil-square h5"></i></a>
+                                            {# <a href="{{ path('app_send_mail_contact', {'id':client.id }) }}" title="Envoyer mail au contact" style="margin-left: .2em;"><i class="bi bi-envelope-arrow-up h5"></i></a> #}
+
+                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
+                                                <a href="{{ path('app_client_delete', {'id':client.id }) }}" title="Supprimer" style="margin-left: .2em; color: orangered"><i class="bi bi-trash3 h5"></i></a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% set nb = (nb + 1) %}
+                                {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <!-- end table -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.dynamic content -->
+{% endblock %}
