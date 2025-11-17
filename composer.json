@@ -18,6 +18,7 @@
         "scheb/2fa-bundle": "^7.11",
         "scheb/2fa-email": "^7.11",
         "scheb/2fa-trusted-device": "^7.11",
+        "symfony/apache-pack": "*",
         "symfony/asset": "6.4.*",
         "symfony/asset-mapper": "6.4.*",
         "symfony/console": "6.4.*",
