@@ -17,7 +17,7 @@
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
+/public/img/photo/
 ###< symfony/asset-mapper ###
 
 /.idea/
-.idea/

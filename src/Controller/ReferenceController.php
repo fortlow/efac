@@ -60,7 +60,7 @@ class ReferenceController extends AbstractController
                     $photo = $form['picture']->getData();
 
                     if (!is_null($photo)) {
-                        $file = new File($photo);
+                        $file = new File($photo->getPathname());
                         $fileName = $utilityService->generateUniqueLongFileName() . '.' . $file->guessExtension();
                         $realPath = $_ENV['DIR_PHOTO'];
                         try {
@@ -179,7 +179,7 @@ class ReferenceController extends AbstractController
                 $photo = $form['picture']->getData();
 
                 if (!is_null($photo)) {
-                    $file = new File($photo);
+                    $file = new File($photo->getPathname());
                     $fileName = $utilityService->generateUniqueLongFileName() . '.' . $file->guessExtension();
                     $realPath = $_ENV['DIR_PHOTO'];
                     try {
@@ -225,7 +225,7 @@ class ReferenceController extends AbstractController
                 $photo = $form['picture']->getData();
 
                 if (!is_null($photo)) {
-                    $file = new File($photo);
+                    $file = new File($photo->getPathname());
                     $fileName = $utilityService->generateUniqueLongFileName() . '.' . $file->guessExtension();
                     $realPath = $_ENV['DIR_PHOTO'];
                     try {

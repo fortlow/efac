@@ -13,6 +13,7 @@ use App\Repository\ContactClientRepository;
 use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -22,13 +23,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class ClientController extends AbstractController
 {
     private EntityManagerInterface $_em;
+    private UtilityService $_utilService;
 
     /**
      * @param EntityManagerInterface $em
+     * @param UtilityService $utilityService
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, UtilityService $utilityService)
     {
         $this->_em = $em;
+        $this->_utilService = $utilityService;
     }
 
     #[Route('/client', name: 'app_client'), IsGranted('ROLE_COMMERCIAL')]
@@ -142,6 +146,26 @@ final class ClientController extends AbstractController
                 $contact->setLastname(strtoupper($contact->getLastname()));
                 $contact->setFirstname(ucfirst($contact->getFirstname()));
                 $contact->setClient($client);
+
+                // ----------------------------------------------------------------------------------------------
+                // Ajout de la photo
+                $photo = $form['photo']->getData();
+                dump('photo', $photo);
+
+                if (!is_null($photo)) {
+                    $file = new File($photo->getPathname());
+                    $fileName = $this->_utilService->generateUniqueLongFileName() . '.' . $file->guessExtension();
+                    $realPath = $_ENV['DIR_PHOTO'];
+                    try {
+                        $file->move($realPath, $fileName);
+                        $contact->setPhoto($fileName);
+                    }
+                    catch (\Exception $e) {
+                        $this->addFlash('danger', 'Echec de récupération de la photo.');
+                    }
+                }
+                // ----------------------------------------------------------------------------------------------
+
                 $this->_em->persist($contact);
                 $this->_em->flush();
                 $this->addFlash('success', 'Contact créé avec succès.');
@@ -161,7 +185,8 @@ final class ClientController extends AbstractController
 
     #[Route('/client/contact/edit/{id}/{idCli}', name: 'app_client_edit_contact'), IsGranted('ROLE_COMMERCIAL')]
     public function editContact(Request $request, ClientRepository $clientRepository,
-                                ContactClientRepository $contactClientRepository, int $id, int $idCli): Response
+                                ContactClientRepository $contactClientRepository,
+                                int $id, int $idCli): Response
     {
         $contact = $contactClientRepository->find($id);
         $client = $clientRepository->find($idCli);
@@ -173,6 +198,25 @@ final class ClientController extends AbstractController
                 $contact->setLastname(strtoupper($contact->getLastname()));
                 $contact->setFirstname(ucfirst($contact->getFirstname()));
                 $contact->setClient($client);
+
+                // ----------------------------------------------------------------------------------------------
+                // Ajout de la photo
+                $photo = $form['photo']->getData();
+
+                if (!is_null($photo)) {
+                    $file = new File($photo->getPathname());
+                    $fileName = $this->_utilService->generateUniqueLongFileName() . '.' . $file->guessExtension();
+                    $realPath = $_ENV['DIR_PHOTO'];
+                    try {
+                        $file->move($realPath, $fileName);
+                        $contact->setPhoto($fileName);
+                    }
+                    catch (\Exception $e) {
+                        $this->addFlash('danger', 'Echec de récupération de la photo.');
+                    }
+                }
+                // ----------------------------------------------------------------------------------------------
+
                 $this->_em->flush();
                 $this->addFlash('success', 'Contact modifié avec succès.');
             } catch (\Exception $exception) {
@@ -204,8 +248,7 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/client/send/mail/contact/{id}', name: 'app_send_mail_contact'), IsGranted('ROLE_COMMERCIAL')]
-    public function sendMailToContact(Request $request, ContactClientRepository $contactClientRepository,
-                                      UtilityService $utilityService, int $id): Response
+    public function sendMailToContact(Request $request, ContactClientRepository $contactClientRepository, int $id): Response
     {
         $contact = $contactClientRepository->find($id);
         $email = '';
@@ -220,7 +263,7 @@ final class ClientController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $data = $form->getData();
-                if($utilityService->sendMailToRecipient($data)) {
+                if($this->_utilService->sendMailToRecipient($data)) {
                     $this->addFlash('success', 'Mail envoyé avec succès.');
                 } else {
                     $this->addFlash('danger', "Problème lors de l'envoi du mail.");

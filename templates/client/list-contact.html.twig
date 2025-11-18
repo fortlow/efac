@@ -5,86 +5,88 @@
 {% block content %}
 
     <!-- .dynamic content -->
-    <section id="privacy" class="privacy section">
+    <section id="featured-agents" class="featured-agents section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h3>Client - Contacts de {{ client.sreason }}</h3>
+            <p>Listing des contacts disponibles</p>
+        </div><!-- End Section Title -->
+
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <div class="row">
-                <div class="col-lg-11 mx-auto">
-                    <div class="privacy-content">
 
-                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
-                            <h3>Client - Contacts de {{ client.sreason }}</h3>
+            <!-- .sous-menu rubrique -->
+            {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
+                <div class="meta-bottom" style="text-align: center;">
+                    <div class="share-section">
+                        <div class="social-links" style="vertical-align: middle">
+                            <a href="{{ path('app_client') }}" title="Liste des clients"><i class="bi bi-person-vcard-fill h3"></i></a>
+                            <span class="ml-5">&nbsp;</span>
+                            <a href="{{ path('app_client_add_contact', {'id':client.id}) }}" title="Ajouter un contact"><i class="bi bi-person-add h3"></i></a>
                         </div>
+                    </div><br />
+                </div>
+            {% endif %}
+            <!-- .sous-menu rubrique -->
 
-                        <!-- .sous-menu rubrique -->
-                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
-                            <div class="meta-bottom" style="text-align: right;">
-                                <div class="share-section">
-                                    <div class="social-links" style="vertical-align: middle">
-                                        <a href="{{ path('app_client') }}" title="Liste des clients"><i class="bi bi-person-vcard-fill h3"></i></a>
-                                        <span class="ml-5">&nbsp;</span>
-                                        <a href="{{ path('app_client_add_contact', {'id':client.id}) }}" title="Ajouter un contact"><i class="bi bi-person-add h3"></i></a>
+            <div class="row gy-5 justify-content-center">
+
+                {% if contacts is defined and contacts is not null and contacts|length > 0 %}
+                    {% set nb = 1 %}
+                    {% for contact in contacts %}
+
+                        <div class="col-lg-6 col-xl-4" data-aos="fade-up" data-aos-delay="100">
+                            <div class="agent-card">
+                                <div class="agent-image">
+
+                                    {% if contact.photo is defined and contact.photo is not null %}
+                                        <img src="{{ asset('img/photo/'~contact.photo) }}" alt="Contact" class="img-fluid">
+                                    {% else %}
+                                        <img src="{{ asset('img/portrait/portrait-m.png') }}" alt="Contact" class="img-fluid">
+                                    {% endif %}
+
+                                    <div class="agent-overlay">
+                                        <div class="contact-buttons">
+                                            <a href="tel:{{ contact.phoneOne }}" target="_blank" class="btn-contact" title="Appeler le contact">
+                                                <i class="bi bi-telephone"></i>
+                                            </a>
+                                            <a href="mailto:{{ contact.email }}" target="_blank" class="btn-contact" title="Envoyez email au contact">
+                                                <i class="bi bi-envelope"></i>
+                                            </a>
+                                            {% if contact.phoneTwo is defined and contact.phoneTwo is not null %}
+                                                <a href="https://wa.me/{{ contact.phoneTwo }}" target="_blank" class="btn-contact" title="Contacter par WhatsApp">
+                                                    <i class="bi bi-whatsapp"></i>
+                                                </a>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
 
+                                <div class="agent-info">
+                                    <div class="agent-meta">
+                                        <h3 class="agent-name">{{ contact.firstname }} {{ contact.lastname }}</h3>
+                                        <p class="agent-title">{{ contact.position }}</p>
+                                    </div>
+                                    <div class="location-tag">
+                                        <i class="bi bi-geo-alt"></i>
+                                        {% if contact.city is defined and contact.city is not null %}
+                                            <span>{{ contact.city }}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <a href="{{ path('app_client_edit_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" class="profile-link">Modifier</a>
+
+                                    {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
+                                        <br /><a href="{{ path('app_client_delete_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" class="profile-link">Supprimer</a>
+                                    {% endif %}
+                                </div>
                             </div>
-                        {% endif %}
-                        <!-- .sous-menu rubrique -->
-
-                        <!-- start table -->
-                        <table id="myTable" class="display">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nom</th>
-                                <th>Prénom</th>
-                                <th>Fonction</th>
-                                <th>Email</th>
-                                <th style="text-align: center">Téléphone 1</th>
-                                <th style="text-align: center">Téléphone 2</th>
-                                <th style="text-align: center">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% if contacts is defined and contacts is not null and contacts|length > 0 %}
-                                {% set nb = 1 %}
-                                {% for contact in contacts %}
-                                    <tr>
-                                        <td class="odd">{{ nb }}</td>
-                                        <td class="odd">{{ contact.lastname }}</td>
-                                        <td class="odd">{{ contact.firstname }}</td>
-                                        <td class="odd">
-                                            {% if contact.position is defined and contact.position is not null %}
-                                                {{ contact.position }}
-                                            {% endif %}
-                                        </td>
-                                        <td class="odd"><a href="mailto:{{ contact.email }}" target="_blank" style="text-decoration: none; text-underline: none">{{ contact.email }}</a></td>
-                                        <td class="odd" style="text-align: center"><a href="tel:{{ contact.phoneOne }}" target="_blank" style="text-decoration: none; text-underline: none">{{ contact.phoneOne }}</a></td>
-                                        <td class="odd" style="text-align: center">
-                                            {% if contact.phoneTwo is defined and contact.phoneTwo is not null %}
-                                                <a href="tel:{{ contact.phoneTwo }}" target="_blank" style="text-decoration: none; text-underline: none">{{ contact.phoneTwo }}</a>
-                                            {% endif %}
-                                        </td>
-
-                                        <td class="odd" style="text-align: center">
-                                            <a href="{{ path('app_client_edit_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" title="Modifier" style="margin-left: .7em;"><i class="bi bi-pencil-square h5"></i></a>
-                                            <a href="{{ path('app_send_mail_contact', {'id':contact.id}) }}" title="Envoyer mail au contact" style="margin-left: .2em;"><i class="bi bi-envelope-arrow-up h5"></i></a>
-
-                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-                                                <a href="{{ path('app_client_delete_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" title="Supprimer" style="margin-left: .2em; color: orangered"><i class="bi bi-trash3 h5"></i></a>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                    {% set nb = (nb + 1) %}
-                                {% endfor %}
-                            {% endif %}
-                            </tbody>
-                        </table>
-                        <!-- end table -->
-                    </div>
-                </div>
+                        </div><!-- End Agent Card -->
+                    {% endfor %}
+                {% else %}
+                {% endif %}
             </div>
         </div>
-    </section>
-    <!-- /.dynamic content -->
+    </section><!-- /.dynamic content -->
 {% endblock %}
 
