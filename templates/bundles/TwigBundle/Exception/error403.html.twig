@@ -1,0 +1,51 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <!-- Error 404 Section -->
+    <section id="error-404" class="error-404 section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="error-wrapper">
+                <div class="row align-items-center">
+                    <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+                        <div class="error-illustration">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            <div class="circle circle-1"></div>
+                            <div class="circle circle-2"></div>
+                            <div class="circle circle-3"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+                        <div class="error-content">
+                            <span class="error-badge" data-aos="zoom-in" data-aos-delay="400">Erreur</span>
+                            <h1 class="error-code" data-aos="fade-up" data-aos-delay="500">403</h1>
+                            <h2 class="error-title" data-aos="fade-up" data-aos-delay="600">Accès refusé</h2>
+                            <p class="error-description" data-aos="fade-up" data-aos-delay="700">
+                                Vos habilitations ne vous permettent pas d'accéder à cette page.
+                            </p>
+
+                            <div class="error-actions" data-aos="fade-up" data-aos-delay="800">
+                                <a href="{{ path('app_home') }}" class="btn-home">
+                                    <i class="bi bi-house-door"></i> Retour à l'accueil
+                                </a>
+                            </div>
+
+                            <div class="error-suggestions" data-aos="fade-up" data-aos-delay="900">
+                                <h3>You might want to:</h3>
+                                <ul>
+                                    <li><a href="mailto:d.biy-nze@b2mtechnologies.ga"><i class="bi bi-arrow-right-circle"></i> Contactez le support</a></li>
+                                    <li><a href="{{ app.request.headers.get('referer') }}"><i class="bi bi-arrow-right-circle"></i> Retour à la page précédente</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- /Error 404 Section -->
+{% endblock %}

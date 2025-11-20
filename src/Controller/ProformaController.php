@@ -46,14 +46,14 @@ class ProformaController extends AbstractController
         $this->_qrCodeService = $qrCodeService;
 
     }
-    #[Route('/proforma', name: 'app_proforma'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma', name: 'app_proforma'), IsGranted('ROLE_SALE')]
     public function index(ProformaRepository $proformaRepository): Response
     {
         return $this->render('proforma/index.html.twig', [
             'proformas' => $proformaRepository->findAll(),
         ]);
     }
-    #[Route('/proforma/add', name: 'app_proforma_add'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma/add', name: 'app_proforma_add'), IsGranted('ROLE_SALE')]
     public function add(Request $request): Response
     {
         try {
@@ -96,7 +96,7 @@ class ProformaController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/proforma/add/next/{id}/{mode}', name: 'app_proforma_add_next'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma/add/next/{id}/{mode}', name: 'app_proforma_add_next'), IsGranted('ROLE_SALE')]
     public function addNext(ProformaRepository $proformaRepository, int $id, string $mode): Response
     {
         $proforma = $proformaRepository->find($id);
@@ -204,7 +204,7 @@ class ProformaController extends AbstractController
             'idproforma' => $id,
         ]);
     }
-    #[Route('/proforma/edit/{id}', name: 'app_proforma_edit'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma/edit/{id}', name: 'app_proforma_edit'), IsGranted('ROLE_SALE')]
     public function edit(Request $request, int $id): Response
     {
         $proforma = $this->_em->getRepository(Proforma::class)->find($id);
@@ -312,7 +312,7 @@ class ProformaController extends AbstractController
             'services' => $services,
         ]);
     }
-    #[Route('/proforma/delete/{id}', name: 'app_proforma_delete'), IsGranted('ROLE_GESTIONNAIRE')]
+    #[Route('/proforma/delete/{id}', name: 'app_proforma_delete'), IsGranted('ROLE_MANAGER')]
     public function delete(ProformaRepository $proformaRepository,
                            LineProformaRepository $lineProformaRepository,
                            IntercalProformaRepository $intercalProformaRepository, int $id): Response
@@ -338,7 +338,7 @@ class ProformaController extends AbstractController
 
         return $this->redirectToRoute('app_proforma');
     }
-    #[Route('/proforma/transform/to/bill/{id}', name: 'app_proforma_transform_to_bill'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma/transform/to/bill/{id}', name: 'app_proforma_transform_to_bill'), IsGranted('ROLE_SALE')]
     public function transformToBill(ProformaRepository $proformaRepository, UtilityService $utilityService,int $id): Response
     {
         $proforma = $proformaRepository->find($id);
@@ -353,7 +353,7 @@ class ProformaController extends AbstractController
 
         return $this->redirectToRoute('app_bill');
     }
-    #[Route('/proforma/view/{id}', name: 'app_proforma_view_proforma'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma/view/{id}', name: 'app_proforma_view_proforma'), IsGranted('ROLE_SALE')]
     public function getPdfProforma(ProformaRepository $proformaRepository,
                                    IntercalProformaRepository $intercalProformaRepository, int $id): Response
     {
@@ -420,7 +420,7 @@ class ProformaController extends AbstractController
             ['content-type' => 'text/plain']
         );
     }
-    #[Route('/proforma/view/proforma/test/{id}', name: 'app_proforma_view_proforma_test'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma/view/proforma/test/{id}', name: 'app_proforma_view_proforma_test'), IsGranted('ROLE_SALE')]
     public function getPdfProformaTest(ProformaRepository $proformaRepository,
                                        IntercalProformaRepository $intercalProformaRepository,
                                        UtilityService $utileSrv, int $id): Response
@@ -482,7 +482,7 @@ class ProformaController extends AbstractController
             //'textThreeFooter' => $textThreeFooter,
         ]);
     }
-    #[Route('/proforma/send/proforma/{id}', name: 'app_proforma_send_proforma'), IsGranted('ROLE_COMMERCIAL')]
+    #[Route('/proforma/send/proforma/{id}', name: 'app_proforma_send_proforma'), IsGranted('ROLE_SALE')]
     public function sendPdfProforma(ProformaRepository $proformaRepository,
                                     IntercalProformaRepository $intercalProformaRepository, MailerInterface $mailer,
                                     int $id): Response

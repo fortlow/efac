@@ -29,7 +29,7 @@ class ReferenceController extends AbstractController
         $this->_em = $em;
     }
 
-    #[Route('/reference/list/service', name: 'app_reference_list_service'), IsGranted('ROLE_GESTIONNAIRE')]
+    #[Route('/reference/list/service', name: 'app_reference_list_service'), IsGranted('ROLE_MANAGER')]
     public function listService(RefServiceRepository $refServiceRepository): Response
     {
         return $this->render('reference/list-service.html.twig', [
@@ -37,7 +37,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/reference/add/service', name: 'app_reference_add_service'), IsGranted('ROLE_GESTIONNAIRE')]
+    #[Route('/reference/add/service', name: 'app_reference_add_service'), IsGranted('ROLE_MANAGER')]
     public function addService(Request $request, RefServiceRepository $refServiceRepository,
                                UtilityService $utilityService): Response
     {
@@ -88,7 +88,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/reference/edit/service/{id}', name: 'app_reference_edit_service'), IsGranted('ROLE_GESTIONNAIRE')]
+    #[Route('/reference/edit/service/{id}', name: 'app_reference_edit_service'), IsGranted('ROLE_MANAGER')]
     public function editService(Request $request, RefServiceRepository $refServiceRepository,
                                 UtilityService $utilityService, int $id): Response
     {
@@ -154,7 +154,7 @@ class ReferenceController extends AbstractController
         return $this->redirectToRoute('app_reference_list_service');
     }
 
-    #[Route('/reference/list/product', name: 'app_reference_list_product'), IsGranted('ROLE_GESTIONNAIRE')]
+    #[Route('/reference/list/product', name: 'app_reference_list_product'), IsGranted('ROLE_MANAGER')]
     public function listProduct(RefProductRepository $refProductRepository): Response
     {
         return $this->render('reference/list-product.html.twig', [
@@ -162,7 +162,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/reference/add/product', name: 'app_reference_add_product'), IsGranted('ROLE_GESTIONNAIRE')]
+    #[Route('/reference/add/product', name: 'app_reference_add_product'), IsGranted('ROLE_MANAGER')]
     public function addProduct(Request $request, UtilityService $utilityService): Response
     {
         $form = $this->createForm(RefProductType::class, null, []);

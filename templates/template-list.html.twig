@@ -16,7 +16,7 @@
                         </div>
 
                         <!-- .sous-menu rubrique -->
-                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
                             <div class="meta-bottom" style="text-align: center;">
                                 <div class="share-section">
                                     <div class="social-links" style="vertical-align: middle">
