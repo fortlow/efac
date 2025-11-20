@@ -8,7 +8,7 @@ use Endroid\QrCode\Label\Margin\Margin;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\Builder\BuilderInterface;
 
-class QrcodeService
+class QrCodeService
 {
     /**
      * @var BuilderInterface

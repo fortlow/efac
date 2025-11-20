@@ -11,6 +11,7 @@ use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -265,5 +266,39 @@ class ReferenceController extends AbstractController
         }
 
         return $this->redirectToRoute('app_reference_list_product');
+    }
+
+    #[Route('/reference/get/info/product', name: 'app_ajax_get_info_product')]
+    public function getInfoRefProductAjax(Request $request, RefProductRepository $refProductRepository): JsonResponse
+    {
+        try {
+            $refProduct = $request->get('id');
+            //dump('refProduct', $refProduct);
+            $tRefProduct = $refProductRepository->findBy(['reference' => $refProduct]);
+            //dump('tRefProduct', $tRefProduct);
+
+            return $this->json($tRefProduct);
+
+        } catch (\Exception $exception) {
+            //dump('exception', $exception->getMessage());
+            return $this->json(false);
+        }
+    }
+
+    #[Route('/reference/get/info/service', name: 'app_ajax_get_info_service')]
+    public function getInfoRefServiceAjax(Request $request, RefServiceRepository $refServiceRepository): JsonResponse
+    {
+        try {
+            $refService = $request->get('id');
+            //dump('refService', $refService);
+            $tRefService = $refServiceRepository->findBy(['reference' => $refService]);
+            //dump('tRefService', $tRefService);
+
+            return $this->json($tRefService);
+
+        } catch (\Exception $exception) {
+            //dump('exception', $exception->getMessage());
+            return $this->json(false);
+        }
     }
 }

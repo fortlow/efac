@@ -7,7 +7,7 @@
     <title>eFac :: {% block title %}{{ title }}{% endblock %}</title>
     <meta name="description" content="B2M Technologies">
     <meta name="author" content="B2M Technologies">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="Proforma et facture numériques">
 
     <!-- Favicons -->
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
@@ -26,35 +26,56 @@
     <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/drift-zoom/drift-basic.css') }}" rel="stylesheet">
 
+    <!-- CSS Bootstrap core CSS -->
+    <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet">
+
+    <!-- CSS for this template -->
+    <link href="{{ asset('assets/css/layout.css') }}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+
     <!-- CSS Notyf -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
     <!-- CSS Datepicker -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
-    <!-- Main CSS File -->
-    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+    <!-- CSS dataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
 
-    {% if app.request.requestUri is defined and app.request.requestUri is not null
-        and (
-           app.request.requestUri matches '/\\/reference\\/list\\/product/'or
-           app.request.requestUri matches '/\\/reference\\/list\\/service/' or
-           app.request.requestUri matches '/\\/client/'
-        )
-    %}
-        <!-- CSS dataTables -->
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+    {{ encore_entry_link_tags('app') }}
 
-        <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/css/layout.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
-        <!-- javascript -->
-        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-    {% endif %}
+    <!-- javascript -->
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/owl.carousel.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 
+    {{ encore_entry_script_tags('app') }}
+
+    <style>
+        .readonly {
+            pointer-events: none;
+            background-color: #f8f8f8;
+            color: #6c757d;
+            border-color: #ced4da;
+        }
+        .readonly:focus {
+            outline: none;
+        }
+        pre {
+            -ms-overflow-style: none;  /* Masquer la barre de défilement pour Internet Explorer et Edge */
+            scrollbar-width: none; /* Masquer la barre de défilement pour Firefox */
+        }
+        pre::-webkit-scrollbar {
+            display: none; /* Masquer la barre de défilement pour Chrome/Safari */
+        }
+    </style>
 </head>
 
 <body class="index-page" style="height: 100% !important;">

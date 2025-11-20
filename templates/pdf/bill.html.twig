@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style type="text/css">
+        @font-face {
+            font-family: "Bitstream Vera Serif";
+            src: url("https://mdn.github.io/css-examples/web-fonts/VeraSeBd.ttf");
+        }
+
+        {% set urlLogoBg = url('app_home') ~ "/pdf/logobg.png" %}
+        body {
+            font-family: "Bitstream Vera Serif Bold", serif;
+            font-size: 0.9rem !important;
+            background-repeat:no-repeat;
+            background-position: center center;
+            background-size: 500px 330px;
+            background-image:url({{ urlLogoBg }});
+            position: relative;
+            min-height:100%;
+            filter:alpha(opacity=15);
+            opacity: 0.15;
+            -moz-opacity:0.15;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .text-sm {
+            font-size: 0.8rem !important;
+        }
+
+        .text-header {
+            font-size: 0.7rem !important;
+        }
+
+        .intercal {
+            background-color: #eee;
+        }
+
+        table {
+            border-collapse: separate;
+            border: none;
+            border-spacing: 2px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 2px;
+            border-radius: 10px;
+        }
+
+        td {
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<table width="100%" style="border: none; height: auto">
+    <tr>
+        <td style="vertical-align: top; border: none;" width="100%">
+            <table width="100%" style="border: none">
+                <tr>
+                    <td style="vertical-align: top; border: none" width="45%">
+                        <img width="220px" src="{{ logoB2m }}" alt="LOGO-B2MT">
+                    </td>
+                    <td style="vertical-align: top; border: none; text-align: right" width="55%">
+                        <p class="mb-2 fw-bold">B2M TECHNOLOGIES</p>
+                        <p class="mb-0 text-header">SA au Capital de 5 000 000 F CFA</p>
+                        <p class="mb-0 text-header">N° du RCCM : GA-LBV-01-20200-B12-00140 / N° NIF : 202201003877-K</p>
+                        <p class="mb-0 text-header">BP 7822 Libreville</p>
+                        <p class="mb-0 text-header">Tel. +241 011 73 49 49 / +241 062 23 38 40 / +241 077 39 84 46</p>
+                        <p class="mb-0 text-header">contact@b2mtecchnologies.ga - https://b2mtechnologies.ga</p>
+                    </td>
+                </tr>
+            </table>
+
+            <table width="100%" style="border: none">
+                <tr>
+                    <td style="vertical-align: middle; border: none; font-size: 1.1rem" width="40%">
+                        <p class="mb-0">Date: {{ bill.createdAt|date('d/m/Y') }}</p>
+                        <p class="mb-0 fw-bold">Facture N°: {{ bill.numero }}</p>
+                    </td>
+                    <td style="vertical-align: top; text-align: left" width="60%">
+                        <p class="card-subtitle fw-bold mb-0">{{ client.sreason }}</p>
+                        <p class="card-subtitle mb-0">{{ client.address }}</p>
+                        <p class="card-subtitle mb-0">{{ client.city }} - {{ client.country }}</p>
+                        <p class="card-subtitle mb-0">{{ client.phone }}</p>
+                        <p class="card-subtitle mb-0">
+                            {% if client.email is defined and client.phone is not null %}
+                                {{ client.email }}
+                            {% endif %}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top; border: none"></td>
+                    <td style="vertical-align: top; border: none; text-align: left">
+                        <p class="mb-0">
+                            <b>N° compte :</b> {{ client.numAccount }}
+                            {% if client.nif is defined and client.nif is not null %}
+                                <b style="margin-left: 4em">NIF :</b>
+                                {{ client.nif }}
+                            {% endif %}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="mx-auto mb-0 text-black text-center border-0" width="100%">
+                <tr>
+                    <td class="border-0" style="text-align: left">
+                        <b class="fs-6">Objet de la facture :</b> {{ bill.subject }}
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Corps de la facture --->
+
+            <table class="mx-auto mb-0 text-black text-center" width="100%">
+                <thead>
+                <tr style=" background-color: #eee;">
+                    <th width="10%">Référence</th>
+                    <th width="45%">Désignation</th>
+                    {% if typeOpe is defined and typeOpe is not null and typeOpe == 'produit' %}
+                        <th width="5%" style="text-align: center">Qté</th>
+                    {% else %}
+                        <th width="5%" style="text-align: center">Qté</th>
+                    {% endif %}
+                    <th width="18%">Px unitaire</th>
+                    <th width="7%">Rem%</th>
+                    <th width="15%">Montant HT</th>
+
+                    <!-- .gestion TPS -->
+                    {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                        <th width="10%" style="vertical-align: middle; text-align: center">TPS</th>
+                    {% endif %}
+                    <!-- /.gestion TPS -->
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <!-- .gestion TPS -->
+                {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                    {% set tTva = 0 %}  <!-- taux TVA -->
+                    {% set tCss = 0 %}  <!-- taux CSS -->
+                {% else %}
+                    {% set tTva = 18 %}  <!-- taux TVA -->
+                    {% set tCss = 1 %}  <!-- taux CSS -->
+                {% endif %}
+                <!-- /.gestion TPS -->
+
+                <!-- .si client ne veut pas de TVA -->
+                {% if client.clientBlrTva is defined and client.clientBlrTva is not null and client.clientBlrTva == false %}
+                    {% set tTva = 0 %}  <!-- taux TVA -->
+                    {% set tCss = 0 %}  <!-- taux CSS -->
+                {% endif %}
+                <!-- /.si client ne veut pas de TVA -->
+
+                <!-- .gestion Pas de TVA -->
+                {% if bill.isWithoutTva is defined and bill.isWithoutTva is not null and bill.isWithoutTva == true %}
+                    {% set tTva = 0 %}  <!-- taux TVA -->
+                    {% set tCss = 0 %}  <!-- taux CSS -->
+                {% endif %}
+                <!-- .gestion Pas de TVA -->
+
+                {% set totHt = 0 %}
+
+                {% if lineBills is defined and lineBills is not null and lineBills|length > 0 %}
+
+                    {% set nbLine = 1 %}
+                    {% set nbNumInterca = 0 %}
+                    {% set ref = "" %}
+
+                    {% for line in lineBills  %}
+                        {% if line.refService is defined and line.refService is not null %}
+                            {% set ref = line.refService.reference %}
+                        {% else %}
+                            {% set ref = line.refProduct.reference %}
+                        {% endif %}
+
+                        <!-- .Test si intercalaire -->
+                        {% if numeroInterca is defined and numeroInterca is not null and nbNumInterca in numeroInterca %}
+                            {% set intercalaire = intercalaires[nbNumInterca]|replace({'#':"<br />"}) %}
+                            <!-- .gestion TPS -->
+                            {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                                <tr><td colspan="7" bgcolor="#eee"><b>{{ intercalaire|raw }}</b></td></tr>
+                            {% else %}
+                                <tr><td colspan="6" bgcolor="#eee"><b>{{ intercalaire|raw }}</b></td></tr>
+                            {% endif %}
+                            <!-- /.gestion TPS -->
+
+                        {% endif %}
+                        <!-- /.Test si intercalaire -->
+
+                        <tr>
+                            <td width="10%" style="vertical-align: middle"><small>{{ ref }}</small></td>
+                            <td width="45%" style="vertical-align: middle" class="text-start text-justify">
+                                {% if line.designation is defined and line.designation is not null and line.designation|length > 0 %}
+                                    {% if line.designationCpt is defined and line.designationCpt is not null and line.designationCpt|length > 0 %}
+                                        {{ line.designation }}
+                                        <p class="mb-0 text-header">{{ line.designationCpt }}</p>
+                                    {% else %}
+                                        {{ line.designation }}
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td width="5%" style="vertical-align: middle; text-align: center">{{ line.qte }}</td>
+                            <td width="20%" style="vertical-align: middle">{{ line.unitPrice|number_format(0, ',', ' ') }}</td>
+                            <td width="10%" style="vertical-align: middle; text-align: center">
+                                {% if bill.prctDiscount is defined and bill.prctDiscount is not null %}{{ bill.prctDiscount }}{% else %}0{% endif %}%
+                                {#
+                                {% if line.prctDiscount is defined and line.prctDiscount is not null %}
+                                    {{ line.prctDiscount|number_format(0, ',', ' ') }}%
+                                {% endif %}
+                                #}
+                            </td>
+                            <td width="10%" style="vertical-align: middle">
+                                {{ (line.amountHt - ((bill.prctDiscount / 100) * line.amountHt))|number_format(0, ',', ' ') }}
+                                {#
+                                {% if line.amountDiscount is defined and line.amountDiscount is not null %}
+                                    {{ line.amountDiscount|number_format(0, ',', ' ') }}
+                                {% else %}
+                                    {{ line.amountHt|number_format(0, ',', ' ') }}
+                                {% endif %}
+                                #}
+                            </td>
+
+                            <!-- .gestion TPS -->
+                            {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                                <th width="10%"></th>
+                            {% endif %}
+                            <!-- /.gestion TPS -->
+
+                        </tr>
+
+                        {#
+                        {% set nbLine = (nbLine + 1) %}
+                        {% set nbNumInterca = (nbNumInterca + 1) %}
+
+                        {% if line.amountDiscount is defined and line.amountDiscount is not null %}
+                            {% set totHt = (totHt + line.amountDiscount) %}
+                        {% else %}
+                            {% set totHt = (totHt + line.amountHt) %}
+                        {% endif %}
+                        #}
+
+                        {% set nbLine = (nbLine + 1) %}
+                        {% set nbNumInterca = (nbNumInterca + 1) %}
+                        {% set totHt = ( totHt + (line.amountHt - ((bill.prctDiscount / 100) * line.amountHt)) ) %}
+
+                    {% endfor %}
+
+
+                    {# set mntTps = 0 #}
+                    {% if bill.wfAmount is defined and bill.wfAmount is not null %}
+                        {# set mntTps = bill.wfAmount * 0.095 #}
+                        {% set totHt = (totHt + bill.wfAmount) %}
+                        <tr>
+                            <td width="10%" style="vertical-align: middle"><small>FM</small></td>
+                            <td width="45%" class="text-start text-justify; vertical-align: middle">
+                                <u>Forfait main d'oeuvre</u>:
+                                {% if bill.detailMainOeuvre is defined and bill.detailMainOeuvre is not null %}
+                                    <br />
+                                    <small>{{ bill.detailMainOeuvre|nl2br }}</small>
+                                {% endif %}
+                            </td>
+                            <td width="5%" style="text-align: center; vertical-align: middle">1</td>
+                            <td width="20%" style="vertical-align: middle">{{ bill.wfAmount|number_format(0, ',', ' ') }}</td>
+                            <td width="10%"></td>
+                            <td width="10%" style="vertical-align: middle">{{ bill.wfAmount|number_format(0, ',', ' ') }}</td>
+
+                            <!-- .gestion TPS -->
+                            {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                                <th width="10%" style="vertical-align: middle; text-align: center">9,5%</th>
+                            {% endif %}
+                            <!-- /.gestion TPS -->
+                        </tr>
+                    {% endif %}
+
+                    {% if bill.condReglt is defined and bill.condReglt is not null %}
+                        <tr>
+                            <td colspan="6" style="vertical-align: middle; text-align: left">
+                                <table class="text-black text-center" style="width: 100% !important; height: 50px !important;">
+                                    <tr><td class="border-0">{{ bill.condReglt|raw }}</td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                {% else %}
+                    <tr>
+                        <td width="10%"></td>
+                        <td width="45%" class="text-start text-justify"></td>
+                        <td width="5%"></td>
+                        <td width="20%"></td>
+                        <td width="10%"></td>
+                        <td width="10%"></td>
+                    </tr>
+                    {% if bill.condReglt is defined and bill.condReglt is not null %}
+                        <tr>
+                            <td colspan="6" style="vertical-align: middle; text-align: left">
+                                <table class="text-black text-center" style="width: 100% !important; height: 50px !important;">
+                                    <tr><td class="border-0">{{ bill.condReglt|raw }}</td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endif %}
+                </tbody>
+            </table>
+
+            <table class="mx-auto mb-4 text-black text-center" width="100%">
+                <thead>
+                <tr style="background-color: #eee;">
+                    <th style="width: 2rem !important;">Code</th>
+                    <th style="width: 4rem !important;">Base</th>
+                    <th style="width: 2rem !important;">Taux</th>
+                    <th style="width: 4rem !important;">Montant</th>
+                    <th style="width: 4rem !important;">Total HT</th>
+
+                    <!-- .gestion TPS -->
+                    {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == 1 %}
+                        <th style="width: 4rem !important;">TPS</th>
+                    {% else %}
+                        <th style="width: 4rem !important;">T.V.A / CSS</th>
+                    {% endif %}
+                    <!-- /.gestion TPS -->
+
+                    <th style="width: 4rem !important;">Total TTC</th>
+                    <th style="width: 3rem !important;">Accompte</th>
+                    <th style="width: 4rem !important;">Net à payer</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        TC1<br />
+                        CSS
+                    </td>
+                    <td class="text-end">
+                        <!-- .gestion TPS -->
+                        {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                            <small>0<br />0</small>
+                        {% else %}
+                            <!-- .gestion Pas de TVA -->
+                            {% if bill.isWithoutTva is defined and bill.isWithoutTva is not null and bill.isWithoutTva == true %}
+                                <small>0<br />0</small>
+                            {% else %}
+                                <small>
+                                    {{ totHt|number_format(0, ',', ' ') }}
+                                    <br />
+                                    {{ totHt|number_format(0, ',', ' ') }}
+                                </small>
+                            {% endif %}
+                            <!-- /.gestion Pas de TVA -->
+                        {% endif %}
+                        <!-- /.gestion TPS -->
+                    </td>
+                    <td class="text-end">
+                        {{ tTva|number_format(2, ',', '.') }}%<br />
+
+                        {% if client.country is defined and client.country is not null and client.country != 'Gabon' %}
+                            0,00%
+                        {% else %}
+                            {{ tCss|number_format(2, ',', '.') }}%
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        {# set totHt = (totHt - mntTps) #}
+                        {% set mntTva = ((totHt * tTva)/100) %}
+
+                        {% if client.country is defined and client.country is not null and client.country != 'Gabon' %}
+                            {% set mntCss = 0 %}
+                        {% else %}
+                            {% set mntCss = ((totHt * tCss)/100) %}
+                        {% endif %}
+
+                        {% set mntTvaAndCss = (mntTva + mntCss) %}
+                        {% set mntTtc = (totHt + mntTvaAndCss) %}
+                        {% set mntNetApayer = mntTtc %}
+
+                        {{ mntTva|number_format(0, '.', ' ') }}
+                        <br />
+                        {{ mntCss|number_format(0, '.', ' ') }}
+                    </td>
+                    <td class="text-end" style="vertical-align: middle">
+                        {{ totHt|number_format(0, ',', ' ') }}
+                    </td>
+                    <td class="text-end" style="vertical-align: middle">
+
+                        <!-- .gestion TPS -->
+                        {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                            {% set mntTps = ((bill.wfAmount * 9.5)/100) %}
+                            {{ mntTps|number_format(0, ',', ' ') }}
+                        {% else %}
+                            {{ mntTvaAndCss|number_format(0, ',', ' ') }}
+                        {% endif %}
+                        <!-- /.gestion TPS -->
+
+                    </td>
+                    <td class="text-end fw-bold" style="vertical-align: middle">
+
+                        <!-- .gestion TPS -->
+                        {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                            0
+                        {% else %}
+                            <!-- /.gestion Pas de TVA -->
+                            {% if bill.isWithoutTva is defined and bill.isWithoutTva is not null and bill.isWithoutTva == true %}
+                                0
+                            {% else %}
+                                {{ mntTtc|number_format(0, ',', ' ') }}
+                            {% endif %}
+                            <!-- .gestion Pas de TVA -->
+                        {% endif %}
+                        <!-- /.gestion TPS -->
+                    </td>
+                    <td class="text-end" style="vertical-align: middle">
+                        <!-- Acompte -->
+                        0
+                    </td>
+                    <td class="text-end fw-bold" style="vertical-align: middle">
+
+                        <!-- .gestion TPS -->
+                        {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                            {% set totNetApayer = (mntNetApayer - mntTps) %}
+                            {{ totNetApayer|number_format(0, ',', ' ') }}
+                        {% else %}
+                            {{ mntNetApayer|number_format(0, ',', ' ') }}
+                        {% endif %}
+                        <!-- /.gestion TPS -->
+
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end fw-bold border-0">Total TVA / CSS</td>
+                    <td class="text-end" style="width: 6rem !important;">
+                        {{ mntTvaAndCss|number_format(0, ',', ' ') }}
+                    </td>
+                </tr>
+                <tr><td colspan="9" class="border-0"></td></tr>
+                <tr>
+                    <td colspan="3" class="border-0"></td>
+                    <td colspan="6" class="border-0">
+                        <p class="card-subtitle mb-0" style="text-align: left">
+                            La présente facture est arrêtée à la somme de (F cfa):
+                        </p>
+                        <p class="card-subtitle fw-bold fs-6 mb-0" style="text-align: left">
+                            <!-- .gestion TPS -->
+                            {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
+                                {{ totNetApayer|convertinttoLetter }} F. cfa
+                            {% else %}
+                                {{ mntNetApayer|convertinttoLetter }} F. cfa
+                            {% endif %}
+                            <!-- /.gestion TPS -->
+                        </p>
+                        <p class="card-subtitle fw-bold fs-6 mb-0 mt-2" style="text-align: left">
+                            <span class="fw-bold" style="font-size: 1rem;">
+                                Date limite de paiement : le
+                                {% if bill.dueDate is defined and bill.dueDate is not null %}
+                                    {{ bill.dueDate|date('d/m/Y') }}
+                                {% endif %}
+                            </span>
+                        </p>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+
+            <table class="text-black text-center" style="width: 100% !important; height: 50px !important;">
+                <tr>
+                    <td class="border-0" style="width: 1% !important;">&nbsp;</td>
+                    <td class="border-0" style="width: 65% !important; vertical-align: middle; margin-left: 6rem !important;">
+                        {% if bill.banque is defined and bill.banque is not null %}
+                            {% if bill.banque == 1 %} {# ORABANK #}
+                                {# Orabank #}
+                                <table class="text-black text-center" style="width: 100% !important; height: 50px !important;">
+                                    <tr>
+                                        <td>
+                                            <p class="mb-3"><small>Code banque</small></p>
+                                            <b>40021</b>
+                                        </td>
+                                        <td>
+                                            <p class="mb-3"><small class="mb-3">Code guichet</small></p>
+                                            <b>01000</b>
+                                        </td>
+                                        <td>
+                                            <p class="mb-3"><small class="mb-3">Numéro de compte</small></p>
+                                            <b>23195100201</b>
+                                        </td>
+                                        <td>
+                                            <p class="mb-3"><small class="mb-3">Clé</small></p>
+                                            <b>04</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p class="mb-3"><small class="mb-3">Domiciliation</small></p>
+                                            <p style="text-align: left !important; margin-left: .7em">
+                                                <b>Agence Serena Mall</b><br />
+                                                BP: 20333 Libreville - Gabon<br />
+                                                TEL: 01791500
+                                            </p>
+                                        </td>
+                                        <td colspan="2">
+                                            <p class="mb-3"><small class="mb-3">Titulaire du compte</small></p>
+                                            <p style="text-align: left !important; margin-left: .7em">
+                                                <b>B2M TECHNOLOGIES</b><br />
+                                                BP: 7822<br />
+                                                Libreville - Gabon
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            {% else %}
+                                {# UBA #}
+                                <table class="text-black text-center" style="width: 100% !important; height: 50px !important;">
+                                    <tr>
+                                        <td>
+                                            <p class="mb-3"><small>Code banque</small></p>
+                                            <b>40025</b>
+                                        </td>
+                                        <td>
+                                            <p class="mb-3"><small class="mb-3">Code guichet</small></p>
+                                            <b>05811</b>
+                                        </td>
+                                        <td>
+                                            <p class="mb-3"><small class="mb-3">Numéro de compte</small></p>
+                                            <b>81101100245</b>
+                                        </td>
+                                        <td>
+                                            <p class="mb-3"><small class="mb-3">Clé</small></p>
+                                            <b>53</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p class="mb-3"><small class="mb-3">Domiciliation</small></p>
+                                            <p style="text-align: left !important; margin-left: .7em">
+                                                <b>UBA Boulevard</b><br />
+                                                LIBREVILLE GABON BP: 12035<br />
+                                                TEL: 740624
+                                            </p>
+                                        </td>
+                                        <td colspan="2">
+                                            <p class="mb-3"><small class="mb-3">Titulaire du compte</small></p>
+                                            <p style="text-align: left !important; margin-left: .7em">
+                                                <b>B2M TECHNOLOGIES</b><br />
+                                                BP: 7822<br />
+                                                Libreville - Gabon
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td class="border-0" style="width: 35% !important;">
+                        <p class="fw-bold"><u>Pour B2M Technologies</u></p>
+                        <p class="fw-bold"><img src="{{ qrCode }}" alt="QR Code" style="border-radius: 5px"></p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

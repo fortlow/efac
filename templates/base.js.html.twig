@@ -9,360 +9,36 @@
 
 <!-- Main JS File -->
 <script src="{{ asset('assets/js/main.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 
-{% if app.request.requestUri is defined and app.request.requestUri is not null
-    and (
-    app.request.requestUri matches '/\\/reference\\/list\\/product/'or
-    app.request.requestUri matches '/\\/reference\\/list\\/service/' or
-    app.request.requestUri matches '/\\/client/'
-    )
-%}
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<!-- CDN JS File -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-{% endif %}
-
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" type="text/javascript"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js" type="text/javascript"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js" type="text/javascript"></script>
-
-{% if app.request.requestUri is defined and app.request.requestUri is not null
-    and (
-    app.request.requestUri matches '/\\/reference\\/list\\/product/'or
-    app.request.requestUri matches '/\\/reference\\/list\\/service/' or
-    app.request.requestUri matches '/\\/client/'
-    )
-%}
-    <script src="//cdn.datatables.net/plug-ins/1.13.7/api/sum().js"></script>
-{% endif %}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js" type="text/javascript"></script>
-{# <script src="{{ asset('assets/js/bootstrap.js') }}"></script> #}
+<script src="https://cdn.datatables.net/plug-ins/1.13.7/api/sum().js"></script>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+
+{#
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.13.7/api/sum().js"></script>
+#}
 
 <script>
 
     $(document).ready(function() {
 
-        console.log('document.domain = '+document.domain);
-
         {% if app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/client/'
-            )
-        %}
-        $('#myTable').DataTable( {
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                $(api.column(0).footer()).html('TOTAL MENSUEL HT :');
-
-                for(let i=8; i<=8;i++)
-                {
-                    sum = api.column(i, {page:'current'}).data().sum();
-                    //console.log('sum '+i+' = '+ sum);
-
-                    //to format this sum
-                    formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:0});
-                    //console.log('formated '+i+' = '+ formated);
-                    $(api.column(i).footer()).html(formated +' XAF');
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-        });
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/reference\\/list\\/product/'
-            )
-        %}
-        $('#myTable thead tr')
-            .clone(true)
-            .addClass('filters')
-            .appendTo('#myTable thead');
-
-        let table = $('#myTable').DataTable({
-            drawCallback: function () {
-                let api = this.api();
-                let tot = 0;
-                let formated = 0;
-
-                for (let i = 8; i <= 8; i++) {
-                    console.table(api.column(i, {page: 'current'}).data());
-
-                    tot = api.column(i, {page: 'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits: 0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "black");
-                }
-
-                for (let i = 9; i <= 9; i++) {
-                    console.table(api.column(i, {page: 'current'}).data());
-
-                    tot = api.column(i, {page: 'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits: 0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "black");
-                }
-
-                for (let i = 10; i <= 10; i++) {
-                    console.table(api.column(i, {page: 'current'}).data());
-
-                    tot = api.column(i, {page: 'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits: 0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "red");
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-            orderCellsTop: true,
-            fixedHeader: true,
-            initComplete: function () {
-                let api = this.api();
-
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function (colIdx) {
-                        //alert(colIdx);
-                        // Set the header cell to contain the input element
-                        let cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        let title = $(cell).text();
-                        if (colIdx === 3 || colIdx === 6 || colIdx === 7) {
-                            $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
-                        } else {
-                            $(cell).html('');
-                        }
-
-                        // On every keypress in this input
-                        $(
-                            'input',
-                            $('.filters th').eq($(api.column(colIdx).header()).index())
-                        )
-                            .off('keyup change')
-                            .on('change', function (e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                let regexr = '({search})'; //$(this).parents('th').find('select').val();
-
-                                let cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value !== ''
-                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                            : '',
-                                        this.value !== '',
-                                        this.value === ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function (e) {
-                                e.stopPropagation();
-
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            }
-        });
-
-        // Fonction pour appliquer le filtre
-        function applyFilter()
-        {
-            let selectedValue = $('#filterTrim').val();
-
-            if (selectedValue) {
-                table.column(6).search('^' + selectedValue + '$', true, false).draw();
-            } else {
-                table.column(6).search('').draw();
-            }
-        }
-
-        // Appliquer le filtre dès le chargement de la page
-        applyFilter();
-
-        // Appliquer le filtre lors du changement de sélection
-        $('#filterTrim').on('change', function () {
-            applyFilter();
-        });
-
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/reference\\/list\\/service/'
-            )
-        %}
-
-        $('#myTable thead tr')
-            .clone(true)
-            .addClass('filters')
-            .appendTo('#myTable thead');
-
-        let table = $('#myTable').DataTable({
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                //$(api.column(0).footer()).html('TOTAL NET A PAYER :');
-
-                for (let i = 8; i <= 8; i++) {
-                    sum = api.column(i, {page: 'current'}).data().sum();
-                    formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits: 0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "blue");
-                }
-                //
-                for (let i = 9; i <= 9; i++) {
-                    sum = api.column(i, {page: 'current'}).data().sum();
-                    formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits: 0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "red");
-                }
-                //
-                for (let i = 10; i <= 10; i++) {
-                    sum = api.column(i, {page: 'current'}).data().sum();
-                    formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits: 0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "green");
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-            orderCellsTop: true,
-            fixedHeader: true,
-            initComplete: function () {
-                let api = this.api();
-
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function (colIdx) {
-                        //alert(colIdx);
-                        // Set the header cell to contain the input element
-                        let cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        let title = $(cell).text();
-                        if (colIdx === 3 || colIdx === 4 || colIdx === 6 || colIdx === 7) {
-                            $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
-                        } else {
-                            $(cell).html('');
-                        }
-
-                        // On every keypress in this input
-                        $(
-                            'input',
-                            $('.filters th').eq($(api.column(colIdx).header()).index())
-                        )
-                            .off('keyup change')
-                            .on('change', function (e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                let regexr = '({search})'; //$(this).parents('th').find('select').val();
-
-                                let cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value !== ''
-                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                            : '',
-                                        this.value !== '',
-                                        this.value === ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function (e) {
-                                e.stopPropagation();
-
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            }
-        });
-
-        // Fonction pour appliquer le filtre
-        function applyFilter()
-        {
-            let selectedValue = $('#filterTrim').val();
-
-            if (selectedValue) {
-                table.column(6).search('^' + selectedValue + '$', true, false).draw();
-            } else {
-                table.column(6).search('').draw();
-            }
-        }
-
-        // Appliquer le filtre dès le chargement de la page
-        applyFilter();
-
-        // Appliquer le filtre lors du changement de sélection
-        $('#filterTrim').on('change', function () {
-            applyFilter();
-        });
-
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
             and (
             app.request.requestUri matches '/\\/bill/'
             )
@@ -423,22 +99,16 @@
             {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
             dom: 'Blfrtip',
             buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel'
+                'excel', 'pdf', 'print'
             ],
             {% endif %}
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
             },
-            pageLength: 50,
+            pageLength: 15,
             lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
+                [15, 50, 100, 200, 250, -1],
+                [15, 50, 100, 200, 250, 'Toutes']
             ],
             orderCellsTop: true,
             fixedHeader: true,
@@ -497,496 +167,49 @@
                     });
             }
         });
-
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/blr\\/suivi\\/payement/'
-            )
-        %}
-        $('#myTable thead tr')
-            .clone(true)
-            .addClass('filters')
-            .appendTo('#myTable thead');
-
-        let table = $('#myTable').DataTable({
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                //$(api.column(0).footer()).html('TOTAL :');
-
-                for(let i=6; i<=6;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                }
-                //
-                for(let i=7; i<=7;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "green");
-                }
-                //
-                for(let i=8; i<=8;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "red");
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-            orderCellsTop: true,
-            fixedHeader: true,
-            initComplete: function () {
-                let api = this.api();
-
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function (colIdx) {
-                        //alert(colIdx);
-                        // Set the header cell to contain the input element
-                        let cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        let title = $(cell).text();
-                        if (colIdx === 1 || colIdx === 2 || colIdx === 4 || colIdx === 5 || colIdx === 9 || colIdx === 10) {$(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');}
-                        else {$(cell).html('');}
-
-                        // On every keypress in this input
-                        $(
-                            'input',
-                            $('.filters th').eq($(api.column(colIdx).header()).index())
-                        )
-                            .off('keyup change')
-                            .on('change', function (e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                let regexr = '({search})'; //$(this).parents('th').find('select').val();
-
-                                let cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value !== ''
-                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                            : '',
-                                        this.value !== '',
-                                        this.value === ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function (e) {
-                                e.stopPropagation();
-
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            },
-        });
-
-        // Fonction pour appliquer le filtre
-        function applyFilter() {
-            let selectedValue = $('#filterTrim').val();
-
-            if (selectedValue) {
-                table.column(4).search('^' + selectedValue + '$', true, false).draw();
-            } else {
-                table.column(4).search('').draw();
-            }
-        }
-
-        // Appliquer le filtre dès le chargement de la page
-        applyFilter();
-
-        // Appliquer le filtre lors du changement de sélection
-        $('#filterTrim').on('change', function() {
-            applyFilter();
-        });
-
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/back\\/personnel/'
-            )
-        %}
-        $('#myTable').DataTable( {
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                $(api.column(0).footer()).html('MASSE SALARIALE :');
-
-                for(let i=5; i<=5;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-        });
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/back\\/manage\\/caisse/'
-            )
-        %}
-        $('#myTable thead tr')
-            .clone(true)
-            .addClass('filters')
-            .appendTo('#myTable thead');
-        $('#myTable').DataTable( {
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                //$(api.column(0).footer()).html('TOTAL CAISSE :');
-
-                for(let i=2; i<=2;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-            orderCellsTop: true,
-            fixedHeader: true,
-            initComplete: function () {
-                let api = this.api();
-
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function (colIdx) {
-                        //alert(colIdx);
-                        // Set the header cell to contain the input element
-                        let cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        let title = $(cell).text();
-                        if (colIdx === 1) {$(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');}
-                        else {$(cell).html('');}
-
-                        // On every keypress in this input
-                        $(
-                            'input',
-                            $('.filters th').eq($(api.column(colIdx).header()).index())
-                        )
-                            .off('keyup change')
-                            .on('change', function (e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                let regexr = '({search})';
-                                let cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value !== ''
-                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                            : '',
-                                        this.value !== '',
-                                        this.value === ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function (e) {
-                                e.stopPropagation();
-
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            },
-        });
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/back\\/manage\\/depenses/'
-            )
-        %}
-        $('#myTable').DataTable( {
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                //$(api.column(0).footer()).html('TOTAL :');
-
-                for(let i=5; i<=5;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-        });
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/back\\/sortie/'
-            )
-        %}
-        $('#myTable thead tr')
-            .clone(true)
-            .addClass('filters')
-            .appendTo('#myTable thead');
-        $('#myTable').DataTable( {
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                //$(api.column(0).footer()).html('TOTAL :');
-
-                for(let i=6; i<=6;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "blue");
-                }
-                for(let i=7; i<=7;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "red");
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-            orderCellsTop: true,
-            fixedHeader: true,
-            initComplete: function () {
-                let api = this.api();
-
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function (colIdx) {
-                        //alert(colIdx);
-                        // Set the header cell to contain the input element
-                        let cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        let title = $(cell).text();
-                        if (colIdx === 2 || colIdx === 3 || colIdx === 5 || colIdx === 9) {$(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');}
-                        else {$(cell).html('');}
-
-                        // On every keypress in this input
-                        $(
-                            'input',
-                            $('.filters th').eq($(api.column(colIdx).header()).index())
-                        )
-                            .off('keyup change')
-                            .on('change', function (e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                let regexr = '({search})';
-
-                                let cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value !== ''
-                                            ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                            : '',
-                                        this.value !== '',
-                                        this.value === ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function (e) {
-                                e.stopPropagation();
-
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            },
-        });
-        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
-            and (
-            app.request.requestUri matches '/\\/back\\/debt/'
-            )
-        %}
-        $('#myTable').DataTable( {
-            drawCallback: function () {
-                let api = this.api();
-                let sum = 0;
-                let formated = 0;
-                //to show first th
-                //$(api.column(0).footer()).html('TOTAL :');
-
-                for(let i=5; i<=5;i++)
-                {
-                    let tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "red");
-                }
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-        });
         {% elseif app.request.requestUri is defined and app.request.requestUri is not null
             and (
             app.request.requestUri matches '/\\/proforma/'
             )
         %}
-        $('#myTable').DataTable( {
-            drawCallback: function () {
-                let api = this.api();
-                let tot = 0;
-                let formated = 0;
-                //to show first th
-                //$(api.column(0).footer()).html('MASSE SALARIALE :');
+            $('#myTable').DataTable( {
+                drawCallback: function () {
+                    let api = this.api();
+                    let tot = 0;
+                    let formated = 0;
 
-                for(let i=5; i<=5;i++)
-                {
-                    console.table(api.column(i, {page:'current'}).data());
+                    for(let i=5; i<=5;i++)
+                    {
+                        console.table(api.column(i, {page:'current'}).data());
 
-                    tot = api.column(i, {page:'current'}).data().sum();
-                    formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
-                    $(api.column(i).footer()).html(formated);
-                    $(api.column(i).footer()).css("color", "blue");
-                }
-                console.log('tot = '+tot);
-            },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print'
-            ],
-            {% endif %}
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
-            dom: 'Blfrtip',
-            buttons: [
-                'csv', 'excel'
-            ],
-            {% endif %}
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
-            },
-            pageLength: 50,
-            lengthMenu: [
-                [50, 100, 150, 200, 250, -1],
-                [50, 100, 150, 200, 250, 'Toutes']
-            ],
-        });
+                        tot = api.column(i, {page:'current'}).data().sum();
+                        formated = parseFloat(tot).toLocaleString(undefined, {minimumFractionDigits:0});
+                        $(api.column(i).footer()).html(formated);
+                        $(api.column(i).footer()).css("color", "blue");
+                    }
+                    console.log('tot = '+tot);
+                },
+                {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
+                dom: 'Blfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                {% endif %}
+                {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
+                dom: 'Blfrtip',
+                buttons: [
+                    'excel'
+                ],
+                {% endif %}
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
+                },
+                pageLength: 50,
+                lengthMenu: [
+                    [50, 100, 150, 200, 250, -1],
+                    [50, 100, 150, 200, 250, 'Toutes']
+                ],
+            });
         {% else %}
             $('#myTable').DataTable({
                 {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
@@ -1155,18 +378,18 @@
     }
 
     function getInfoProdService(num) {
-        //console.log('getInfoProdService('+num+')');
+        console.log('getInfoProdService('+num+')');
         let refReference = $('#ref_'+num).val();
-        //console.log('refReference = ('+refReference+')');
+        console.log('refReference = ('+refReference+')');
 
         const arrayRef = refReference.split("-")
-        //console.log(arrayRef);
-        //console.log('arrayRef[0] = '+arrayRef[0]);
-        //console.log('arrayRef[1] = '+arrayRef[1]);
+        console.log(arrayRef);
+        console.log('arrayRef[0] = '+arrayRef[0]);
+        console.log('arrayRef[1] = '+arrayRef[1]);
 
         if(arrayRef[0] === 'P') { // Produit
-            //console.log('A');
-            let pathFeed = '/back/get/info/product';
+            console.log('Produit - A');
+            let pathFeed = '{{ path('app_ajax_get_info_product') }}';
             $.ajax({
                 url: pathFeed,
                 type: "post",
@@ -1192,8 +415,8 @@
                 }
             });
         } else if(arrayRef[0] === 'S') { // Service
-            //console.log('B');
-            let pathFeed = '/back/get/info/service';
+            console.log('Service - B');
+            let pathFeed = '{{ path('app_ajax_get_info_service') }}';
             $.ajax({
                 url: pathFeed,
                 type: "post",
@@ -1222,40 +445,6 @@
                 }
             });
         }
-    }
-
-    function getInfoServiceBlr(num) {
-        //console.log('getInfoServiceBlr('+num+')');
-        let refServiceBlr = $('#ref_'+num).val();
-        //console.log('refServiceBlr = ('+refServiceBlr+')');
-        let pathFeed = '/back/get/info/service/blr';
-        $.ajax({
-            url: pathFeed,
-            type: "post",
-            dataType: "json",
-            data: {
-                id: refServiceBlr
-            },
-            async: true,
-            success: function (data) {
-                //console.log(data);
-                let unitPrice = data.price_per_month;
-                let qte = $('#qte_'+num).val();
-                //console.log('unitPrice = '+unitPrice);
-                //console.log('qte = '+qte);
-                $('#price_'+ num).val(parseInt(unitPrice));
-                if ((typeof qte !== 'undefined') && (qte.length > 0)) {
-                    //console.log('test qte ok');
-                    let mntHt = (parseInt(qte) * parseInt(unitPrice));
-                    $('#mnt_'+ num).val(mntHt);
-                }
-            },
-            error: function (data) {
-                //console.log('error');
-                //console.log(data);
-                $('#price_'+ num).val('0');
-            }
-        });
     }
 
     function updateAmount(num) {
@@ -1417,6 +606,7 @@
     }
 </script>
 
+{#
 <script>
     let tophead = document.getElementById('tophead');
     let initialHeight = tophead.clientHeight;
@@ -1440,6 +630,7 @@
         }
     };
 </script>
+#}
 
 <script>
     $(document).ready(function() {

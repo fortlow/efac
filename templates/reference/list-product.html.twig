@@ -17,7 +17,7 @@
 
                         <!-- .sous-menu rubrique -->
                         {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
-                            <div class="meta-bottom" style="text-align: right;">
+                            <div class="meta-bottom" style="text-align: center;">
                                 <div class="share-section">
                                     <div class="social-links" style="vertical-align: middle">
                                         <a href="#" title="Téléverser votre référentiel produit" class="twitter"><i class="bi bi-cloud-arrow-up h4"></i></a>
@@ -71,8 +71,6 @@
                             {% endif %}
                             </tbody>
                         </table>
-
-
                     </div>
                 </div>
             </div>

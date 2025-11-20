@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}eFac | Proforma - Modifier une proforma {% endblock %}
+
+{% block content %}
+
+    <section id="service-details" class="service-details section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row" style="text-align: center">
+                <div class="col-lg-12 mx-auto" style="text-align: center">
+                    <div class="service-sidebar">
+
+                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300">
+                            <h3>Proforma - Modification proforma</h3>
+                        </div>
+
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE','ROLE_COMMERCIAL'] %}
+                            <!-- .sous-menu rubrique -->
+                            <div class="meta-bottom" style="text-align: center; margin-bottom: 2em;">
+                                <div class="share-section">
+                                    <div class="social-links">
+                                        <a href="{{ path('app_proforma_add') }}" title="Ajouter une proforma" style="margin-right: 5px"><i class="bi bi-file-plus h3"></i></a>
+                                        <a href="{{ path('app_proforma') }}" title="Listing des pro formas" style="margin-right: 5px"><i class="bi bi-file-earmark-spreadsheet-fill h3"></i></a>
+                                        <a href="#" title="Listing des factures"><i class="bi bi-file-ruled-fill h3"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .sous-menu rubrique -->
+                        {% endif %}
+
+                        <div class="quick-contact-card" data-aos="slide-up" data-aos-delay="200">
+                            <div class="contact-header">
+                                <h4>Pour modifier la proforma</h4>
+                                <p>Veuillez modifier le formulaire ci-dessous.</p>
+                            </div>
+
+                            {{ form_start(form) }}
+                            {% if form is defined and form is not null %}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <!-- begin form -->
+                                        <div class="row formRow">
+
+                                            <div class="col-lg-8">
+                                                <div class="form-group">
+                                                    {{ form_row(form.subject) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    {{ form_row(form.status) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="form-group">
+                                                    {{ form_row(form.client) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="optionrow">
+                                                    {{ form_row(form.numero) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    {{ form_row(form.wf_amount) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    {{ form_row(form.detailMainOeuvre) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group optionrow">
+                                                    {{ form_row(form.targetpro) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    {{ form_row(form.due_date) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    {{ form_row(form.prct_discount) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    {{ form_row(form.is_with_tps) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    {{ form_row(form.is_without_tva) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    {{ form_row(form.banque) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12"><br /></div>
+
+                                            <div class="col-lg-12" style="text-align: center">
+                                                <div class="form-group">
+                                                    {{ form_row(form.cond_reglt) }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        {% if lineProformas is defined and lineProformas is not null and lineProformas|length > 0 %}
+                                            {% set i = 1 %}
+                                            {% for lineproforma in lineProformas  %}
+                                                {% if lineproforma.refProduct is defined and lineproforma.refProduct is not null %}
+                                                    <div class="row formRowReadOnly" id="line_5">
+                                                        <div class="col-lg-4">
+                                                            <h6>Produit {{ i }}</h6>
+                                                            <select name="ref_{{ i }}" id="ref_{{ i }}" class="form-control ts-autocomplete" onchange="getInfoProduct({{ i }})">
+                                                                <option value="">Sélectionner</option>
+                                                                {% for produit in produits %}
+                                                                    {% if lineproforma.refProduct.reference == produit.reference %}
+                                                                        <option value="P-{{ produit.reference }}" selected>{{ produit.name }}</option>
+                                                                    {% else %}
+                                                                        <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                            <br /><input name="cplref_{{ i }}" id="cplref_{{ i }}" value="{{ lineproforma.designationCpt }}" type="text" placeholder="Texte complémentaire sur produit ou service {{ i }}...">
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <h6>Quantité</h6>
+                                                            <input name="qte_{{ i }}" id="qte_{{ i }}" value="{{ lineproforma.qte }}" type="text" placeholder="Quantité..." onkeyup="updateAmount({{ i }})">
+                                                            <br /><br /><a href="#" title="Supprimer la ligne" class="ml-2" style="display: inline; color: red"><i class="bi bi-trash3 h3"></i></a>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <h6>Prix Unitaire</h6>
+                                                            <input name="price_{{ i }}" id="price_{{ i }}" value="{{ lineproforma.unitPrice }}" type="text" placeholder="Prix Unitaire..." onkeyup="updateAmount({{ i }})">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <h6>Montant HT.</h6>
+                                                            <input name="mnt_{{ i }}" id="mnt_{{ i }}" value="{{ lineproforma.amountHt }}" type="text" placeholder="Montant HT...">
+                                                            <input name="id_{{ i }}" id="id_{{ i }}" type="hidden" value="{{ lineproforma.id }}">
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="row formRowSpe" id="line_5">
+                                                        <div class="col-lg-4">
+                                                            <h6>Service {{ i }}</h6>
+                                                            <select name="ref_{{ i }}" id="ref_{{ i }}" class="form-control ts-autocomplete" onchange="getInfoService({{ i }})">
+                                                                <option value="">Sélectionner</option>
+                                                                {% for service in services %}
+                                                                    {% if lineproforma.refService.reference == service.reference %}
+                                                                        <option value="S-{{ service.reference }}" selected>{{ service.name }}</option>
+                                                                    {% else %}
+                                                                        <option value="S-{{ service.reference }}">{{ service.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                            <br /><input name="cplref_{{ i }}" id="cplref_{{ i }}" type="text" value="{{ lineproforma.designationCpt }}" placeholder="Texte complémentaire sur produit ou service {{ i }}...">
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <h6>Quantité</h6>
+                                                            <input name="qte_{{ i }}" id="qte_{{ i }}" type="text" value="{{ lineproforma.qte }}" placeholder="Quantité..." onkeyup="updateAmount({{ i }})">
+                                                            <br /><br /><a href="#" title="Supprimer la ligne" class="ml-2" style="display: inline; color: red"><i class="bi bi-trash3 h3"></i></a>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <h6>Prix Unitaire</h6>
+                                                            <input name="price_{{ i }}" id="price_{{ i }}" type="text" value="{{ lineproforma.unitPrice }}" placeholder="Prix Unitaire..." onkeyup="updateAmount({{ i }})">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <h6>Montant HT.</h6>
+                                                            <input name="mnt_{{ i }}" id="mnt_{{ i }}" type="text" value="{{ lineproforma.amountHt }}" placeholder="Montant HT...">
+                                                            <input name="id_{{ i }}" id="id_{{ i }}" type="hidden" value="{{ lineproforma.id }}">
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% set i = (i + 1) %}
+                                            {% endfor %}
+                                        {% endif %}
+                                        <!-- end form -->
+                                        <div class="btnrow row mx-auto gap-4">
+                                            <button type="submit" class="btn-submit">
+                                                <span>Valider pour modifier la proforma</span>
+                                                <i class="bi bi-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+

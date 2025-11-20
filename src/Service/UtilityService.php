@@ -17,14 +17,14 @@ class UtilityService
 {
     private EntityManagerInterface $_em;
     private MailerInterface $_mailer;
-    private QrcodeService $_qrCodeService;
+    private QrCodeService $_qrCodeService;
 
     /**
      * @param EntityManagerInterface $em
      * @param MailerInterface $mailer
-     * @param QrcodeService $qrCodeService
+     * @param QrCodeService $qrCodeService
      */
-    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, QrcodeService $qrCodeService)
+    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, QrCodeService $qrCodeService)
     {
         $this->_em = $em;
         $this->_mailer = $mailer;
@@ -175,7 +175,8 @@ class UtilityService
      */
     public function genereNumProformaOrBill(): string
     {
-        return random_int(10, 99) . date('dmy') . random_int(20, 99);
+        //return random_int(10, 99) . date('dm') . random_int(20, 99);
+        return date('d') . random_int(10, 99) . random_int(20, 99);
     }
     /**
      * @param $path

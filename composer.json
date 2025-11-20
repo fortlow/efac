@@ -11,6 +11,7 @@
         "doctrine/doctrine-bundle": "^2.18",
         "doctrine/doctrine-migrations-bundle": "^3.6",
         "doctrine/orm": "^3.5",
+        "dompdf/dompdf": "^3.1",
         "eckinox/tinymce-bundle": "^2.0",
         "endroid/qr-code-bundle": "^6.0",
         "phpdocumentor/reflection-docblock": "^5.6",
@@ -20,7 +21,6 @@
         "scheb/2fa-trusted-device": "^7.11",
         "symfony/apache-pack": "*",
         "symfony/asset": "6.4.*",
-        "symfony/asset-mapper": "6.4.*",
         "symfony/console": "6.4.*",
         "symfony/doctrine-messenger": "6.4.*",
         "symfony/dotenv": "6.4.*",
@@ -44,9 +44,11 @@
         "symfony/string": "6.4.*",
         "symfony/translation": "6.4.*",
         "symfony/twig-bundle": "6.4.*",
+        "symfony/ux-autocomplete": "^2.31",
         "symfony/ux-turbo": "^2.31",
         "symfony/validator": "6.4.*",
         "symfony/web-link": "6.4.*",
+        "symfony/webpack-encore-bundle": "^2.3",
         "symfony/yaml": "6.4.*",
         "symfonycasts/verify-email-bundle": "^1.17",
         "twig/extra-bundle": "^2.12|^3.0",
@@ -83,8 +85,7 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "importmap:install": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

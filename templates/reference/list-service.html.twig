@@ -17,7 +17,7 @@
 
                         {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_GESTIONNAIRE'] %}
                             <!-- .sous-menu rubrique -->
-                            <div class="meta-bottom" style="text-align: right; margin-bottom: 2em;">
+                            <div class="meta-bottom" style="text-align: center; margin-bottom: 2em;">
                                 <div class="share-section" style="vertical-align: middle">
                                     <div class="social-links">
                                         <a href="#" title="Téléverser votre référentiel service" class="twitter"><i class="bi bi-cloud-arrow-up h4"></i></a>
@@ -67,15 +67,6 @@
                                 {% endfor %}
                             {% endif %}
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

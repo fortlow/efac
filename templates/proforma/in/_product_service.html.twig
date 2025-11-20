@@ -1,0 +1,1058 @@
+<!-- Intercalaire 0 -->
+<div class="row formRowSpe" id="interca_0" style="display: flex">
+    <div class="col-lg-12">
+        <input name="interval_0" id="interval_0" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire..." required>
+    </div>
+</div>
+
+<!-- Line 1 -->
+<div class="row formRowSpe" id="line_1" style="display: flex">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 1</h6>
+        <select name="ref_1" id="ref_1" class="form-control" onchange="getInfoProdService(1)" required>
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_1" id="cplref_1" type="text" placeholder="Texte complémentaire sur produit ou service 1...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_1" id="qte_1" type="text" placeholder="Quantité..." onkeyup="updateAmount(1)" required>
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_1" id="price_1" type="text" placeholder="Prix Unitaire..." required>
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_1" id="mnt_1" type="text" placeholder="Montant HT..." required>
+    </div>
+</div>
+<!-- Intercalaire 1 -->
+<div class="row formRowSpe" id="interca_1" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_1" id="interval_1" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 2 -->
+<div class="row formRowSpe" id="line_2" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 2</h6>
+        <select name="ref_2" id="ref_2" class="form-control" onchange="getInfoProdService(2)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_2" id="cplref_2" type="text" placeholder="Texte complémentaire sur produit ou service 2...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_2" id="qte_2" type="text" placeholder="Quantité..." onkeyup="updateAmount(2)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_2" id="price_2" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_2" id="mnt_2" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 2 -->
+<div class="row formRowSpe" id="interca_2" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_2" id="interval_2" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 3 -->
+<div class="row formRowSpe" id="line_3" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 3</h6>
+        <select name="ref_3" id="ref_3" class="form-control" onchange="getInfoProdService(3)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_3" id="cplref_3" type="text" placeholder="Texte complémentaire sur produit ou service 3...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_3" id="qte_3" type="text" placeholder="Quantité..." onkeyup="updateAmount(3)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_3" id="price_3" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_3" id="mnt_3" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 3 -->
+<div class="row formRowSpe" id="interca_3" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_3" id="interval_3" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 4 -->
+<div class="row formRowSpe" id="line_4" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 4</h6>
+        <select name="ref_4" id="ref_4" class="form-control" onchange="getInfoProdService(4)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_4" id="cplref_4" type="text" placeholder="Texte complémentaire sur produit ou service 4...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_4" id="qte_4" type="text" placeholder="Quantité..." onkeyup="updateAmount(4)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_4" id="price_4" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_4" id="mnt_4" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 4 -->
+<div class="row formRowSpe" id="interca_4" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_4" id="interval_4" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 5 -->
+<div class="row formRowSpe" id="line_5" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 5</h6>
+        <select name="ref_5" id="ref_5" class="form-control" onchange="getInfoProdService(5)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_5" id="cplref_5" type="text" placeholder="Texte complémentaire sur produit ou service 5...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_5" id="qte_5" type="text" placeholder="Quantité..." onkeyup="updateAmount(5)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_5" id="price_5" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_5" id="mnt_5" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 5 -->
+<div class="row formRowSpe" id="interca_5" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_5" id="interval_5" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 6 -->
+<div class="row formRowSpe" id="line_6" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 6</h6>
+        <select name="ref_6" id="ref_6" class="form-control" onchange="getInfoProdService(6)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_6" id="cplref_6" type="text" placeholder="Texte complémentaire sur produit ou service 6...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_6" id="qte_6" type="text" placeholder="Quantité..." onkeyup="updateAmount(6)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_6" id="price_6" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_6" id="mnt_6" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 6 -->
+<div class="row formRowSpe" id="interca_6" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_6" id="interval_6" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 7 -->
+<div class="row formRowSpe" id="line_7" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 7</h6>
+        <select name="ref_7" id="ref_7" class="form-control" onchange="getInfoProdService(7)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_7" id="cplref_7" type="text" placeholder="Texte complémentaire sur produit ou service 7...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_7" id="qte_7" type="text" placeholder="Quantité..." onkeyup="updateAmount(7)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_7" id="price_7" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_7" id="mnt_7" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 7 -->
+<div class="row formRowSpe" id="interca_7" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_7" id="interval_7" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 8 -->
+<div class="row formRowSpe" id="line_8" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 8</h6>
+        <select name="ref_8" id="ref_8" class="form-control" onchange="getInfoProdService(8)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_8" id="cplref_8" type="text" placeholder="Texte complémentaire sur produit ou service 8...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_8" id="qte_8" type="text" placeholder="Quantité..." onkeyup="updateAmount(8)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_8" id="price_8" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_8" id="mnt_8" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 8 -->
+<div class="row formRowSpe" id="interca_8" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_8" id="interval_8" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 9 -->
+<div class="row formRowSpe" id="line_9" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 9</h6>
+        <select name="ref_9" id="ref_9" class="form-control" onchange="getInfoProdService(9)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_9" id="cplref_9" type="text" placeholder="Texte complémentaire sur produit ou service 9...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_9" id="qte_9" type="text" placeholder="Quantité..." onkeyup="updateAmount(9)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_9" id="price_9" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_9" id="mnt_9" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 9 -->
+<div class="row formRowSpe" id="interca_9" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_9" id="interval_9" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 10 -->
+<div class="row formRowSpe" id="line_10" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 10</h6>
+        <select name="ref_10" id="ref_10" class="form-control" onchange="getInfoProdService(10)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_10" id="cplref_10" type="text" placeholder="Texte complémentaire sur produit ou service 10...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_10" id="qte_10" type="text" placeholder="Quantité..." onkeyup="updateAmount(10)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_10" id="price_10" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_10" id="mnt_10" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 10 -->
+<div class="row formRowSpe" id="interca_10" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_10" id="interval_10" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 11 -->
+<div class="row formRowSpe" id="line_11" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 11</h6>
+        <select name="ref_11" id="ref_11" class="form-control" onchange="getInfoProdService(11)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_11" id="cplref_11" type="text" placeholder="Texte complémentaire sur produit ou service 11...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_11" id="qte_11" type="text" placeholder="Quantité..." onkeyup="updateAmount(11)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_11" id="price_11" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_11" id="mnt_11" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 11 -->
+<div class="row formRowSpe" id="interca_11" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_11" id="interval_11" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 12 -->
+<div class="row formRowSpe" id="line_12" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 12</h6>
+        <select name="ref_12" id="ref_12" class="form-control" onchange="getInfoProdService(12)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_12" id="cplref_12" type="text" placeholder="Texte complémentaire sur produit ou service 12...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_12" id="qte_12" type="text" placeholder="Quantité..." onkeyup="updateAmount(12)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_12" id="price_12" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_12" id="mnt_12" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 12 -->
+<div class="row formRowSpe" id="interca_12" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_12" id="interval_12" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 13 -->
+<div class="row formRowSpe" id="line_13" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 13</h6>
+        <select name="ref_13" id="ref_13" class="form-control" onchange="getInfoProdService(13)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_13" id="cplref_13" type="text" placeholder="Texte complémentaire sur produit ou service 13...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_13" id="qte_13" type="text" placeholder="Quantité..." onkeyup="updateAmount(13)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_13" id="price_13" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_13" id="mnt_13" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 13 -->
+<div class="row formRowSpe" id="interca_13" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_13" id="interval_13" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 14 -->
+<div class="row formRowSpe" id="line_14" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 14</h6>
+        <select name="ref_14" id="ref_14" class="form-control" onchange="getInfoProdService(14)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_14" id="cplref_14" type="text" placeholder="Texte complémentaire sur produit ou service 14...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_14" id="qte_14" type="text" placeholder="Quantité..." onkeyup="updateAmount(14)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_14" id="price_14" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_14" id="mnt_14" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 14 -->
+<div class="row formRowSpe" id="interca_14" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_14" id="interval_14" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 15 -->
+<div class="row formRowSpe" id="line_15" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 15</h6>
+        <select name="ref_15" id="ref_15" class="form-control" onchange="getInfoProdService(15)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_15" id="cplref_15" type="text" placeholder="Texte complémentaire sur produit ou service 15...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_15" id="qte_15" type="text" placeholder="Quantité..." onkeyup="updateAmount(15)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_15" id="price_15" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_15" id="mnt_15" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 15 -->
+<div class="row formRowSpe" id="interca_15" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_15" id="interval_15" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 16 -->
+<div class="row formRowSpe" id="line_16" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 16</h6>
+        <select name="ref_16" id="ref_16" class="form-control" onchange="getInfoProdService(16)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_16" id="cplref_16" type="text" placeholder="Texte complémentaire sur produit ou service 16...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_16" id="qte_16" type="text" placeholder="Quantité..." onkeyup="updateAmount(16)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_16" id="price_16" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_16" id="mnt_16" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 16 -->
+<div class="row formRowSpe" id="interca_16" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_16" id="interval_16" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 17 -->
+<div class="row formRowSpe" id="line_17" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 17</h6>
+        <select name="ref_17" id="ref_17" class="form-control" onchange="getInfoProdService(17)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_17" id="cplref_17" type="text" placeholder="Texte complémentaire sur produit ou service 17...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_17" id="qte_17" type="text" placeholder="Quantité..." onkeyup="updateAmount(17)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_17" id="price_17" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_17" id="mnt_17" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 17 -->
+<div class="row formRowSpe" id="interca_17" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_17" id="interval_17" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 18 -->
+<div class="row formRowSpe" id="line_18" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 18</h6>
+        <select name="ref_18" id="ref_18" class="form-control" onchange="getInfoProdService(18)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_18" id="cplref_18" type="text" placeholder="Texte complémentaire sur produit ou service 18...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_18" id="qte_18" type="text" placeholder="Quantité..." onkeyup="updateAmount(18)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_18" id="price_18" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_18" id="mnt_18" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 18 -->
+<div class="row formRowSpe" id="interca_18" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_18" id="interval_18" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 19 -->
+<div class="row formRowSpe" id="line_19" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 19</h6>
+        <select name="ref_19" id="ref_19" class="form-control" onchange="getInfoProdService(19)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_19" id="cplref_19" type="text" placeholder="Texte complémentaire sur produit ou service 19...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_19" id="qte_19" type="text" placeholder="Quantité..." onkeyup="updateAmount(19)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_19" id="price_19" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_19" id="mnt_19" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 19 -->
+<div class="row formRowSpe" id="interca_19" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_19" id="interval_19" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 20 -->
+<div class="row formRowSpe" id="line_20" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 20</h6>
+        <select name="ref_20" id="ref_20" class="form-control" onchange="getInfoProdService(20)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_20" id="cplref_20" type="text" placeholder="Texte complémentaire sur produit ou service 20...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_20" id="qte_20" type="text" placeholder="Quantité..." onkeyup="updateAmount(20)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_20" id="price_20" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_20" id="mnt_20" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 20 -->
+<div class="row formRowSpe" id="interca_20" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_20" id="interval_20" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- =============================================================================================================== -->
+
+<!-- Line 21 -->
+<div class="row formRowSpe" id="line_21" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 21</h6>
+        <select name="ref_21" id="ref_21" class="form-control" onchange="getInfoProdService(21)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_21" id="cplref_21" type="text" placeholder="Texte complémentaire sur produit ou service 21...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_21" id="qte_21" type="text" placeholder="Quantité..." onkeyup="updateAmount(21)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_21" id="price_21" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_21" id="mnt_21" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 21 -->
+<div class="row formRowSpe" id="interca_21" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_21" id="interval_21" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 22 -->
+<div class="row formRowSpe" id="line_22" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 22</h6>
+        <select name="ref_22" id="ref_22" class="form-control" onchange="getInfoProdService(22)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_22" id="cplref_22" type="text" placeholder="Texte complémentaire sur produit ou service 22...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_22" id="qte_22" type="text" placeholder="Quantité..." onkeyup="updateAmount(22)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_22" id="price_22" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_22" id="mnt_22" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 22 -->
+<div class="row formRowSpe" id="interca_22" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_22" id="interval_22" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 23 -->
+<div class="row formRowSpe" id="line_23" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 23</h6>
+        <select name="ref_23" id="ref_23" class="form-control" onchange="getInfoProdService(23)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_23" id="cplref_23" type="text" placeholder="Texte complémentaire sur produit ou service 23...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_23" id="qte_23" type="text" placeholder="Quantité..." onkeyup="updateAmount(23)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_23" id="price_23" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_23" id="mnt_23" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 23 -->
+<div class="row formRowSpe" id="interca_23" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_23" id="interval_23" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 24 -->
+<div class="row formRowSpe" id="line_24" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 24</h6>
+        <select name="ref_24" id="ref_24" class="form-control" onchange="getInfoProdService(24)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_24" id="cplref_24" type="text" placeholder="Texte complémentaire sur produit ou service 24...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_24" id="qte_24" type="text" placeholder="Quantité..." onkeyup="updateAmount(24)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_24" id="price_24" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_24" id="mnt_24" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 24 -->
+<div class="row formRowSpe" id="interca_24" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_24" id="interval_24" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 25 -->
+<div class="row formRowSpe" id="line_25" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 25</h6>
+        <select name="ref_25" id="ref_25" class="form-control" onchange="getInfoProdService(25)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_25" id="cplref_25" type="text" placeholder="Texte complémentaire sur produit ou service 25...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_25" id="qte_25" type="text" placeholder="Quantité..." onkeyup="updateAmount(25)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_25" id="price_25" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_25" id="mnt_25" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 25 -->
+<div class="row formRowSpe" id="interca_25" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_25" id="interval_25" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 26 -->
+<div class="row formRowSpe" id="line_26" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 26</h6>
+        <select name="ref_26" id="ref_26" class="form-control" onchange="getInfoProdService(26)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_26" id="cplref_26" type="text" placeholder="Texte complémentaire sur produit ou service 26...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_26" id="qte_26" type="text" placeholder="Quantité..." onkeyup="updateAmount(26)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_26" id="price_26" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_26" id="mnt_26" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 26 -->
+<div class="row formRowSpe" id="interca_26" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_26" id="interval_26" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 27 -->
+<div class="row formRowSpe" id="line_27" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 27</h6>
+        <select name="ref_27" id="ref_27" class="form-control" onchange="getInfoProdService(27)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_27" id="cplref_27" type="text" placeholder="Texte complémentaire sur produit ou service 27...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_27" id="qte_27" type="text" placeholder="Quantité..." onkeyup="updateAmount(27)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_27" id="price_27" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_27" id="mnt_27" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 27 -->
+<div class="row formRowSpe" id="interca_27" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_27" id="interval_27" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 28 -->
+<div class="row formRowSpe" id="line_28" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 28</h6>
+        <select name="ref_28" id="ref_28" class="form-control" onchange="getInfoProdService(28)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_28" id="cplref_28" type="text" placeholder="Texte complémentaire sur produit ou service 28...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_28" id="qte_28" type="text" placeholder="Quantité..." onkeyup="updateAmount(28)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_28" id="price_28" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_28" id="mnt_28" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 28 -->
+<div class="row formRowSpe" id="interca_28" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_28" id="interval_28" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 29 -->
+<div class="row formRowSpe" id="line_29" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 29</h6>
+        <select name="ref_29" id="ref_29" class="form-control" onchange="getInfoProdService(29)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_29" id="cplref_29" type="text" placeholder="Texte complémentaire sur produit ou service 29...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_29" id="qte_29" type="text" placeholder="Quantité..." onkeyup="updateAmount(29)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_29" id="price_29" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_29" id="mnt_29" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 29 -->
+<div class="row formRowSpe" id="interca_29" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_29" id="interval_29" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
+
+<!-- Line 30 -->
+<div class="row formRowSpe" id="line_30" style="display: none">
+    <div class="col-lg-4">
+        <h6>Produit ou Service 30</h6>
+        <select name="ref_30" id="ref_30" class="form-control autocomplete" onchange="getInfoProdService(30)">
+            <option value="">Sélectionner</option>
+            {% for produit in produits %}
+                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+            {% endfor %}
+            {% for service in services %}
+                <option value="S-{{ service.reference }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br /><input name="cplref_30" id="cplref_30" type="text" placeholder="Texte complémentaire sur produit ou service 30...">
+    </div>
+    <div class="col-lg-2">
+        <h6>Quantité</h6>
+        <input name="qte_30" id="qte_30" type="text" placeholder="Quantité..." onkeyup="updateAmount(30)">
+    </div>
+    <div class="col-lg-3">
+        <h6>Prix Unitaire</h6>
+        <input name="price_30" id="price_30" type="text" placeholder="Prix Unitaire...">
+    </div>
+    <div class="col-lg-3">
+        <h6>Montant HT.</h6>
+        <input name="mnt_30" id="mnt_30" type="text" placeholder="Montant HT...">
+    </div>
+</div>
+<!-- Intercalaire 30 -->
+<div class="row formRowSpe" id="interca_30" style="display: none">
+    <div class="col-lg-12">
+        <input name="interval_30" id="interval_30" type="text" placeholder="Veuillez saisir le texte de l'inrercalaire...">
+    </div>
+</div>
