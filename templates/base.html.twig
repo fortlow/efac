@@ -58,6 +58,8 @@
 
     {{ encore_entry_script_tags('app') }}
 
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
+
     <style>
         .readonly {
             pointer-events: none;
