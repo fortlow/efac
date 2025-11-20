@@ -21,21 +21,24 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            #lazy: true
+            lazy: true
             provider: app_user_provider
+
             form_login:
                 login_path: app_login
                 check_path: app_login
                 default_target_path: app_home
                 enable_csrf: true
+
             logout:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-            two_factor:
-                auth_form_path: 2fa_login
-                check_path: 2fa_login_check
-                trusted_parameter_name: _trusted
+                
+            #two_factor:
+            #    auth_form_path: 2fa_login
+            #    check_path: 2fa_login_check
+            #    trusted_parameter_name: _trusted
 
             # entry_point: App\Security\AuthenticationEntryPoint
             # access_denied_handler: App\Security\AccessDeniedHandler
@@ -49,11 +52,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/$, roles: ROLE_USER }
-        #- { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/logout, role: PUBLIC_ACCESS }
-        - { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
-        # - { path: ^/profile, roles: ROLE_USER }
+      - { path: ^/$, roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
+      #- { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+      #- { path: ^/logout, role: PUBLIC_ACCESS }
+      #- { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+      # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
