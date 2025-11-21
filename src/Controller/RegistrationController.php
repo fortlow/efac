@@ -4,71 +4,199 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\UserType;
+use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use App\Service\UtilityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private EntityManagerInterface $_em;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->_em = $em;
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     */
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
+    #[Route('/bo/user', name: 'app_user'), IsGranted('ROLE_ADMIN')]
+    public function index(UserRepository $userRepository): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        return $this->render('registration/index.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/bo/user/add', name: 'app_add_user'), IsGranted('ROLE_ADMIN')]
+    public function add(Request $request, MailerInterface $mailer,
+                        UserPasswordHasherInterface $userPasswordHasher, UtilityService $utilityService): Response
+    {
+        $form = $this->createForm(UserType::class, null, [
+            'label' => 'create',
+            'translator' => '',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            /** @var string $plainPassword */
-            $plainPassword = $form->get('plainPassword')->getData();
+            try {
+                $role = $_POST['user']['role'];
+                $tRoles[] = $role;
+                $user = $form->getData();
+                $user->setLastname(strtoupper($user->getLastname()));
+                $user->setFirstname(ucfirst($user->getFirstname()));
+                $user->setRoles($tRoles);
 
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+                $userPwd = new User();
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $userPwd,
+                        $form->get('password')->getData()
+                    )
+                );
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                // Ajout de l'image
+                $photo = $form['photo']->getData();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('contact@b2mtechnologies.com', 'eFac'))
-                    ->to((string) $user->getEmail())
-                    ->subject('Veuillez confirmer votre adresse mail')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+                if (!is_null($photo)) {
+                    $file = new File($photo->getPathname());
+                    $fileName = $utilityService->generateUniqueLongFileName() . '.' . $file->guessExtension();
+                    $realPath = $_ENV['DIR_PHOTO'];
+                    try {
+                        $file->move($realPath, $fileName);
+                        $user->setPhoto($fileName);
+                    }
+                    catch (\Exception $e) {
+                        $this->addFlash('danger', 'Echec de récupération de la photo.');
+                    }
+                }
 
-            // do anything else you need here, like send an email
+                $this->_em->persist($user);
+                $this->_em->flush();
 
-            return $security->login($user, 'form_login', 'main');
+                // Envoi du mail de confirmation de la création du compte
+                $email = (new TemplatedEmail())
+                    ->from('contact@b2mtechnologies.ga')
+                    ->to($user->getEmail())
+                    ->subject('[B2MT SITE WEB] - Création de votre compte utilisateur')
+                    ->htmlTemplate('emails/mail-create-user-account.html')
+                    ->context([
+                        'nom' => $user->getLastname(),
+                        'prenom' => $user->getFirstname(),
+                        'subject' => 'Création de votre compte utilisateur',
+                        'param1' => $user->getEmail(),
+                        'param2' => $user->getRoles()[0],
+                    ])
+                ;
+
+                try {
+                    $mailer->send($email);
+                } catch (TransportExceptionInterface $e) {
+                    $this->addFlash('warning', "Impossible d'envoyer le mail.");
+                }
+
+                $this->addFlash('success', 'Utilisateur créé avec succès.');
+
+            } catch (\Exception $exception) {
+                $this->addFlash('danger', "Echec de création de l'utilisateur.");
+            }
+
+            return $this->redirectToRoute('app_user');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+        return $this->render('registration/add.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
+    #[Route('/bo/user/edit/{id}', name: 'app_edit_user'), IsGranted('ROLE_ADMIN')]
+    public function edit(int $id, Request $request, UserRepository $userRepository,
+                         UtilityService $utilityService): Response
+    {
+        $user = $userRepository->find($id);
+        $photoSave = $user->getPhoto();
+
+        $form = $this->createForm(UserType::class, $user, [
+            'label' => 'edit',
+            'translator' => $user->getRoles()[0],
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            try {
+                $role = $_POST['user']['role'];
+                $tRoles[] = $role;
+
+                $user = $form->getData();
+                $user->setLastname(strtoupper($user->getLastname()));
+                $user->setFirstname(ucfirst($user->getFirstname()));
+                $user->setRoles($tRoles);
+
+                // Ajout de l'image
+                $photo = $form['photo']->getData();
+
+                if (!is_null($photo)) {
+                    $file = new File($photo->getPathname());
+                    $fileName = $utilityService->generateUniqueLongFileName() . '.' . $file->guessExtension();
+                    $realPath = $_ENV['DIR_PHOTO'];
+                    try {
+                        $file->move($realPath, $fileName);
+                        $user->setPhoto($fileName);
+                    }
+                    catch (\Exception $e) {
+                        $this->addFlash('danger', 'Echec de récupération de la photo.');
+                    }
+                } else {
+                    $user->setPhoto($photoSave);
+                }
+
+                $this->_em->flush();
+                $this->addFlash('success', 'Utilisateur modifié avec succès.');
+
+            } catch (\Exception $exception) {
+                $this->addFlash('danger', "Echec de modification de l'utilisateur.");
+            }
+
+            return $this->redirectToRoute('app_user');
+        }
+
+        return $this->render('registration/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/bo/user/delete/{id}', name: 'app_delete_user'), IsGranted('ROLE_ADMIN')]
+    public function delete(int $id, UserRepository $userRepository): Response
+    {
+        try {
+            $user = $userRepository->find($id);
+            $this->_em->remove($user);
+            $this->_em->flush();
+            $this->addFlash('success', 'Utilisateur supprimée avec succès.');
+        } catch (\Exception $exception) {
+            //dump('exception', $exception->getMessage());
+            $this->addFlash('danger', "Echec de suppression de l'Utilisateur.");
+        }
+
+        return $this->redirectToRoute('app_user');
+    }
+
+
+    #[Route('/bo/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

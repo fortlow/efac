@@ -51,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $lastcnx_at;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $position = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -222,5 +225,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmailAuthCode(string $authCode): void
     {
         $this->authCode = $authCode;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): static
+    {
+        $this->position = $position;
+
+        return $this;
     }
 }

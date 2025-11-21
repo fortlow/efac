@@ -38,7 +38,7 @@
                 {% if app.user.photo is defined and app.user.photo is not null and app.user.photo|length %}
                     <a href="#">
                         {% if verififphotoexist(app.user.photo) %}
-                            <img src="{{ asset('img/photo/' ~ app.user.photo) }}" alt="{{ app.user.firstname }}" class="imgRounded" width="55" height="55">
+                            <img src="{{ asset('img/photo/' ~ app.user.photo) }}" alt="{{ app.user.firstname }}" class="imgRounded" width="40" height="40">
                         {% else %}
                             <i class="bi bi-person-circle" title="{{ app.user.firstname }} 1" style="font-size: 2.5rem !important;"></i>
                         {% endif %}
@@ -51,7 +51,7 @@
             {% endif %}
             <ul>
                 <li><a href="#">Mon compte</a></li>
-                <li><a href="#">Utilisateurs</a></li>
+                <li><a href="{{ path('app_user') }}">Utilisateurs</a></li>
                 <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
             </ul>
         </li>

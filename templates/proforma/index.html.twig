@@ -33,10 +33,10 @@
                             <thead>
                             <tr>
                                 <th style="width: 2%">#</th>
-                                <th style="width: 10%">Numéro</th>
-                                <th style="width: 10%">Date</th>
-                                <th style="width: 30%">Objet</th>
-                                <th style="width: 20%">Client</th>
+                                <th style="width: 8%">Numéro</th>
+                                <th style="width: 6%; text-align: center">Date</th>
+                                <th style="width: 38%">Objet</th>
+                                <th style="width: 18%">Client</th>
                                 <th style="width: 10%; text-align: center">Total HT</th>
                                 <th style="width: 10%; text-align: center">Statut</th>
                                 <th style="width: 8%; text-align: center">Actions</th>
@@ -46,18 +46,18 @@
                             {% if proformas is defined and proformas is not null and proformas|length > 0 %}
                                 {% set nb = 1 %}
                                 {% for proforma in proformas %}
-                                    <tr>
+                                    <tr style="vertical-align: middle; font-size: 10pt">
                                         <td class="odd">{{ nb }}</td>
                                         <td class="odd">{{ proforma.numero }}</td>
-                                        <td class="odd" data-sort='{{ proforma.createdAt|date('Ymd') }}'>{{ proforma.createdAt|date('d/m/Y') }}</td>
+                                        <td class="odd" style="text-align: center" data-sort='{{ proforma.createdAt|date('Ymd') }}'>{{ proforma.createdAt|date('d/m/y') }}</td>
                                         <td class="odd">
                                             {% if proforma.subject is defined and proforma.subject is not null %}
-                                                <small>{{ proforma.subject|upper }}</small>
+                                                {{ proforma.subject|upper }}
                                             {% endif %}
                                         </td>
                                         <td class="odd">
                                             {% if proforma.client is defined and proforma.client is not null %}
-                                                <small>{{ proforma.client.sreason }}</small>
+                                                {{ proforma.client.sreason }}
                                             {% endif %}
                                         </td>
                                         <td class="odd" style="text-align: center">
@@ -83,9 +83,9 @@
                                                 0
                                             {% endif %}
                                         </td>
-                                        <td class="odd" style="text-align: center">
+                                        <td class="odd" style="text-align: center; vertical-align: middle">
                                             {% if proforma.status is defined and proforma.status is not null %}
-                                                <small>{{ proforma.status.label|upper }}</small>
+                                                {{ proforma.status.label|upper }}
                                             {% endif %}&nbsp;
                                         </td>
                                         <td class="odd text-nowrap" style="text-align: center">
@@ -98,9 +98,9 @@
                                             {% endif %}
 
                                             <a href="{{ path('app_proforma_view_proforma', {'id':proforma.id}) }}" title="Proforma en PDF" style="margin-left: .2em;" target="_blank"><i class="bi bi-file-earmark-pdf h5"></i></a>
+                                            <a href="{{ path('app_proforma_send_proforma', {'id':proforma.id}) }}" title="Envoyer la proforma en PDF par mail" style="margin-left: .2em;"><i class="bi bi-envelope-arrow-up h5"></i></a>
 
                                             {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-                                                <a href="{{ path('app_proforma_send_proforma', {'id':proforma.id}) }}" title="Envoyer la proforma en PDF par mail" style="margin-left: .2em;"><i class="bi bi-envelope-arrow-up h5"></i></a>
                                                 <a href="{{ path('app_proforma_delete', {'id':proforma.id}) }}" title="Supprimer" style="margin-left: .2em; color: orangered"><i class="bi bi-trash3 h5"></i></a>
                                             {% endif %}
                                         </td>
