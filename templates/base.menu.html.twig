@@ -1,37 +1,32 @@
 <nav id="navmenu" class="navmenu">
     <ul>
-        {# <li><a href="#" class="active">Accueil</a></li> #}
-
-        <li class="dropdown"><a href="#"><span>Clients</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+        <li class="dropdown"><a href="{{ path('app_client') }}"><span>Clients</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 <li><a href="{{ path('app_client') }}">Liste des clients</a></li>
                 <li><a href="{{ path('app_client_add') }}">Nouveau client</a></li>
             </ul>
         </li>
 
-        <li class="dropdown"><a href="#"><span>Proforma</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+        <li class="dropdown"><a href="{{ path('app_proforma') }}"><span>Pro Forma</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-                <li><a href="{{ path('app_proforma') }}">Liste des proforma</a></li>
-                <li><a href="{{ path('app_proforma_add') }}">Créer une proforma</a></li>
+                <li><a href="{{ path('app_proforma') }}">Liste des Pro Forma</a></li>
+                <li><a href="{{ path('app_proforma_add') }}">Créer une Pro Forma</a></li>
             </ul>
         </li>
 
-        <li class="dropdown"><a href="#"><span>Factures</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+        <li class="dropdown"><a href="{{ path('app_bill') }}"><span>Factures</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-                <li><a href="#">Liste des factures</a></li>
-                <li><a href="#">Créer une facture</a></li>
+                <li><a href="{{ path('app_bill') }}">Liste des factures</a></li>
+                <li><a href="{{ path('app_bill_add') }}">Créer une facture</a></li>
             </ul>
         </li>
 
-        <li class="dropdown"><a href="#"><span>Référentiel</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+        <li class="dropdown"><a href="{{ path('app_reference_list_service') }}"><span>Référentiel</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
                 <li><a href="{{ path('app_reference_list_product') }}">Produits</a></li>
                 <li><a href="{{ path('app_reference_list_service') }}">Services</a></li>
             </ul>
         </li>
-
-        {# <li><a href="#">Référentiel</a></li> #}
-        {# <li><a href="#">Contact</a></li> #}
 
         <li class="dropdown" style="padding-left: 5rem;">
             {% if app.user is defined and app.user is not null %}
@@ -50,15 +45,19 @@
                 {% endif %}
             {% endif %}
             <ul>
-                <li><a href="#">Mon compte</a></li>
-                <li><a href="{{ path('app_user') }}">Utilisateurs</a></li>
+                {% if app.user is defined and app.user is not null %}
+                    <li><span style="margin-left: 1.2em; color: steelblue"><b>{{ app.user.roles[0]|labrole }}</b></span></li>
+                {% endif %}
+
+                <li><a href="{{ path('app_user_my_account') }}">Mon compte</a></li>
+                {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
+                    <li><a href="{{ path('app_user') }}">Utilisateurs</a></li>
+                {% endif %}
                 <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+
             </ul>
         </li>
 
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 </nav>
-
-
-{# <a class="btn-getstarted" href="{{ path('app_logout') }}">Déconnexion</a>  #}

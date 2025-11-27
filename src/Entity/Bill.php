@@ -63,7 +63,7 @@ class Bill
     private ?\DateTimeInterface $created_at;
 
     #[ORM\OneToMany(targetEntity: LineBill::class, mappedBy: 'bill')]
-    private ArrayCollection $lineBills;
+    private Collection $lineBills;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $subject;

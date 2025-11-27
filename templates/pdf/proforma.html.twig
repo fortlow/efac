@@ -16,7 +16,7 @@
             background-repeat:no-repeat;
             background-position: center center;
             background-size: 500px 330px;
-            background-image:url({{ urlLogoBg }});
+            background-image:url('{{ urlLogoBg }}');
             position: relative;
             min-height:100%;
             filter:alpha(opacity=15);
@@ -57,13 +57,13 @@
 <body>
 <table style="width: 100%; border: none; height: auto">
     <tr>
-        <td style="vertical-align: top; border: none;" width="100%">
+        <td style="width:100%; vertical-align: top; border: none;">
             <table style="width: 100%; border: none">
                 <tr>
-                    <td style="vertical-align: top; border: none" width="45%">
+                    <td style="width:45%; vertical-align: top; border: none">
                         <img width="220px" src="{{ logoB2m }}" alt="LOGO-B2MT">
                     </td>
-                    <td style="vertical-align: top; border: none; text-align: right" width="55%">
+                    <td style="width:55%; vertical-align: top; border: none; text-align: right">
                         <p class="mb-2 fw-bold">B2M TECHNOLOGIES</p>
                         <p class="mb-0 text-header">SA au Capital de 5 000 000 F CFA</p>
                         <p class="mb-0 text-header">N° du RCCM : GA-LBV-01-20200-B12-00140 / N° NIF : 202201003877-K</p>
@@ -76,11 +76,11 @@
 
             <table style="width: 100%; border: none">
                 <tr>
-                    <td style="vertical-align: middle; border: none; font-size: 1.1rem" width="40%">
+                    <td style="width:40%; vertical-align: middle; border: none; font-size: 1.1rem">
                         <p class="mb-0">Date: {{ proforma.createdAt|date('d/m/Y') }}</p>
                         <p class="mb-0 fw-bold">Proforma N°: {{ proforma.numero }}</p>
                     </td>
-                    <td style="vertical-align: top; text-align: left" width="60%">
+                    <td style="width: 60%; vertical-align: top; text-align: left">
                         <p class="card-subtitle fw-bold mb-0">{{ client.sreason }}</p>
                         <p class="card-subtitle mb-0">{{ client.address }}</p>
                         <p class="card-subtitle mb-0">{{ client.city }} - {{ client.country }}</p>
@@ -106,7 +106,7 @@
                 </tr>
             </table>
 
-            <table class="mx-auto mb-0 text-black text-center border-0" width="100%">
+            <table class="mx-auto mb-0 text-black text-center border-0" style="width: 100%">
                 <tr>
                     <td class="border-0" style="text-align: left">
                         <b class="fs-6">Objet de la proforma :</b> {{ proforma.subject }}
@@ -116,7 +116,7 @@
 
             <!-- Corps de la proforma --->
 
-            <table class="mx-auto mb-0 text-black text-center" width="100%">
+            <table class="mx-auto mb-0 text-black text-center" style="width: 100%">
                 <thead>
                 <tr style=" background-color: #eee;">
                     <th style="width: 10%">Référence</th>
@@ -279,7 +279,7 @@
                 </tbody>
             </table>
 
-            <table class="mx-auto mb-4 text-black text-center" width="100%">
+            <table class="mx-auto mb-4 text-black text-center" style="width:100%">
                 <thead>
                 <tr style="background-color: #eee;">
                     <th style="width: 2rem !important;">Code</th>

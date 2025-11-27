@@ -12,7 +12,7 @@
         <select name="ref_1" id="ref_1" class="form-control" onchange="getInfoProdService(1)" required>
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -47,7 +47,7 @@
         <select name="ref_2" id="ref_2" class="form-control" onchange="getInfoProdService(2)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -82,7 +82,7 @@
         <select name="ref_3" id="ref_3" class="form-control" onchange="getInfoProdService(3)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -117,7 +117,7 @@
         <select name="ref_4" id="ref_4" class="form-control" onchange="getInfoProdService(4)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -152,7 +152,7 @@
         <select name="ref_5" id="ref_5" class="form-control" onchange="getInfoProdService(5)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -187,7 +187,7 @@
         <select name="ref_6" id="ref_6" class="form-control" onchange="getInfoProdService(6)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -222,7 +222,7 @@
         <select name="ref_7" id="ref_7" class="form-control" onchange="getInfoProdService(7)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -257,7 +257,7 @@
         <select name="ref_8" id="ref_8" class="form-control" onchange="getInfoProdService(8)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -292,7 +292,7 @@
         <select name="ref_9" id="ref_9" class="form-control" onchange="getInfoProdService(9)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -327,7 +327,7 @@
         <select name="ref_10" id="ref_10" class="form-control" onchange="getInfoProdService(10)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -362,7 +362,7 @@
         <select name="ref_11" id="ref_11" class="form-control" onchange="getInfoProdService(11)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -397,7 +397,7 @@
         <select name="ref_12" id="ref_12" class="form-control" onchange="getInfoProdService(12)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -432,7 +432,7 @@
         <select name="ref_13" id="ref_13" class="form-control" onchange="getInfoProdService(13)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -467,7 +467,7 @@
         <select name="ref_14" id="ref_14" class="form-control" onchange="getInfoProdService(14)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -502,7 +502,7 @@
         <select name="ref_15" id="ref_15" class="form-control" onchange="getInfoProdService(15)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -537,7 +537,7 @@
         <select name="ref_16" id="ref_16" class="form-control" onchange="getInfoProdService(16)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -572,7 +572,7 @@
         <select name="ref_17" id="ref_17" class="form-control" onchange="getInfoProdService(17)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -607,7 +607,7 @@
         <select name="ref_18" id="ref_18" class="form-control" onchange="getInfoProdService(18)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -642,7 +642,7 @@
         <select name="ref_19" id="ref_19" class="form-control" onchange="getInfoProdService(19)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -677,7 +677,7 @@
         <select name="ref_20" id="ref_20" class="form-control" onchange="getInfoProdService(20)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -714,7 +714,7 @@
         <select name="ref_21" id="ref_21" class="form-control" onchange="getInfoProdService(21)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -749,7 +749,7 @@
         <select name="ref_22" id="ref_22" class="form-control" onchange="getInfoProdService(22)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -784,7 +784,7 @@
         <select name="ref_23" id="ref_23" class="form-control" onchange="getInfoProdService(23)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -819,7 +819,7 @@
         <select name="ref_24" id="ref_24" class="form-control" onchange="getInfoProdService(24)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -854,7 +854,7 @@
         <select name="ref_25" id="ref_25" class="form-control" onchange="getInfoProdService(25)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -889,7 +889,7 @@
         <select name="ref_26" id="ref_26" class="form-control" onchange="getInfoProdService(26)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -924,7 +924,7 @@
         <select name="ref_27" id="ref_27" class="form-control" onchange="getInfoProdService(27)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -959,7 +959,7 @@
         <select name="ref_28" id="ref_28" class="form-control" onchange="getInfoProdService(28)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -994,7 +994,7 @@
         <select name="ref_29" id="ref_29" class="form-control" onchange="getInfoProdService(29)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>
@@ -1029,7 +1029,7 @@
         <select name="ref_30" id="ref_30" class="form-control autocomplete" onchange="getInfoProdService(30)">
             <option value="">Sélectionner</option>
             {% for produit in produits %}
-                <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
+                <option value="P-{{ produit.reference }}">{{ produit.name|upper }}</option>
             {% endfor %}
             {% for service in services %}
                 <option value="S-{{ service.reference }}">{{ service.name }}</option>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}eFac | Pro Forma - Créer une proforma - Etape 1 {% endblock %}
+{% block title %}eFac | Facture - Créer une facture - Etape 1 {% endblock %}
 
 {% block content %}
 
@@ -13,10 +13,10 @@
                     <div class="service-sidebar">
 
                         <div class="privacy-section" data-aos="fade-up" data-aos-delay="300">
-                            <h3>Pro Forma - Créer une proforma - Etape 1</h3>
+                            <h3>Facture - Créer une facture - Etape 1</h3>
                         </div>
 
-                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] %}
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER','ROLE_SALE'] %}
                             <!-- .sous-menu rubrique -->
                             <div class="meta-bottom" style="text-align: center; margin-bottom: 2em;">
                                 <div class="share-section">
@@ -32,8 +32,8 @@
 
                         <div class="quick-contact-card" data-aos="slide-up" data-aos-delay="200">
                             <div class="contact-header">
-                                <h4>L'ajout d'une nouvelle Pro Forma se fait en deux étapes :</h4>
-                                <p>La création de l'entête de la Pro Forma et la saisie des détails de la Pro Forma.</p>
+                                <h4>L'ajout d'une nouvelle facture se fait en deux étapes :</h4>
+                                <p>La création de l'entête de la facture et la saisie des détails de la facture.</p>
                             </div>
 
                             {{ form_start(form) }}

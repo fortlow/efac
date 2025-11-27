@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}eFac | Pro Forma - Modifier une proforma {% endblock %}
+{% block title %}eFac | Facture - Modifier la facture {% endblock %}
 
 {% block content %}
 
@@ -13,7 +13,7 @@
                     <div class="service-sidebar">
 
                         <div class="privacy-section" data-aos="fade-up" data-aos-delay="300">
-                            <h3>Pro Forma - Modification Pro Forma</h3>
+                            <h3>Facture - Modifier une facture</h3>
                         </div>
 
                         {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER','ROLE_SALE'] %}
@@ -21,9 +21,9 @@
                             <div class="meta-bottom" style="text-align: center; margin-bottom: 2em;">
                                 <div class="share-section">
                                     <div class="social-links">
-                                        <a href="{{ path('app_proforma') }}" title="Listing des Pro Forma" style="margin-right: 5px"><i class="bi bi-file-earmark-ruled h3"></i></a>
+                                        <a href="{{ path('app_proforma') }}" title="Listing des Pro Forma" style="margin-left: 5px"><i class="bi bi-file-earmark-ruled h3"></i></a>
                                         <span class="ml-3">&nbsp;</span>
-                                        <a href="{{ path('app_proforma_add') }}" title="Créer une Pro Forma" style="margin-right: 5px"><i class="bi bi-file-plus h3"></i></a>
+                                        <a href="{{ path('app_bill_add') }}" title="Créer une facture" style="margin-left: 5px"><i class="bi bi-file-earmark-plus h3"></i></a>
                                         <span class="ml-3">&nbsp;</span>
                                         <a href="{{ path('app_bill') }}" title="Listing des factures"><i class="bi bi-file-earmark-post-fill h3"></i></a>
                                     </div>
@@ -34,8 +34,8 @@
 
                         <div class="quick-contact-card" data-aos="slide-up" data-aos-delay="200">
                             <div class="contact-header">
-                                <h4>Pour modifier la Pro Forma</h4>
-                                <p>Veuillez modifier le formulaire ci-dessous.</p>
+                                <h4>Pour ajouter un nouveau produit au Référentiel</h4>
+                                <p>Veuillez remplir le formulaire ci-dessous.</p>
                             </div>
 
                             {{ form_start(form) }}
@@ -43,16 +43,11 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <!-- begin form -->
-                                        <div class="row formRow">
+                                        <div class="row formRow" style="text-align: left">
 
-                                            <div class="col-lg-8">
+                                            <div class="col-lg-12">
                                                 <div class="form-group">
                                                     {{ form_row(form.subject) }}
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    {{ form_row(form.status) }}
                                                 </div>
                                             </div>
                                             <div class="col-lg-8">
@@ -91,6 +86,17 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    {{ form_row(form.status_bill) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    {{ form_row(form.payment_method) }}
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     {{ form_row(form.is_with_tps) }}
@@ -108,7 +114,6 @@
                                             </div>
 
                                             <div class="col-lg-12"><br /></div>
-
                                             <div class="col-lg-12" style="text-align: center">
                                                 <div class="form-group">
                                                     {{ form_row(form.cond_reglt) }}
@@ -117,79 +122,83 @@
 
                                         </div>
 
-                                        {% if lineProformas is defined and lineProformas is not null and lineProformas|length > 0 %}
+                                        {% if lineBills is defined and lineBills is not null and lineBills|length > 0 %}
                                             {% set i = 1 %}
-                                            {% for lineproforma in lineProformas  %}
-                                                {% if lineproforma.refProduct is defined and lineproforma.refProduct is not null %}
-                                                    <div class="row formRowReadOnly" id="line_{{ i }}">
+                                            {% for lineBill in lineBills  %}
+                                                {% if lineBill.refProduct is defined and lineBill.refProduct is not null %}
+                                                    <div class="row formRowReadOnly" id="line_5">
                                                         <div class="col-lg-4">
                                                             <h6>Produit {{ i }}</h6>
                                                             <select name="ref_{{ i }}" id="ref_{{ i }}" class="form-control ts-autocomplete" onchange="getInfoProduct({{ i }})">
                                                                 <option value="">Sélectionner</option>
                                                                 {% for produit in produits %}
-                                                                    {% if lineproforma.refProduct.reference == produit.reference %}
+                                                                    {% if lineBill.refProduct.reference == produit.reference %}
                                                                         <option value="P-{{ produit.reference }}" selected>{{ produit.name }}</option>
                                                                     {% else %}
                                                                         <option value="P-{{ produit.reference }}">{{ produit.name }}</option>
                                                                     {% endif %}
                                                                 {% endfor %}
                                                             </select>
-                                                            <br /><input name="cplref_{{ i }}" id="cplref_{{ i }}" value="{{ lineproforma.designationCpt }}" type="text" placeholder="Texte complémentaire sur produit ou service {{ i }}...">
+                                                            <br /><input name="cplref_{{ i }}" id="cplref_{{ i }}" value="{{ lineBill.designationCpt }}" type="text" placeholder="Texte complémentaire Produit ou service {{ i }}...">
                                                         </div>
                                                         <div class="col-lg-2">
                                                             <h6>Quantité</h6>
-                                                            <input name="qte_{{ i }}" id="qte_{{ i }}" value="{{ lineproforma.qte }}" type="text" placeholder="Quantité..." onkeyup="updateAmount({{ i }})">
-                                                            <br /><br /><a href="#" title="Supprimer la ligne" class="ml-2" style="display: inline; color: red" onclick="deleteLineProforma( {{ lineproforma.id }}, {{ i }})"><i class="bi bi-trash3 h3"></i></a>
+                                                            <input name="qte_{{ i }}" id="qte_{{ i }}" value="{{ lineBill.qte }}" type="text" placeholder="Quantité..." onkeyup="updateAmount({{ i }})">
                                                         </div>
                                                         <div class="col-lg-3">
                                                             <h6>Prix Unitaire</h6>
-                                                            <input name="price_{{ i }}" id="price_{{ i }}" value="{{ lineproforma.unitPrice }}" type="text" placeholder="Prix Unitaire..." onkeyup="updateAmount({{ i }})">
+                                                            <input name="price_{{ i }}" id="price_{{ i }}" value="{{ lineBill.unitPrice }}" type="text" placeholder="Prix Unitaire...">
                                                         </div>
                                                         <div class="col-lg-3">
                                                             <h6>Montant HT.</h6>
-                                                            <input name="mnt_{{ i }}" id="mnt_{{ i }}" value="{{ lineproforma.amountHt }}" type="text" placeholder="Montant HT...">
-                                                            <input name="id_{{ i }}" id="id_{{ i }}" type="hidden" value="{{ lineproforma.id }}">
+                                                            <input name="mnt_{{ i }}" id="mnt_{{ i }}" value="{{ lineBill.amountHt }}" type="text" placeholder="Montant HT...">
+                                                            <input name="id_{{ i }}" id="id_{{ i }}" type="hidden" value="{{ lineBill.id }}">
                                                         </div>
                                                     </div>
                                                 {% else %}
-                                                    <div class="row formRowSpe" id="line_{{ i }}">
+                                                    <div class="row formRowSpe" id="line_5">
                                                         <div class="col-lg-4">
                                                             <h6>Service {{ i }}</h6>
-                                                            <select name="ref_{{ i }}" id="ref_{{ i }}" class="form-control ts-autocomplete" onchange="getInfoService({{ i }})">
+                                                            <select name="ref_{{ i }}" id="ref_{{ i }}" class="form-control ts-autocomplete" onchange="getInfoProduct({{ i }})">
                                                                 <option value="">Sélectionner</option>
                                                                 {% for service in services %}
-                                                                    {% if lineproforma.refService.reference == service.reference %}
+                                                                    {% if lineBill.refService.reference == service.reference %}
                                                                         <option value="S-{{ service.reference }}" selected>{{ service.name }}</option>
                                                                     {% else %}
                                                                         <option value="S-{{ service.reference }}">{{ service.name }}</option>
                                                                     {% endif %}
                                                                 {% endfor %}
                                                             </select>
-                                                            <br /><input name="cplref_{{ i }}" id="cplref_{{ i }}" type="text" value="{{ lineproforma.designationCpt }}" placeholder="Texte complémentaire sur produit ou service {{ i }}...">
+                                                            <br /><input name="cplref_{{ i }}" id="cplref_{{ i }}" type="text" value="{{ lineBill.designationCpt }}" placeholder="Texte complémentaire Produit ou service {{ i }}...">
                                                         </div>
                                                         <div class="col-lg-2">
                                                             <h6>Quantité</h6>
-                                                            <input name="qte_{{ i }}" id="qte_{{ i }}" type="text" value="{{ lineproforma.qte }}" placeholder="Quantité..." onkeyup="updateAmount({{ i }})">
-                                                            <br /><br /><a href="#" title="Supprimer la ligne" class="ml-2" style="display: inline; color: red" onclick="deleteLineProforma( {{ lineproforma.id }}, {{ i }})"><i class="bi bi-trash3 h3"></i></a>
+                                                            <input name="qte_{{ i }}" id="qte_{{ i }}" type="text" value="{{ lineBill.qte }}" placeholder="Quantité..." onkeyup="updateAmount({{ i }})">
                                                         </div>
                                                         <div class="col-lg-3">
                                                             <h6>Prix Unitaire</h6>
-                                                            <input name="price_{{ i }}" id="price_{{ i }}" type="text" value="{{ lineproforma.unitPrice }}" placeholder="Prix Unitaire..." onkeyup="updateAmount({{ i }})">
+                                                            <input name="price_{{ i }}" id="price_{{ i }}" type="text" value="{{ lineBill.unitPrice }}" placeholder="Prix Unitaire...">
                                                         </div>
                                                         <div class="col-lg-3">
                                                             <h6>Montant HT.</h6>
-                                                            <input name="mnt_{{ i }}" id="mnt_{{ i }}" type="text" value="{{ lineproforma.amountHt }}" placeholder="Montant HT...">
-                                                            <input name="id_{{ i }}" id="id_{{ i }}" type="hidden" value="{{ lineproforma.id }}">
+                                                            <input name="mnt_{{ i }}" id="mnt_{{ i }}" type="text" value="{{ lineBill.amountHt }}" placeholder="Montant HT...">
+                                                            <input name="id_{{ i }}" id="id_{{ i }}" type="hidden" value="{{ lineBill.id }}">
                                                         </div>
                                                     </div>
                                                 {% endif %}
                                                 {% set i = (i + 1) %}
                                             {% endfor %}
+                                        {% elseif mode is defined and mode is not null and mode == 1 %}
+                                            {% include '/proforma/in/_product.html.twig' %}
+                                        {% elseif mode is defined and mode is not null and mode == 2 %}
+                                            {% include '/proforma/in/_service.html.twig' %}
+                                        {% else %}
+                                            {% include '/proforma/in/_product_service.html.twig' %}
                                         {% endif %}
                                         <!-- end form -->
                                         <div class="btnrow row mx-auto gap-4">
                                             <button type="submit" class="btn-submit">
-                                                <span>Valider pour modifier la proforma</span>
+                                                <span>Valider pour ajouter le produit au référentiel</span>
                                                 <i class="bi bi-arrow-right"></i>
                                             </button>
                                         </div>

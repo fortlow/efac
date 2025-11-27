@@ -105,10 +105,10 @@
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
             },
-            pageLength: 15,
+            pageLength: 10,
             lengthMenu: [
-                [15, 50, 100, 200, 250, -1],
-                [15, 50, 100, 200, 250, 'Toutes']
+                [10, 20, 30, 50, 100, -1],
+                [10, 20, 30, 50, 100, 'Toutes']
             ],
             orderCellsTop: true,
             fixedHeader: true,
@@ -204,10 +204,10 @@
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
                 },
-                pageLength: 50,
+                pageLength: 10,
                 lengthMenu: [
-                    [50, 100, 150, 200, 250, -1],
-                    [50, 100, 150, 200, 250, 'Toutes']
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, 'Toutes']
                 ],
             });
         {% else %}
@@ -221,10 +221,10 @@
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
                 },
-                pageLength: 50,
+                pageLength: 10,
                 lengthMenu: [
-                    [50, 100, 150, 200, 250, -1],
-                    [50, 100, 150, 200, 250, 'Toutes']
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, 'Toutes']
                 ],
             });
         {% endif %}
@@ -292,6 +292,7 @@
         //window.location.href  = window.location.href;
     }
 
+    {#
     function getInfoProduct(num) {
         //console.log('getInfoProduct('+num+')');
         let refProduct = $('#ref_'+num).val();
@@ -305,7 +306,7 @@
             //console.log('refProduct 2 = ('+refProduct+')');
         }
 
-        let pathFeed = '/back/get/info/product';
+        let pathFeed = '{{ path('app_ajax_get_info_product') }}';
 
         $.ajax({
             url: pathFeed,
@@ -346,7 +347,7 @@
             //console.log('refService 2 = ('+refService+')');
         }
 
-        let pathFeed = '/back/get/info/service';
+        let pathFeed = '{{ path('app_ajax_get_info_service') }}';
 
         $.ajax({
             url: pathFeed,
@@ -375,9 +376,10 @@
                 $('#price_'+ num).val('0');
             }
         });
-    }
+    } #}
 
-    function getInfoProdService(num) {
+    function getInfoProdService(num)
+    {
         console.log('getInfoProdService('+num+')');
         let refReference = $('#ref_'+num).val();
         console.log('refReference = ('+refReference+')');
@@ -447,7 +449,39 @@
         }
     }
 
-    function updateAmount(num) {
+    function deleteLineProforma(idLine, num)
+    {
+        console.log('deleteLineProforma - idLine : '+idLine);
+        console.log('deleteLineProforma - num : '+num);
+
+        let pathFeed = '{{ path('app_proforma_delete_line') }}';
+        let line = 'line_'. num;
+
+        console.log('deleteLineProforma - line : '+line);
+
+        $.ajax({
+            url: pathFeed,
+            type: "post",
+            dataType: "json",
+            data: {
+                id: idLine
+            },
+            async: true,
+            success: function (data) {
+                console.log('success');
+                console.log(data);
+                $('#line_'+num).innerHTML = '';
+                window.self.location.reload();
+            },
+            error: function (data) {
+                console.log('error');
+                console.log(data);
+            }
+        });
+    }
+
+    function updateAmount(num)
+    {
         let qte = $('#qte_'+num).val();
         let unitPrice = $('#price_'+num).val();
         if ((typeof qte !== 'undefined') && (qte.length > 0) && (typeof unitPrice !== 'undefined') && (unitPrice.length > 0)) {
@@ -456,7 +490,8 @@
         }
     }
 
-    function addLine() {
+    function addLine()
+    {
         let nbline = $('#nbline').val();
 
         if(parseInt(nbline) < 30) {
@@ -472,7 +507,8 @@
         }
     }
 
-    function deleteLine() {
+    function deleteLine()
+    {
         let nbline = $('#nbline').val();
 
         if(parseInt(nbline) > 1) {
@@ -494,7 +530,8 @@
         }
     }
 
-    function addInterca() {
+    function addInterca()
+    {
         //console.log('addInterca->Ajout intercalaire');
 
         let nbline = $('#nbline').val();
@@ -536,7 +573,8 @@
         $('#interca').val(resInterca);
     }
 
-    function deleteInterca() {
+    function deleteInterca()
+    {
         //console.log('Suppression intercalaire');
         let resInterca = $('#interca').val();
         //console.log('Intercalaire : ' + resInterca);
@@ -559,7 +597,8 @@
     }
 
     // Creation d'un client BLR, la gestion du nombre de lignes
-    function updateTechLine() {
+    function updateTechLine()
+    {
         //console.log('updateTechLine IN');
         let tabMappedLine = { 1: "one", 2: "two", 3: "three", 4:"four" };
         let nbLine = $('#client_nb_line').val();

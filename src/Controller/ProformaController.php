@@ -21,6 +21,7 @@ use Dompdf\Options;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -44,16 +45,15 @@ class ProformaController extends AbstractController
         $this->_em = $em;
         $this->_utilityService = $utileSrv;
         $this->_qrCodeService = $qrCodeService;
-
     }
-    #[Route('/bo/proforma', name: 'app_proforma'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma', name: 'app_proforma'), IsGranted('ROLE_SALE')]
     public function index(ProformaRepository $proformaRepository): Response
     {
         return $this->render('proforma/index.html.twig', [
             'proformas' => $proformaRepository->findAll(),
         ]);
     }
-    #[Route('/bo/proforma/add', name: 'app_proforma_add'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/add', name: 'app_proforma_add'), IsGranted('ROLE_SALE')]
     public function add(Request $request): Response
     {
         try {
@@ -78,6 +78,7 @@ class ProformaController extends AbstractController
                 $this->_qrCodeService->qrcodeGenerate('proforma', $slugCodeSecret);
                 $proforma->setQrCode($slugCodeSecret.'.png');
                 $proforma->setSecretCode($slugCodeSecret);
+                $proforma->setStatus($this->_em->getRepository(RefStatusProforma::class)->find(2));
 
                 $this->_em->persist($proforma);
                 $this->_em->flush();
@@ -96,7 +97,7 @@ class ProformaController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/bo/proforma/add/next/{id}/{mode}', name: 'app_proforma_add_next'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/add/next/{id}/{mode}', name: 'app_proforma_add_next'), IsGranted('ROLE_SALE')]
     public function addNext(ProformaRepository $proformaRepository, int $id, string $mode): Response
     {
         $proforma = $proformaRepository->find($id);
@@ -204,7 +205,7 @@ class ProformaController extends AbstractController
             'idproforma' => $id,
         ]);
     }
-    #[Route('/bo/proforma/edit/{id}', name: 'app_proforma_edit'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/edit/{id}', name: 'app_proforma_edit'), IsGranted('ROLE_SALE')]
     public function edit(Request $request, int $id): Response
     {
         $proforma = $this->_em->getRepository(Proforma::class)->find($id);
@@ -215,6 +216,11 @@ class ProformaController extends AbstractController
         $numeroProforma = $proforma->getNumero();
         $produits = $refProductRepository->findAll();
         $services = $refServiceRepository->findAll();
+
+        if(!is_null($proforma->getStatus()) && $proforma->getStatus()->getId() >= 3) {
+            $this->addFlash('danger', 'Pro Forma validée ou refusée. Elle ne peut donc pas être modifiée.');
+            return $this->redirectToRoute('app_proforma');
+        }
 
         // recuperation des lignes de la proforma
         $lineProformas = null;
@@ -312,7 +318,7 @@ class ProformaController extends AbstractController
             'services' => $services,
         ]);
     }
-    #[Route('/bo/proforma/delete/{id}', name: 'app_proforma_delete'), IsGranted('ROLE_MANAGER')]
+    #[Route('/proforma/delete/{id}', name: 'app_proforma_delete'), IsGranted('ROLE_MANAGER')]
     public function delete(ProformaRepository $proformaRepository,
                            LineProformaRepository $lineProformaRepository,
                            IntercalProformaRepository $intercalProformaRepository, int $id): Response
@@ -338,22 +344,28 @@ class ProformaController extends AbstractController
 
         return $this->redirectToRoute('app_proforma');
     }
-    #[Route('/bo/proforma/transform/to/bill/{id}', name: 'app_proforma_transform_to_bill'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/transform/to/bill/{id}', name: 'app_proforma_transform_to_bill'), IsGranted('ROLE_SALE')]
     public function transformToBill(ProformaRepository $proformaRepository, UtilityService $utilityService,int $id): Response
     {
-        $proforma = $proformaRepository->find($id);
+        try {
+            $proforma = $proformaRepository->find($id);
+            $statusValidProforma = $this->_em->getRepository(RefStatusProforma::class)->find(3);
 
-        if($utilityService->proformaToBillTransformer($proforma)) {
-            $proforma->setFlagTrans(true);
-            $this->_em->flush();
-            $this->addFlash('success', 'Proforma transformée en facture avec succès.');
-        } else {
-            $this->addFlash('danger', 'Échec de transformation de la Proforma en Facture.');
+            if($utilityService->proformaToBillTransformer($proforma)) {
+                $proforma->setFlagTrans(true);;
+                $proforma->setStatus($statusValidProforma);
+                $this->_em->flush();
+                $this->addFlash('success', 'Proforma transformée en facture avec succès.');
+            } else {
+                $this->addFlash('danger', 'Échec de transformation de la Proforma en Facture.');
+            }
+        } catch (\Exception $e) {
+            dump('Exception->transformToBill : '. $e->getMessage());
         }
 
         return $this->redirectToRoute('app_bill');
     }
-    #[Route('/bo/proforma/view/{id}', name: 'app_proforma_view_proforma'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/view/{id}', name: 'app_proforma_view_proforma'), IsGranted('ROLE_SALE')]
     public function getPdfProforma(ProformaRepository $proformaRepository,
                                    IntercalProformaRepository $intercalProformaRepository, int $id): Response
     {
@@ -391,6 +403,8 @@ class ProformaController extends AbstractController
 
             $dompdf = $this->getDompdfProforma($lineProformas, $proforma, $tabContentInterca, $tabNumInterca, $client); // Rendre le HTML au format PDF
             $filenamePdf = $_ENV['DIR_PDF_PRO']. '/proforma_' . $id . '.pdf'; // Exporter le PDF généré vers le navigateur
+            //dump($dompdf);
+            //die('stop');
             //
             $fontMetrics = $dompdf->getFontMetrics();
             $font = $fontMetrics->getFont('helvetica', '9');
@@ -405,7 +419,9 @@ class ProformaController extends AbstractController
             //$canvas->page_text(68, 802, $textThreeFooter, $font, 8, [0,0,0]);
             $canvas->page_text(270, 817, '{PAGE_NUM} / {PAGE_COUNT}', $font, 9, [0,0,0]);
 
+            ob_end_clean();
             $dompdf->stream($filenamePdf, ['Attachment' => false]);
+            //$dompdf->render();
 
             return new Response(
                 $filenamePdf,
@@ -420,7 +436,7 @@ class ProformaController extends AbstractController
             ['content-type' => 'text/plain']
         );
     }
-    #[Route('/bo/proforma/view/proforma/test/{id}', name: 'app_proforma_view_proforma_test'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/view/proforma/test/{id}', name: 'app_proforma_view_proforma_test'), IsGranted('ROLE_SALE')]
     public function getPdfProformaTest(ProformaRepository $proformaRepository,
                                        IntercalProformaRepository $intercalProformaRepository,
                                        UtilityService $utileSrv, int $id): Response
@@ -482,7 +498,7 @@ class ProformaController extends AbstractController
             //'textThreeFooter' => $textThreeFooter,
         ]);
     }
-    #[Route('/bo/proforma/send/proforma/{id}', name: 'app_proforma_send_proforma'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/send/proforma/{id}', name: 'app_proforma_send_proforma'), IsGranted('ROLE_SALE')]
     public function sendPdfProforma(ProformaRepository $proformaRepository,
                                     IntercalProformaRepository $intercalProformaRepository, MailerInterface $mailer,
                                     int $id): Response
@@ -604,5 +620,22 @@ class ProformaController extends AbstractController
         // md5() reduces the similarity of the file names generated by
         // uniqid(), which is based on timestamps
         return md5(uniqid());
+    }
+    #[Route('/proforma/line/delete', name: 'app_proforma_delete_line')]
+    public function deleteLineProforma(Request $request, LineProformaRepository $lineProformaRepository): JsonResponse
+    {
+        try {
+            $idLine = $request->get('id');
+            $lineProforma = $lineProformaRepository->find(intval($idLine));
+            $this->_em->remove($lineProforma);
+            $this->_em->flush();
+
+            return $this->json(true);
+
+        } catch (\Exception $e) {
+            dump('Exception deleteLineProforma', $e->getMessage());
+            return $this->json(false);
+        }
+
     }
 }

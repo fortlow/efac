@@ -12,7 +12,7 @@
                     <div class="privacy-content">
 
                         <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
-                            <h3>Référentiel - Services</h3>
+                            <h3>Référentiel des services</h3>
                         </div>
 
                         {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
@@ -49,7 +49,7 @@
                                         <td class="odd">{{ nb }}</td>
                                         <td class="odd">{{ ref.reference }}</td>
                                         <td class="odd">
-                                            {% if ref.picture is defined and ref.picture is not null %}
+                                            {% if ref.picture is defined and ref.picture is not null and ref.picture|length > 0 %}
                                                 {% set photo = ref.picture %}
                                                 <img src="{{ asset('img/photo/'~ ref.picture ) }}" class="imgRounded" alt="" width="50" height="46">&nbsp;
                                             {% endif %}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserAccountType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
@@ -33,7 +34,7 @@ class RegistrationController extends AbstractController
         $this->_em = $em;
     }
 
-    #[Route('/bo/user', name: 'app_user'), IsGranted('ROLE_ADMIN')]
+    #[Route('/users', name: 'app_user'), IsGranted('ROLE_MANAGER')]
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('registration/index.html.twig', [
@@ -41,7 +42,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/user/add', name: 'app_add_user'), IsGranted('ROLE_ADMIN')]
+    #[Route('/user/add', name: 'app_add_user'), IsGranted('ROLE_MANAGER')]
     public function add(Request $request, MailerInterface $mailer,
                         UserPasswordHasherInterface $userPasswordHasher, UtilityService $utilityService): Response
     {
@@ -123,7 +124,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/user/edit/{id}', name: 'app_edit_user'), IsGranted('ROLE_ADMIN')]
+    #[Route('/user/edit/{id}', name: 'app_edit_user'), IsGranted('ROLE_MANAGER')]
     public function edit(int $id, Request $request, UserRepository $userRepository,
                          UtilityService $utilityService): Response
     {
@@ -179,7 +180,7 @@ class RegistrationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/bo/user/delete/{id}', name: 'app_delete_user'), IsGranted('ROLE_ADMIN')]
+    #[Route('/user/delete/{id}', name: 'app_delete_user'), IsGranted('ROLE_MANAGER')]
     public function delete(int $id, UserRepository $userRepository): Response
     {
         try {
@@ -194,9 +195,73 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_user');
     }
+    #[Route('/user/my/account', name: 'app_user_my_account'), IsGranted('ROLE_USER')]
+    public function modifyMyAccount(Request $request, UserPasswordHasherInterface $userPasswordHasher,
+                                    UtilityService $utilityService): Response
+    {
+        $user = $this->getUser();
+        if(!is_null($user))
+        {
+
+            dump($user);
+            $flag = false;
+            $form = $this->createForm(UserAccountType::class, $user);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $user = $form->getData();
+                    $user->setLastname(strtoupper($user->getLastname()));
+                    $user->setFirstname(ucfirst($user->getFirstname()));
+                    $MyPassword = $form->get('new_password')->getData();
+
+                    // Traitement du mot de passe, on écrase l'ancien mot de passe à tous les coups.
+                    if(!is_null($MyPassword))
+                    {
+                        $userPwd = new User();
+                        $user->setPassword($userPasswordHasher->hashPassword($userPwd, $MyPassword));
+                        $flag = true;
+                    }
+                    // Traitement de la photo de l'image
+                    $photo = $form['photo']->getData();
+
+                    if (!is_null($photo)) {
+                        $file = new File($photo->getPathname());
+                        $fileName = $utilityService->generateUniqueLongFileName() . '.' . $file->guessExtension();
+                        $realPath = $_ENV['DIR_PHOTO'];
+                        try {
+                            $file->move($realPath, $fileName);
+                            $user->setPhoto($fileName);
+                        }
+                        catch (\Exception $e) {
+                            $this->addFlash('danger', 'Echec de récupération de la photo.');
+                        }
+                    }
+
+                    $this->_em->flush();
+                    $this->addFlash('success', 'Compte utilisateur modifié avec succès.');
+                    if($flag) {
+                        return $this->redirectToRoute('app_logout');
+                    }
+
+                } catch (\Exception $exception) {
+                    $this->addFlash('danger', 'Echec de modification du compte utilisateur.');
+                    dump('exception', $exception->getMessage());
+                }
+            }
+
+            return $this->render('registration/account-user.html.twig', [
+                'form' => $form->createView(),
+                'user' => $user,
+            ]);
+        } else {
+            $this->addFlash('danger', 'Problème d\'authentification! Impossible d\'accéder à votre compte.');
+            return $this->redirectToRoute('app_home');
+        }
+    }
 
 
-    #[Route('/bo/verify/email', name: 'app_verify_email')]
+    #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

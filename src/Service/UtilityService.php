@@ -69,6 +69,8 @@ class UtilityService
 
             // lignes de la facture
             foreach ($proforma->getLineProformas() as $lineProforma) {
+                dump('lineProforma', $lineProforma);
+
                 $lineBill = new LineBill();
                 $lineBill->setBill($bill);
                 $lineBill->setRefService($lineProforma->getRefService());
@@ -78,8 +80,24 @@ class UtilityService
                 $lineBill->setUnitPrice($lineProforma->getUnitPrice());
                 $lineBill->setAmountHt($lineProforma->getAmountHt());
                 $lineBill->setCreatedAt(new \DateTime('now'));
-                $lineBill->setPrctDiscount($lineProforma->getQte());
-                $lineBill->setAmountDiscount($lineProforma->getQte());
+
+                dump('prctDiscount : ', $proforma->getPrctDiscount());
+
+                // Calcul du montant de reduction si reduction
+                if(!is_null($proforma->getPrctDiscount())) {
+                    $mntProdOrService = ( intval($lineProforma->getUnitPrice()) * intval($lineProforma->getQte()) );
+                    $mntDiscountProdOrService = ( ($mntProdOrService * intval($proforma->getPrctDiscount())) / 100);
+
+                    dump('mntProdOrService', $mntProdOrService);
+                    dump('mntDiscountProdOrService', $mntDiscountProdOrService);
+                    //
+                    $lineBill->setPrctDiscount($proforma->getPrctDiscount());
+                    $lineBill->setAmountDiscount($mntDiscountProdOrService);
+                } else {
+                    $lineBill->setPrctDiscount(null);
+                    $lineBill->setAmountDiscount(null);
+                }
+
                 $this->_em->persist($lineBill);
                 $bill->addLineBill($lineBill);
             }
@@ -110,6 +128,9 @@ class UtilityService
 
             return true;
         } catch (\Exception $e) {
+
+            dump('Exception->proformaToBillTransformer : '. $e->getMessage());
+
             return false;
         }
     }

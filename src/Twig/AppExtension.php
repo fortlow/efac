@@ -3,12 +3,21 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use App\Service\QrCodeService;
+use App\Service\UtilityService;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+    private EntityManagerInterface $_em;
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->_em = $em;
+    }
+
     /**
      * @return array
      */
@@ -122,8 +131,8 @@ class AppExtension extends AbstractExtension
     {
         return match ($code) {
             'ROLE_ADMIN' => 'Administrateur',
-            'ROLE_GESTIONNAIRE' => 'Gestionnaire',
-            'ROLE_SALARIE' => 'Salarié(e)',
+            'ROLE_MANAGER' => 'Gestionnaire',
+            'ROLE_SALE' => 'Commercial(e)',
             'ROLE_CLIENT' => 'Client',
             'ROLE_COMPTABLE' => 'Comptable',
             default => '',

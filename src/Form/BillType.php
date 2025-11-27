@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Proforma;
+use App\Entity\Bill;
 use App\Entity\Client;
-use App\Entity\RefStatusProforma;
+use App\Entity\RefStatusBill;
+use App\Entity\RefPaymentMethod;
 use App\Repository\ClientRepository;
 use App\Form\DataTransformer\StringToDateTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,7 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProformaType extends AbstractType
+class BillType extends AbstractType
 {
     private StringToDateTransformer $transformer;
 
@@ -29,12 +30,11 @@ class ProformaType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $numeroProforma = $options['label'];
+        $numeroBill = $options['label'];
         $mode = $options['translator'];
         $targetPro = $options['translation_domain'];
 
         $builder
-            /*->add('client', ClientAutocompleteField::class)*/
             ->add('client', EntityType::class, [
                 'autocomplete' => true,
                 'class' => Client::class,
@@ -49,22 +49,25 @@ class ProformaType extends AbstractType
                 'attr' => ['class' => 'form-control',],
             ])
             ->add('is_with_tps', ChoiceType::class, [
-                'label' => 'Proforma avec la TPS ?',
+                'label' => 'Facture avec la TPS ?',
                 'choices' => [
                     'Non' => false,
                     'Oui' => true,
                 ],
-                'attr' => [ 'class' => 'form-control',],
+                'attr' => [ 'class' => 'form-control', ],
+                'autocomplete' => true,
             ])
             ->add('is_without_tva', ChoiceType::class, [
-                'label' => 'Proforma sans TVA ?',
+                'label' => 'Facture sans TVA ?',
                 'choices' => [
                     'Non' => false,
                     'Oui' => true,
                 ],
-                'attr' => [ 'class' => 'form-control',],
+                'attr' => [ 'class' => 'form-control', ],
+                'autocomplete' => true,
             ])
             ->add('banque', ChoiceType::class, [
+                'autocomplete' => true,
                 'label' => 'Banque de paiement',
                 'placeholder' => 'Sélectionnez...',
                 'choices' => [
@@ -77,40 +80,42 @@ class ProformaType extends AbstractType
         if ('create' === $mode) {
             $builder
                 ->add('numero', TextType::class, [
-                    'label' => 'Numéro de la proforma',
-                    'data' => $numeroProforma,
+                    'label' => 'Numéro facture',
+                    'data' => $numeroBill,
                     'attr' => [
                         'class' => 'form-control',
                         'readonly' => 'readonly',
-                        'placeholder' => 'Numéro de la proforma...',
-                        'title' => 'Numéro de la proforma',
+                        'placeholder' => 'Numéro de la facture...',
+                        'title' => 'Numéro de la facture',
                     ],
                 ])
                 ->add('targetpro', ChoiceType::class, [
-                    'label' => 'Proforma basée sur ',
+                    'label' => 'Facture basée sur ',
                     'choices' => [
                         'Les produits & services' => 3,
                     ],
                     'attr' => [
                         'class' => 'form-control',
                     ],
+                    'autocomplete' => true,
                     'multiple' => false,
                     'mapped' => false,
                 ])
             ;
+
         } else {
             $builder
                 ->add('numero', TextType::class, [
-                    'label' => 'Numéro de la proforma',
+                    'label' => 'Numéro facture',
                     'attr' => [
                         'class' => 'form-control',
                         'readonly' => 'readonly',
-                        'placeholder' => 'Numéro de la proforma...',
-                        'title' => 'Numéro de la proforma',
+                        'placeholder' => 'Numéro de la facture...',
+                        'title' => 'Numéro de la facture',
                     ],
                 ])
                 ->add('targetpro', ChoiceType::class, [
-                    'label' => 'Proforma basée sur ',
+                    'label' => 'Facture basée sur ',
                     'choices' => [
                         'Les produits' => 1,
                         'Les services' => 2,
@@ -119,15 +124,24 @@ class ProformaType extends AbstractType
                     'data' => $targetPro,
                     'attr' => [
                         'class' => 'form-control',
-                        'readonly' => 'readonly',
                     ],
                     'multiple' => false,
                     'mapped' => false,
                 ])
-                ->add('status', EntityType::class, [
+                ->add('status_bill', EntityType::class, [
                     'autocomplete' => true,
-                    'class' => RefStatusProforma::class,
+                    'class' => RefStatusBill::class,
                     'label' => 'Statut',
+                    'placeholder' => 'Sélectionnez',
+                    'choice_value' => 'id',
+                    'choice_label' => 'label',
+                    'attr' => ['class' => 'form-control',],
+                    'required' => false,
+                ])
+                ->add('payment_method', EntityType::class, [
+                    'autocomplete' => true,
+                    'class' => RefPaymentMethod::class,
+                    'label' => 'Mode de paiement',
                     'placeholder' => 'Sélectionnez',
                     'choice_value' => 'id',
                     'choice_label' => 'label',
@@ -136,12 +150,13 @@ class ProformaType extends AbstractType
                 ])
             ;
         }
+
         $builder
             ->add('subject', TextType::class, [
-                'label' => 'Objet de la proforma',
+                'label' => 'Objet de la facture',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Objet de la proforma...',
+                    'placeholder' => 'Objet de la facture...',
                     'title' => 'Numéro du devis',
                     'maxlength' => 255,
                 ],
@@ -156,12 +171,11 @@ class ProformaType extends AbstractType
                 'required' => false,
             ])
             ->add('due_date', DateType::class, [
-                'label' => "Date d'échéance en cas de facture",
+                'label' => "Date d'échéance",
                 'attr'  => [
                     'placeholder' => 'Date échéance de la facture...',
                 ],
                 'widget'    => 'single_text',
-                'required' => false,
             ])
             ->add('prct_discount', NumberType::class, [
                 'label' => 'Réduction en pourcentage',
@@ -185,21 +199,21 @@ class ProformaType extends AbstractType
                 'label' => 'Conditions de règlement',
                 'data' => '100% COMPTANT',
                 'attr' => [
-                    'rows' => 4,
-                    'plugins' => 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion',
-                    'toolbar' => 'undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl',
-                    'images_upload_url' => '/back/blog/post/upload/image',
+                    'class' => 'form-control',
+                    'placeholder' => 'Conditions de règlement...',
+                    'title' => 'Conditions de règlement',
                 ],
                 'required' => false,
             ])
         ;
 
-        $builder->get('due_date')->addModelTransformer($this->transformer);
+        $builder->get('due_date')
+            ->addModelTransformer($this->transformer);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Proforma::class,]);
+        $resolver->setDefaults(['data_class' => Bill::class,]);
         $resolver->setRequired('label');
         $resolver->setRequired('translator');
         $resolver->setRequired('translation_domain');

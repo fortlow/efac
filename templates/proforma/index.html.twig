@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}eFac | Liste des proforma{% endblock %}
+{% block title %}eFac | Pro Forma - Liste des Pro Forma{% endblock %}
 
 {% block content %}
 
@@ -12,15 +12,17 @@
                     <div class="privacy-content">
 
                         <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
-                            <h3>Proforma - Liste des proforma</h3>
+                            <h3>Pro Forma - Liste</h3>
                         </div>
 
                         <!-- .sous-menu rubrique -->
-                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] %}
                             <div class="meta-bottom" style="text-align: center;">
                                 <div class="share-section">
                                     <div class="social-links" style="vertical-align: middle">
-                                        <a href="{{ path('app_proforma_add') }}" title="Ajouter une proforma"><i class="bi bi-file-plus h3"></i></a>
+                                        <a href="{{ path('app_bill') }}" title="Listing des factures"><i class="bi bi-file-earmark-post-fill h3"></i></a>
+                                        <span class="ml-3">&nbsp;</span>
+                                        <a href="{{ path('app_proforma_add') }}" title="Créer une proforma"><i class="bi bi-file-plus h3"></i></a>
                                     </div>
                                 </div>
 
@@ -57,7 +59,7 @@
                                         </td>
                                         <td class="odd">
                                             {% if proforma.client is defined and proforma.client is not null %}
-                                                {{ proforma.client.sreason }}
+                                                {{ proforma.client.sreason|upper }}
                                             {% endif %}
                                         </td>
                                         <td class="odd" style="text-align: center">
@@ -90,7 +92,10 @@
                                         </td>
                                         <td class="odd text-nowrap" style="text-align: center">
                                             {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN','ROLE_MANAGER'] %}
-                                                <a href="{{ path('app_proforma_edit', {'id':proforma.id}) }}" title="Modifier" style="margin-left: .2em;"><i class="bi bi-pencil-square h5"></i></a>
+
+                                                {% if proforma.status is defined and proforma.status is not null and proforma.status.id < 3 %}
+                                                    <a href="{{ path('app_proforma_edit', {'id':proforma.id}) }}" title="Modifier" style="margin-left: .2em;"><i class="bi bi-pencil-square h5"></i></a>
+                                                {% endif %}
 
                                                 {% if proforma.flagTrans is defined and proforma.flagTrans is null %}
                                                     <a href="{{ path('app_proforma_transform_to_bill', {'id':proforma.id}) }}" title="Transformer en facture" style="margin-left: .2em;"><i class="bi bi-disc h5"></i></a>

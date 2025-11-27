@@ -9,7 +9,7 @@
             src: url("https://mdn.github.io/css-examples/web-fonts/VeraSeBd.ttf");
         }
 
-        {% set urlLogoBg = url('app_home') ~ "/pdf/logobg.png" %}
+        {% set urlLogoBg = url('app_home') ~ "/pdf/logo.png" %}
         body {
             font-family: "Bitstream Vera Serif Bold", serif;
             font-size: 0.9rem !important;
@@ -59,15 +59,15 @@
     </style>
 </head>
 <body>
-<table width="100%" style="border: none; height: auto">
+<table style="width:100%; border: none; height: auto">
     <tr>
-        <td style="vertical-align: top; border: none;" width="100%">
-            <table width="100%" style="border: none">
+        <td style="width:100%; vertical-align: top; border: none;">
+            <table style="width:100%; border: none">
                 <tr>
-                    <td style="vertical-align: top; border: none" width="45%">
+                    <td style="width:45%; vertical-align: top; border: none">
                         <img width="220px" src="{{ logoB2m }}" alt="LOGO-B2MT">
                     </td>
-                    <td style="vertical-align: top; border: none; text-align: right" width="55%">
+                    <td style="width:55%; vertical-align: top; border: none; text-align: right">
                         <p class="mb-2 fw-bold">B2M TECHNOLOGIES</p>
                         <p class="mb-0 text-header">SA au Capital de 5 000 000 F CFA</p>
                         <p class="mb-0 text-header">N° du RCCM : GA-LBV-01-20200-B12-00140 / N° NIF : 202201003877-K</p>
@@ -78,7 +78,7 @@
                 </tr>
             </table>
 
-            <table width="100%" style="border: none">
+            <table style="width:100%; border: none">
                 <tr>
                     <td style="vertical-align: middle; border: none; font-size: 1.1rem" width="40%">
                         <p class="mb-0">Date: {{ bill.createdAt|date('d/m/Y') }}</p>
@@ -123,20 +123,20 @@
             <table class="mx-auto mb-0 text-black text-center" width="100%">
                 <thead>
                 <tr style=" background-color: #eee;">
-                    <th width="10%">Référence</th>
-                    <th width="45%">Désignation</th>
+                    <th style="width:10%">Référence</th>
+                    <th style="width:45%">Désignation</th>
                     {% if typeOpe is defined and typeOpe is not null and typeOpe == 'produit' %}
-                        <th width="5%" style="text-align: center">Qté</th>
+                        <th style="width:5%; text-align: center">Qté</th>
                     {% else %}
-                        <th width="5%" style="text-align: center">Qté</th>
+                        <th style="width:5%; text-align: center">Qté</th>
                     {% endif %}
-                    <th width="18%">Px unitaire</th>
-                    <th width="7%">Rem%</th>
-                    <th width="15%">Montant HT</th>
+                    <th style="width:18%">Px unitaire</th>
+                    <th style="width:7%">Rem%</th>
+                    <th style="width:15%">Montant HT</th>
 
                     <!-- .gestion TPS -->
                     {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
-                        <th width="10%" style="vertical-align: middle; text-align: center">TPS</th>
+                        <th style="width:10%; vertical-align: middle; text-align: center">TPS</th>
                     {% endif %}
                     <!-- /.gestion TPS -->
                 </tr>
@@ -188,9 +188,9 @@
                             {% set intercalaire = intercalaires[nbNumInterca]|replace({'#':"<br />"}) %}
                             <!-- .gestion TPS -->
                             {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
-                                <tr><td colspan="7" bgcolor="#eee"><b>{{ intercalaire|raw }}</b></td></tr>
+                                <tr><td colspan="7" style="background-color: #eee"><b>{{ intercalaire|raw }}</b></td></tr>
                             {% else %}
-                                <tr><td colspan="6" bgcolor="#eee"><b>{{ intercalaire|raw }}</b></td></tr>
+                                <tr><td colspan="6" style="background-color: #eee"><b>{{ intercalaire|raw }}</b></td></tr>
                             {% endif %}
                             <!-- /.gestion TPS -->
 
@@ -198,8 +198,8 @@
                         <!-- /.Test si intercalaire -->
 
                         <tr>
-                            <td width="10%" style="vertical-align: middle"><small>{{ ref }}</small></td>
-                            <td width="45%" style="vertical-align: middle" class="text-start text-justify">
+                            <td style="width:10%; vertical-align: middle"><small>{{ ref }}</small></td>
+                            <td style="width:45%; vertical-align: middle" class="text-start text-justify">
                                 {% if line.designation is defined and line.designation is not null and line.designation|length > 0 %}
                                     {% if line.designationCpt is defined and line.designationCpt is not null and line.designationCpt|length > 0 %}
                                         {{ line.designation }}
@@ -209,45 +209,22 @@
                                     {% endif %}
                                 {% endif %}
                             </td>
-                            <td width="5%" style="vertical-align: middle; text-align: center">{{ line.qte }}</td>
-                            <td width="20%" style="vertical-align: middle">{{ line.unitPrice|number_format(0, ',', ' ') }}</td>
-                            <td width="10%" style="vertical-align: middle; text-align: center">
+                            <td style="width:5%; vertical-align: middle; text-align: center">{{ line.qte }}</td>
+                            <td style="width:20%; vertical-align: middle">{{ line.unitPrice|number_format(0, ',', ' ') }}</td>
+                            <td style="width:10%; vertical-align: middle; text-align: center">
                                 {% if bill.prctDiscount is defined and bill.prctDiscount is not null %}{{ bill.prctDiscount }}{% else %}0{% endif %}%
-                                {#
-                                {% if line.prctDiscount is defined and line.prctDiscount is not null %}
-                                    {{ line.prctDiscount|number_format(0, ',', ' ') }}%
-                                {% endif %}
-                                #}
                             </td>
-                            <td width="10%" style="vertical-align: middle">
+                            <td style="width:10%; vertical-align: middle">
                                 {{ (line.amountHt - ((bill.prctDiscount / 100) * line.amountHt))|number_format(0, ',', ' ') }}
-                                {#
-                                {% if line.amountDiscount is defined and line.amountDiscount is not null %}
-                                    {{ line.amountDiscount|number_format(0, ',', ' ') }}
-                                {% else %}
-                                    {{ line.amountHt|number_format(0, ',', ' ') }}
-                                {% endif %}
-                                #}
                             </td>
 
                             <!-- .gestion TPS -->
                             {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
-                                <th width="10%"></th>
+                                <th style="width:10%"></th>
                             {% endif %}
                             <!-- /.gestion TPS -->
 
                         </tr>
-
-                        {#
-                        {% set nbLine = (nbLine + 1) %}
-                        {% set nbNumInterca = (nbNumInterca + 1) %}
-
-                        {% if line.amountDiscount is defined and line.amountDiscount is not null %}
-                            {% set totHt = (totHt + line.amountDiscount) %}
-                        {% else %}
-                            {% set totHt = (totHt + line.amountHt) %}
-                        {% endif %}
-                        #}
 
                         {% set nbLine = (nbLine + 1) %}
                         {% set nbNumInterca = (nbNumInterca + 1) %}
@@ -261,22 +238,22 @@
                         {# set mntTps = bill.wfAmount * 0.095 #}
                         {% set totHt = (totHt + bill.wfAmount) %}
                         <tr>
-                            <td width="10%" style="vertical-align: middle"><small>FM</small></td>
-                            <td width="45%" class="text-start text-justify; vertical-align: middle">
-                                <u>Forfait main d'oeuvre</u>:
+                            <td style="width:10%; vertical-align: middle"><small>FM</small></td>
+                            <td style="width:45%" class="text-start text-justify; vertical-align: middle">
+                                <u>Forfait main d'œuvre</u>:
                                 {% if bill.detailMainOeuvre is defined and bill.detailMainOeuvre is not null %}
                                     <br />
                                     <small>{{ bill.detailMainOeuvre|nl2br }}</small>
                                 {% endif %}
                             </td>
-                            <td width="5%" style="text-align: center; vertical-align: middle">1</td>
-                            <td width="20%" style="vertical-align: middle">{{ bill.wfAmount|number_format(0, ',', ' ') }}</td>
-                            <td width="10%"></td>
-                            <td width="10%" style="vertical-align: middle">{{ bill.wfAmount|number_format(0, ',', ' ') }}</td>
+                            <td style="width:5%; text-align: center; vertical-align: middle">1</td>
+                            <td style="width:20%; vertical-align: middle">{{ bill.wfAmount|number_format(0, ',', ' ') }}</td>
+                            <td style="width:10%"></td>
+                            <td style="width:10%; vertical-align: middle">{{ bill.wfAmount|number_format(0, ',', ' ') }}</td>
 
                             <!-- .gestion TPS -->
                             {% if bill.isWithTps is defined and bill.isWithTps is not null and bill.isWithTps == true %}
-                                <th width="10%" style="vertical-align: middle; text-align: center">9,5%</th>
+                                <th style="width:10%; vertical-align: middle; text-align: center">9,5%</th>
                             {% endif %}
                             <!-- /.gestion TPS -->
                         </tr>
@@ -294,12 +271,12 @@
 
                 {% else %}
                     <tr>
-                        <td width="10%"></td>
-                        <td width="45%" class="text-start text-justify"></td>
-                        <td width="5%"></td>
-                        <td width="20%"></td>
-                        <td width="10%"></td>
-                        <td width="10%"></td>
+                        <td style="width:10%"></td>
+                        <td style="width:45%" class="text-start text-justify"></td>
+                        <td style="width:5%"></td>
+                        <td style="width:20%"></td>
+                        <td style="width:10%"></td>
+                        <td style="width:10%"></td>
                     </tr>
                     {% if bill.condReglt is defined and bill.condReglt is not null %}
                         <tr>
@@ -314,7 +291,7 @@
                 </tbody>
             </table>
 
-            <table class="mx-auto mb-4 text-black text-center" width="100%">
+            <table class="mx-auto mb-4 text-black text-center" style="width:100%">
                 <thead>
                 <tr style="background-color: #eee;">
                     <th style="width: 2rem !important;">Code</th>
@@ -371,7 +348,6 @@
                         {% endif %}
                     </td>
                     <td class="text-end">
-                        {# set totHt = (totHt - mntTps) #}
                         {% set mntTva = ((totHt * tTva)/100) %}
 
                         {% if client.country is defined and client.country is not null and client.country != 'Gabon' %}
@@ -433,7 +409,6 @@
                             {{ mntNetApayer|number_format(0, ',', ' ') }}
                         {% endif %}
                         <!-- /.gestion TPS -->
-
                     </td>
                 </tr>
                 </tbody>

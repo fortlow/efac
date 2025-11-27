@@ -18,12 +18,12 @@
 
                         {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
                             <!-- .sous-menu rubrique -->
-                            <div class="meta-bottom" style="text-align: right; margin-bottom: 2em;">
+                            <div class="meta-bottom" style="text-align: center; margin-bottom: 2em;">
                                 <div class="share-section">
                                     <div class="social-links">
-                                        <a href="{{ path('app_client') }}" title="Liste des clients"><i class="bi bi-person-vcard-fill h3"></i></a>
+                                        <a href="{{ path('app_client') }}" title="Liste des clients"><i class="bi bi-people h3"></i></a>
                                         <span class="ml-5">&nbsp;</span>
-                                        <a href="{{ path('app_client_contact', {'id':id}) }}" title="Listing des contacts"><i class="bi bi-person-rolodex h3"></i></a>
+                                        <a href="{{ path('app_client_contact', {'id':id}) }}" title="Listing des contacts"><i class="bi bi-people-fill h3"></i></a>
                                     </div>
                                 </div>
                             </div>

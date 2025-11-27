@@ -12,7 +12,7 @@
                     <div class="privacy-content">
 
                         <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
-                            <h3>Référentiel - Produits</h3>
+                            <h3>Référentiel des produits</h3>
                         </div>
 
                         <!-- .sous-menu rubrique -->
@@ -51,7 +51,7 @@
                                         <td class="odd">{{ ref.reference }}</td>
                                         <td class="odd">
                                             {{ ref.name }}
-                                            {% if ref.picture is defined and ref.picture is not null %}
+                                            {% if ref.picture is defined and ref.picture is not null and ref.picture|length > 0 %}
                                                 {% set photo = ref.picture %}
                                                 <div class="image-container">
                                                     <img class="imgzoom" src="{{ asset('img/photo/'~ ref.picture ) }}" alt="{{ ref.name }}">

@@ -20,6 +20,8 @@
                             <div class="meta-bottom" style="text-align: center;">
                                 <div class="share-section">
                                     <div class="social-links" style="vertical-align: middle">
+                                        <a href="#" title="Téléverser vos clients" class="twitter"><i class="bi bi-cloud-arrow-up h3"></i></a>
+                                        <span class="ml-3">&nbsp;</span>
                                         <a href="{{ path('app_client_add') }}" title="Ajouter un client"><i class="bi bi-person-plus h3"></i></a>
                                     </div>
                                 </div>
@@ -46,14 +48,14 @@
                             {% if clients is defined and clients is not null and clients|length > 0 %}
                                 {% set nb = 1 %}
                                 {% for client in clients %}
-                                    <tr>
+                                    <tr style="vertical-align: middle">
                                         <td class="odd">{{ nb }}</td>
                                         <td class="odd" style="text-align: center">
                                             {% if client.numAccount is defined and client.numAccount is not null %}
                                                 {{ client.numAccount }}
                                             {% endif %}
                                         </td>
-                                        <td class="odd">{{ client.sreason }}</td>
+                                        <td class="odd">{{ client.sreason|upper }}</td>
                                         <td class="odd" style="text-align: center">
                                             {% if client.typeClient is defined and client.typeClient is not null %}
                                                 {{ client.typeClient.label }}
@@ -71,11 +73,10 @@
                                             {% endif %}
                                         </td>
                                         <td class="odd" style="text-align: right">
-                                            <a href="{{ path('app_client_contact', {'id':client.id }) }}" title="Liste des contacts"><i class="bi bi-person-vcard-fill h4"></i></a>
-                                            <a href="#" title="Proforma" style="margin-left: .1em;"><i class="bi bi-card-heading h4"></i></a>
-                                            <a href="#" title="Factures" style="margin-left: .1em;"><i class="bi bi-card-checklist h4"></i></a>
+                                            <a href="{{ path('app_client_contact', {'id':client.id }) }}" title="Liste des contacts"><i class="bi bi-people-fill h4"></i></a>
+                                            <a href="#" title="Pro Forma de {{ client.sreason }}" style="margin-left: .1em;"><i class="bi bi-file-earmark-ruled h5"></i></a>
+                                            <a href="#" title="Factures de {{ client.sreason }}" style="margin-left: .1em;"><i class="bi bi-file-earmark-post-fill h5"></i></a>
                                             <a href="{{ path('app_client_edit', {'id':client.id }) }}" title="Modifier" style="margin-left: .4em;"><i class="bi bi-pencil-square h5"></i></a>
-                                            {# <a href="{{ path('app_send_mail_contact', {'id':client.id }) }}" title="Envoyer mail au contact" style="margin-left: .2em;"><i class="bi bi-envelope-arrow-up h5"></i></a> #}
 
                                             {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
                                                 <a href="{{ path('app_client_delete', {'id':client.id }) }}" title="Supprimer" style="margin-left: .2em; color: orangered"><i class="bi bi-trash3 h5"></i></a>

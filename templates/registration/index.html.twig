@@ -34,11 +34,11 @@
                             <tr>
                                 <th style="width: 2%">#</th>
                                 <th style="width: 18%">Nom</th>
-                                <th style="width: 16%">Prénom</th>
+                                <th style="width: 14%">Prénom</th>
                                 <th style="width: 20%">Email</th>
                                 <th style="width: 10%">Rôle</th>
                                 <th style="width: 18%;">Fonction</th>
-                                <th style="width: 10%; text-align: center">Connecté(e) le</th>
+                                <th style="width: 12%; text-align: center">Connecté(e) le</th>
                                 <th style="width: 6%; text-align: center">Actions</th>
                             </tr>
                             </thead>
@@ -87,8 +87,11 @@
                                             {{ 'now'|date('d/m/y H:i') }}
                                         </td>
                                         <td class="odd" style="vertical-align: middle; text-align: center">
+                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_MANAGER' in app.user.roles %}
+                                                <a href="{{ path('app_edit_user', {'id':user.id }) }}" title="Modifier"><i class="bi bi-pencil-square h3"></i></a>
+                                            {% endif %}
+
                                             {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
-                                                <a href="{{ path('app_edit_user', {'id':user.id }) }}" title="Modifier"><i class="bi bi-pencil-square h4"></i></a>
                                                 <a href="{{ path('app_delete_user', {'id':user.id }) }}" title="Supprimer" style="margin-left: .4em; color: orangered"><i class="bi bi-trash3 h4"></i></a>
                                             {% endif %}
                                         </td>
