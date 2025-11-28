@@ -46,9 +46,6 @@ security:
     # Note: Only the *first* access control that matches will be used [ IS_AUTHENTICATED_FULLY, ROLE_USER ]
     access_control:
         - { path: ^/bo, roles: ROLE_USER }
-        - { path: ^/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/login/$, roles: PUBLIC_ACCESS }
-        - { path: ^/logout, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
