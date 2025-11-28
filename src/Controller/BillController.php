@@ -37,14 +37,14 @@ class BillController extends AbstractController
         $this->_em = $em;
     }
 
-    #[Route('/bill', name: 'app_bill'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/bill', name: 'app_bill'), IsGranted('ROLE_SALE')]
     public function index(BillRepository $billRepository): Response
     {
         return $this->render('bill/index.html.twig', [
             'bills' => $billRepository->findBillClientClassic(),
         ]);
     }
-    #[Route('/bill/add', name: 'app_bill_add'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/bill/add', name: 'app_bill_add'), IsGranted('ROLE_SALE')]
     public function add(Request $request, UtilityService $utilityService, QrCodeService $qrCodeService): Response
     {
         try {
@@ -91,7 +91,7 @@ class BillController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/bill/add/next/{id}/{mode}', name: 'app_bill_add_next'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/bill/add/next/{id}/{mode}', name: 'app_bill_add_next'), IsGranted('ROLE_SALE')]
     public function addNext(BillRepository $billRepository, int $id, string $mode): Response
     {
         $bill = $billRepository->find($id);
@@ -202,7 +202,7 @@ class BillController extends AbstractController
             'mode' => $mode,
         ]);
     }
-    #[Route('/bill/edit/{id}', name: 'app_bill_edit'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/bill/edit/{id}', name: 'app_bill_edit'), IsGranted('ROLE_SALE')]
     public function edit(Request $request, BillRepository $billRepository, int $id): Response
     {
         $lineBillRepository = $this->_em->getRepository(LineBill::class);
@@ -315,7 +315,7 @@ class BillController extends AbstractController
             'mode' => $targetPro,
         ]);
     }
-    #[Route('/bill/delete/{id}', name: 'app_bill_delete'), IsGranted('ROLE_MANAGER')]
+    #[Route('/bo/bill/delete/{id}', name: 'app_bill_delete'), IsGranted('ROLE_MANAGER')]
     public function delete(Request $request, BillRepository $billRepository, LineBillRepository $lineBillRepository,
                            IntercalBillRepository $intercaBillRepository, int $id): Response
     {
@@ -351,7 +351,7 @@ class BillController extends AbstractController
 
         return $this->redirect($previousUrl);
     }
-    #[Route('/bill/view/{id}', name: 'app_bill_view_bill'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/bill/view/{id}', name: 'app_bill_view_bill'), IsGranted('ROLE_SALE')]
     public function getPdfBill(BillRepository $billRepository, IntercalBillRepository $intercalBillRepository,
                                UtilityService $utileSrv, QrCodeService $qrCodeService, int $id): Response
     {
@@ -448,7 +448,7 @@ class BillController extends AbstractController
             ['content-type' => 'text/plain']
         );
     }
-    #[Route('/bill/view/test/{id}', name: 'app_bill_view_bill_test'), IsGranted('ROLE_MANAGER')]
+    #[Route('/bo/bill/view/test/{id}', name: 'app_bill_view_bill_test'), IsGranted('ROLE_MANAGER')]
     public function getPdfBillTest(BillRepository $billRepository, IntercalBillRepository $intercalBillRepository,
                                    UtilityService $utileSrv, QrCodeService $qrCodeService, int $id): Response
     {
@@ -506,7 +506,7 @@ class BillController extends AbstractController
         ]);
 
     }
-    #[Route('/bill/send/{id}', name: 'app_bill_send_bill'), IsGranted('ROLE_MANAGER')]
+    #[Route('/bo/bill/send/{id}', name: 'app_bill_send_bill'), IsGranted('ROLE_MANAGER')]
     public function sendPdfBill(BillRepository $billRepository, IntercalBillRepository $intercalBillRepository,
                                 UtilityService $utileSrv, MailerInterface $mailer, int $id): Response
     {

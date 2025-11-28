@@ -28,8 +28,9 @@
             </ul>
         </li>
 
-        <li class="dropdown" style="padding-left: 5rem;">
-            {% if app.user is defined and app.user is not null %}
+
+        {% if app.user.firstname is defined and app.user.firstname is not null %}
+            <li class="dropdown" style="padding-left: 5rem;">
                 {% if app.user.photo is defined and app.user.photo is not null and app.user.photo|length %}
                     <a href="#">
                         {% if verififphotoexist(app.user.photo) %}
@@ -43,20 +44,23 @@
                         <i class="bi bi-person-circle" title="{{ app.user.firstname }} 2" style="font-size: 2.5rem !important;"></i>
                     </a>
                 {% endif %}
-            {% endif %}
-            <ul>
-                {% if app.user is defined and app.user is not null %}
-                    <li><span style="margin-left: 1.2em; color: steelblue"><b>{{ app.user.roles[0]|labrole }}</b></span></li>
-                {% endif %}
+                <ul>
+                    {% if app.user is defined and app.user is not null %}
+                        <li><span style="margin-left: 1.2em; color: steelblue"><b>{{ app.user.roles[0]|labrole }}</b></span></li>
+                    {% endif %}
 
-                <li><a href="{{ path('app_user_my_account') }}">Mon compte</a></li>
-                {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
-                    <li><a href="{{ path('app_user') }}">Utilisateurs</a></li>
-                {% endif %}
-                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
-
-            </ul>
-        </li>
+                    <li><a href="{{ path('app_user_my_account') }}">Mon compte</a></li>
+                    {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
+                        <li><a href="{{ path('app_user') }}">Utilisateurs</a></li>
+                    {% endif %}
+                    <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                </ul>
+            </li>
+        {% else %}
+            <li class="dropdown">
+                <a href="{{ path('app_login') }}" class="footer-bottom-links">Se connecter</a>
+            </li>
+        {% endif %}
 
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
