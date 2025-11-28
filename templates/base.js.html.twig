@@ -96,12 +96,10 @@
                     $(api.column(i).footer()).css("color", "purple");
                 }
             },
-            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
             dom: 'Blfrtip',
             buttons: [
                 'excel', 'pdf', 'print'
             ],
-            {% endif %}
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
             },
@@ -189,18 +187,10 @@
                     }
                     console.log('tot = '+tot);
                 },
-                {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
                 dom: 'Blfrtip',
                 buttons: [
                     'excel', 'pdf', 'print'
                 ],
-                {% endif %}
-                {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_COMPTABLE' in app.user.roles %}
-                dom: 'Blfrtip',
-                buttons: [
-                    'excel'
-                ],
-                {% endif %}
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
                 },
@@ -212,12 +202,10 @@
             });
         {% else %}
             $('#myTable').DataTable({
-                {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
                 dom: 'Blfrtip',
                 buttons: [
                     'csv', 'excel', 'pdf', 'print'
                 ],
-                {% endif %}
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
                 },

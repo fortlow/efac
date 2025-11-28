@@ -29,6 +29,7 @@
         </li>
 
 
+        {#
         {% if app.user.firstname is defined and app.user.firstname is not null %}
             <li class="dropdown" style="padding-left: 5rem;">
                 {% if app.user.photo is defined and app.user.photo is not null and app.user.photo|length %}
@@ -61,6 +62,7 @@
                 <a href="{{ path('app_login') }}" style="color:orangered">Se connecter</a>
             </li>
         {% endif %}
+        #}
 
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

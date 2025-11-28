@@ -16,7 +16,7 @@
                         </div>
 
                         <!-- .sous-menu rubrique -->
-                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] %}
+                        {# if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] #}
                             <div class="meta-bottom" style="text-align: center;">
                                 <div class="share-section">
                                     <div class="social-links" style="vertical-align: middle">
@@ -27,7 +27,7 @@
                                 </div>
 
                             </div>
-                        {% endif %}
+                        {# endif #}
                         <!-- .sous-menu rubrique -->
 
                         <!-- start table -->
@@ -91,7 +91,7 @@
                                             {% endif %}&nbsp;
                                         </td>
                                         <td class="odd text-nowrap" style="text-align: center">
-                                            {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN','ROLE_MANAGER'] %}
+                                            {# if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN','ROLE_MANAGER'] #}
 
                                                 {% if proforma.status is defined and proforma.status is not null and proforma.status.id < 3 %}
                                                     <a href="{{ path('app_proforma_edit', {'id':proforma.id}) }}" title="Modifier" style="margin-left: .2em;"><i class="bi bi-pencil-square h5"></i></a>
@@ -100,14 +100,14 @@
                                                 {% if proforma.flagTrans is defined and proforma.flagTrans is null %}
                                                     <a href="{{ path('app_proforma_transform_to_bill', {'id':proforma.id}) }}" title="Transformer en facture" style="margin-left: .2em;"><i class="bi bi-disc h5"></i></a>
                                                 {% endif %}
-                                            {% endif %}
+                                            {# endif #}
 
                                             <a href="{{ path('app_proforma_view_proforma', {'id':proforma.id}) }}" title="Proforma en PDF" style="margin-left: .2em;" target="_blank"><i class="bi bi-file-earmark-pdf h5"></i></a>
                                             <a href="{{ path('app_proforma_send_proforma', {'id':proforma.id}) }}" title="Envoyer la proforma en PDF par mail" style="margin-left: .2em;"><i class="bi bi-envelope-arrow-up h5"></i></a>
 
-                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
+                                            {# if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles #}
                                                 <a href="{{ path('app_proforma_delete', {'id':proforma.id}) }}" title="Supprimer" style="margin-left: .2em; color: orangered"><i class="bi bi-trash3 h5"></i></a>
-                                            {% endif %}
+                                            {# endif #}
                                         </td>
                                     </tr>
                                     {% set nb = (nb + 1) %}

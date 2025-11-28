@@ -76,9 +76,9 @@
 
                                     <a href="{{ path('app_client_edit_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" class="profile-link">Modifier</a>
 
-                                    {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
+                                    {# if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles #}
                                         <br /><a href="{{ path('app_client_delete_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" class="profile-link">Supprimer</a>
-                                    {% endif %}
+                                    {# endif #}
                                 </div>
                             </div>
                         </div><!-- End Agent Card -->

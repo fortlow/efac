@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
+/*use Symfony\Component\Security\Http\Attribute\IsGranted;*/
 
 final class ClientController extends AbstractController
 {
@@ -35,7 +35,7 @@ final class ClientController extends AbstractController
         $this->_utilService = $utilityService;
     }
 
-    #[Route('/bo/client', name: 'app_client'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client', name: 'app_client')/*, IsGranted('ROLE_SALE')*/]
     public function index(ClientRepository $clientRepository): Response
     {
         return $this->render('client/index.html.twig', [
@@ -43,7 +43,7 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/client/add', name: 'app_client_add'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client/add', name: 'app_client_add')/*, IsGranted('ROLE_SALE')*/]
     public function add(Request $request): Response
     {
         $form = $this->createForm(ClientType::class, null, [
@@ -75,7 +75,7 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/client/edit/{id}', name: 'app_client_edit'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client/edit/{id}', name: 'app_client_edit')/*, IsGranted('ROLE_SALE')*/]
     public function edit(Request $request, ClientRepository $repository, int $id): Response
     {
         $client = $repository->find($id);
@@ -104,7 +104,7 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/client/delete/{id}', name: 'app_client_delete'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client/delete/{id}', name: 'app_client_delete')/*, IsGranted('ROLE_SALE')*/]
     public function delete(int $id, ClientRepository $clientRepository): Response
     {
         try {
@@ -119,7 +119,7 @@ final class ClientController extends AbstractController
         return $this->redirectToRoute('app_client');
     }
 
-    #[Route('/bo/client/contact/{id}', name: 'app_client_contact'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client/contact/{id}', name: 'app_client_contact')/*, IsGranted('ROLE_SALE')*/]
     public function listContact(ClientRepository $clientRepository, int $id): Response
     {
         $client = $clientRepository->find($id);
@@ -131,7 +131,7 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/bo/client/contact/add/{id}', name: 'app_client_add_contact'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/bo/client/contact/add/{id}', name: 'app_client_add_contact')/*, IsGranted('ROLE_SALE')*/]
     public function addContact(Request $request, int $id): Response
     {
         $client = $this->_em->getRepository(Client::class)->find($id);
@@ -183,7 +183,7 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/client/contact/edit/{id}/{idCli}', name: 'app_client_edit_contact'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client/contact/edit/{id}/{idCli}', name: 'app_client_edit_contact')/*, IsGranted('ROLE_SALE')*/]
     public function editContact(Request $request, ClientRepository $clientRepository,
                                 ContactClientRepository $contactClientRepository,
                                 int $id, int $idCli): Response
@@ -232,7 +232,7 @@ final class ClientController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/client/contact/delete/{id}/{idCli}', name: 'app_client_delete_contact'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client/contact/delete/{id}/{idCli}', name: 'app_client_delete_contact')/*, IsGranted('ROLE_SALE')*/]
     public function deleteContact(int $id, int $idCli, ContactClientRepository $contactClientRepository): Response
     {
         try {
@@ -247,7 +247,7 @@ final class ClientController extends AbstractController
         return $this->redirectToRoute('app_client_contact', ['id' => $idCli]);
     }
 
-    #[Route('/bo/client/send/mail/contact/{id}', name: 'app_send_mail_contact'), IsGranted('ROLE_SALE')]
+    #[Route('/bo/client/send/mail/contact/{id}', name: 'app_send_mail_contact')/*, IsGranted('ROLE_SALE')*/]
     public function sendMailToContact(Request $request, ContactClientRepository $contactClientRepository, int $id): Response
     {
         $contact = $contactClientRepository->find($id);
