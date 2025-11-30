@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <title>Login V18</title>
+    <title>eFac - Authentification</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="{{ asset('login/images/icons/favicon.ico') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/animate/animate.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/css-hamburgers/hamburgers.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/animsition/css/animsition.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/select2/select2.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/vendor/daterangepicker/daterangepicker.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/css/util.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('login/css/main.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('tmplog/images/icons/favicon.ico') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/vendor/animate/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/vendor/css-hamburgers/hamburgers.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/vendor/animsition/css/animsition.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/vendor/select2/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/vendor/daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/css/main.css') }}">
 </head>
 <body style="background-color: #666666;">
 
@@ -29,6 +29,7 @@
                 {% if error %}
                     <div class="txtError">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
+
                 {% if messageErrorCli is defined and messageErrorCli is not null %}
                     <div class="txtError">{{ messageErrorCli }}</div>
                 {% endif %}
@@ -58,42 +59,27 @@
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                    <button class="login100-form-btn">Identifiez-vous</button>
+                    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+                    <button class="login100-form-btn" type="submit">Identifiez-vous</button>
                 </div>
 
-                {#
-                <div class="text-center p-t-46 p-b-20">
-                    <span class="txt2">or sign up using</span>
-                </div>
-
-                <div class="login100-form-social flex-c-m">
-                    <a href="#" class="login100-form-social-item flex-c-m bg1 m-r-5">
-                        <i class="fa fa-facebook-f" aria-hidden="true"></i>
-                    </a>
-
-                    <a href="#" class="login100-form-social-item flex-c-m bg2 m-r-5">
-                        <i class="fa fa-twitter" aria-hidden="true"></i>
-                    </a>
-                </div>
-                #}
             </form>
 
-            <div class="login100-more" style="background-image: url('{{ asset('login/images/bg-01.jpg') }}');"></div>
+            <div class="login100-more" style="background-image: url('{{ asset('tmplog/images/bg-01.jpg') }}');"></div>
         </div>
     </div>
 </div>
 
 
-<script src="{{ asset('login/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
-<script src="{{ asset('login/vendor/animsition/js/animsition.min.js') }}"></script>
-<script src="{{ asset('login/vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ asset('login/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('login/vendor/select2/select2.min.js') }}"></script>
-<script src="{{ asset('login/vendor/daterangepicker/moment.min.js') }}"></script>
-<script src="{{ asset('login/vendor/daterangepicker/daterangepicker.js') }}"></script>
-<script src="{{ asset('login/vendor/countdowntime/countdowntime.js') }}"></script>
-<script src="{{ asset('login/js/main.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/animsition/js/animsition.min.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/bootstrap/js/popper.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/select2/select2.min.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/daterangepicker/moment.min.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('tmplog/vendor/countdowntime/countdowntime.js') }}"></script>
+<script src="{{ asset('tmplog/js/main.js') }}"></script>
 
 </body>
 </html>
