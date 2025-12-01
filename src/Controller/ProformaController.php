@@ -395,6 +395,7 @@ class ProformaController extends AbstractController
                 (strlen($proforma->getQrCode()) == 0 && strlen($proforma->getSecretCode()) == 0)
             ) {
                 $slugCodeSecret = $this->generateUniqueLongCodeSecret();
+                dump($slugCodeSecret);
                 $this->_qrCodeService->qrcodeGenerate('proforma', $slugCodeSecret);
                 $proforma->setQrCode($slugCodeSecret.'.png');
                 $proforma->setSecretCode($slugCodeSecret);
@@ -419,7 +420,7 @@ class ProformaController extends AbstractController
             //$canvas->page_text(68, 802, $textThreeFooter, $font, 8, [0,0,0]);
             $canvas->page_text(270, 817, '{PAGE_NUM} / {PAGE_COUNT}', $font, 9, [0,0,0]);
 
-            ob_end_clean();
+            //ob_end_clean();
             $dompdf->stream($filenamePdf, ['Attachment' => false]);
             //$dompdf->render();
 

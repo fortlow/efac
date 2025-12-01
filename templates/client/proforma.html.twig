@@ -33,9 +33,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th style="text-align: center">Numéro</th>
-                                <th>Object</th>
-                                <th>Raison sociale</th>
+                                <th style="text-align: center" class="filter1">Numéro</th>
+                                <th class="filter2">Object</th>
+                                <th class="filter3">Raison sociale</th>
                                 <th style="text-align: center">Montant HT</th>
                                 <th style="text-align: center">Montant TVA</th>
                                 <th style="text-align: center">Montant TTC</th>
@@ -75,6 +75,16 @@
                                 {% endfor %}
                             {% endif %}
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th style="text-align: center"></th>
+                                <th style="text-align: center"></th>
+                                <th style="text-align: center"></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
                         </table>
                         <br /><i><small style="color: red">Tous les montants sont en F. CFA</small></i>
                         <!-- end table -->

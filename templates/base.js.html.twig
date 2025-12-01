@@ -40,6 +40,226 @@
 
         {% if app.request.requestUri is defined and app.request.requestUri is not null
             and (
+            app.request.requestUri matches '/\\/client\\/bill/'
+            )
+        %}
+            $('#myTable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#myTable thead');
+
+            $('#myTable').DataTable( {
+                drawCallback: function () {
+                    let api = this.api();
+                    let sum = 0;
+                    let formated = 0;
+
+                    for(let i=5; i<=5;i++)
+                    {
+                        sum = api.column(i, {page:'current'}).data().sum();
+                        formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:0});
+                        $(api.column(i).footer()).html(formated);
+                        $(api.column(i).footer()).css("color", "blue");
+                    }
+
+                    for(let i=6; i<=6;i++)
+                    {
+                        sum = api.column(i, {page:'current'}).data().sum();
+                        formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:0});
+                        $(api.column(i).footer()).html(formated);
+                        $(api.column(i).footer()).css("color", "red");
+                    }
+
+                    for(let i=7; i<=7;i++)
+                    {
+                        sum = api.column(i, {page:'current'}).data().sum();
+                        formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:0});
+                        $(api.column(i).footer()).html(formated);
+                        $(api.column(i).footer()).css("color", "green");
+                    }
+                },
+                dom: 'Blfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
+                },
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, 'Toutes']
+                ],
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function () {
+                    let api = this.api();
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            //alert(colIdx);
+                            // Set the header cell to contain the input element
+                            let cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            let title = $(cell).text();
+                            if (colIdx === 1 || colIdx === 2 || colIdx === 3 || colIdx === 8) {
+                                $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
+                            } else {
+                                $(cell).html('');
+                            }
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    let regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    let cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value !== ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value !== '',
+                                            this.value === ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                }
+            });
+        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
+            and (
+            app.request.requestUri matches '/\\/client\\/proforma/'
+            )
+        %}
+            $('#myTable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#myTable thead');
+
+            $('#myTable').DataTable( {
+                drawCallback: function () {
+
+                    let api = this.api();
+                    let sum = 0;
+                    let formated = 0;
+
+                    for(let i=4; i<=4;i++)
+                    {
+                        sum = api.column(i, {page:'current'}).data().sum();
+                        formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:0});
+                        $(api.column(i).footer()).html(formated);
+                        $(api.column(i).footer()).css("color", "blue");
+                    }
+
+                    for(let i=5; i<=5;i++)
+                    {
+                        sum = api.column(i, {page:'current'}).data().sum();
+                        formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:0});
+                        $(api.column(i).footer()).html(formated);
+                        $(api.column(i).footer()).css("color", "red");
+                    }
+
+                    for(let i=6; i<=6;i++)
+                    {
+                        sum = api.column(i, {page:'current'}).data().sum();
+                        formated = parseFloat(sum).toLocaleString(undefined, {minimumFractionDigits:0});
+                        $(api.column(i).footer()).html(formated);
+                        $(api.column(i).footer()).css("color", "green");
+                    }
+
+                },
+                dom: 'Blfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
+                },
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, 'Toutes']
+                ],
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function () {
+                    let api = this.api();
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            //alert(colIdx);
+                            // Set the header cell to contain the input element
+                            let cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            let title = $(cell).text();
+                            if (colIdx === 1 || colIdx === 2 || colIdx === 3) {
+                                $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
+                            } else {
+                                $(cell).html('');
+                            }
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    let regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    let cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value !== ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value !== '',
+                                            this.value === ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                }
+            });
+        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
+            and (
             app.request.requestUri matches '/\\/bill/'
             )
         %}
@@ -48,7 +268,7 @@
             .addClass('filters')
             .appendTo('#myTable thead');
 
-        let table = $('#myTable').DataTable( {
+        $('#myTable').DataTable( {
             drawCallback: function () {
                 let api = this.api();
                 let sum = 0;
@@ -124,7 +344,7 @@
                             $(api.column(colIdx).header()).index()
                         );
                         let title = $(cell).text();
-                        if (colIdx === 1 || colIdx === 2 || colIdx === 4 || colIdx === 11) {
+                        if (colIdx === 1 || colIdx === 2 || colIdx === 3 || colIdx === 4 || colIdx === 11) {
                             $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
                         } else {
                             $(cell).html('');
@@ -170,6 +390,11 @@
             app.request.requestUri matches '/\\/proforma/'
             )
         %}
+            $('#myTable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#myTable thead');
+
             $('#myTable').DataTable( {
                 drawCallback: function () {
                     let api = this.api();
@@ -199,12 +424,224 @@
                     [10, 20, 30, 50, 100, -1],
                     [10, 20, 30, 50, 100, 'Toutes']
                 ],
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function () {
+                    let api = this.api();
+
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            //alert(colIdx);
+                            // Set the header cell to contain the input element
+                            let cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            let title = $(cell).text();
+                            if (colIdx === 1 || colIdx === 3 || colIdx === 4 || colIdx === 6) {
+                                $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
+                            } else {
+                                $(cell).html('');
+                            }
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    let regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    let cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value !== ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value !== '',
+                                            this.value === ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                }
+            });
+        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
+            and (
+            app.request.requestUri matches '/\\/client/'
+            )
+        %}
+            $('#myTable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#myTable thead');
+
+            $('#myTable').DataTable( {
+                dom: 'Blfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
+                },
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, 'Toutes']
+                ],
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function () {
+                    let api = this.api();
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            // Set the header cell to contain the input element
+                            let cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            let title = $(cell).text();
+                            if (colIdx === 1 || colIdx === 2 || colIdx === 4 || colIdx === 6) {
+                                $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
+                            } else {
+                                $(cell).html('');
+                            }
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    let regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    let cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value !== ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value !== '',
+                                            this.value === ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                }
+            });
+        {% elseif app.request.requestUri is defined and app.request.requestUri is not null
+            and (
+            app.request.requestUri matches '/\\/reference/'
+            )
+        %}
+            $('#myTable thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#myTable thead');
+
+            $('#myTable').DataTable( {
+                dom: 'Blfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',
+                },
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 30, 50, 100, -1],
+                    [10, 20, 30, 50, 100, 'Toutes']
+                ],
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function () {
+                    let api = this.api();
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            // Set the header cell to contain the input element
+                            let cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            let title = $(cell).text();
+                            if (colIdx === 1 || colIdx === 2) {
+                                $(cell).html('<input type="text" placeholder="' + title + '" class="w-100 form-control" />');
+                            } else {
+                                $(cell).html('');
+                            }
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    let regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    let cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value !== ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value !== '',
+                                            this.value === ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                }
             });
         {% else %}
             $('#myTable').DataTable({
                 dom: 'Blfrtip',
                 buttons: [
-                    'csv', 'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print'
                 ],
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json',

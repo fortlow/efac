@@ -199,6 +199,7 @@ class UtilityService
         //return random_int(10, 99) . date('dm') . random_int(20, 99);
         return date('d') . random_int(10, 99) . random_int(20, 99);
     }
+
     /**
      * @param string $path
      * @return string
@@ -207,11 +208,18 @@ class UtilityService
     {
         try {
             $type = pathinfo($path, PATHINFO_EXTENSION);
-            $data = file_get_contents($path);
+            $data = strval(file_get_contents($path));
+
+            if(!$data) {
+                return '';
+            }
 
             return 'data:image/' . $type . ';base64,' . base64_encode($data);
+
         } catch (\Exception $e) {
             //dump('path', $path);
+            //dump('imageToBase64->exception', $e->getMessage());
+
             return '';
         }
     }

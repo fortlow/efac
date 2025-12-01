@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
         $this->requestStack = $requestStack;
     }
 
-    #[Route('/bo/users', name: 'app_user'), IsGranted('ROLE_MANAGER')]
+    #[Route('/users', name: 'app_user'), IsGranted('ROLE_MANAGER')]
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('registration/index.html.twig', [
@@ -49,7 +49,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/user/add', name: 'app_add_user'), IsGranted('ROLE_MANAGER')]
+    #[Route('/user/add', name: 'app_add_user'), IsGranted('ROLE_MANAGER')]
     public function add(Request $request, MailerInterface $mailer, UserPasswordHasherInterface $userPasswordHasher,
                         UtilityService $utilityService): Response
     {
@@ -130,7 +130,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/user/edit/{id}', name: 'app_edit_user'), IsGranted('ROLE_MANAGER')]
+    #[Route('/user/edit/{id}', name: 'app_edit_user'), IsGranted('ROLE_MANAGER')]
     public function edit(int $id, Request $request, UserRepository $userRepository,
                          UtilityService $utilityService): Response
     {
@@ -186,7 +186,7 @@ class RegistrationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/bo/user/delete/{id}', name: 'app_delete_user'), IsGranted('ROLE_MANAGER')]
+    #[Route('/user/delete/{id}', name: 'app_delete_user'), IsGranted('ROLE_MANAGER')]
     public function delete(int $id, UserRepository $userRepository): Response
     {
         try {
@@ -201,7 +201,7 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_user');
     }
-    #[Route('/bo/user/my/account', name: 'app_user_my_account'), IsGranted('ROLE_USER')]
+    #[Route('/user/my/account', name: 'app_user_my_account'), IsGranted('ROLE_USER')]
     public function modifyMyAccount(Request $request, UserPasswordHasherInterface $userPasswordHasher,
                                     UtilityService $utilityService): Response
     {
@@ -267,7 +267,7 @@ class RegistrationController extends AbstractController
     }
 
 
-    #[Route('/bo/verify/email', name: 'app_verify_email')]
+    #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

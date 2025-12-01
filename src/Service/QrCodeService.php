@@ -29,8 +29,10 @@ class QrCodeService
         try {
             $query = '';
             $url = $_ENV['APP_DOMAIN'] . '/document/verify/'. $target .'/'.$slug;
+            //dump('qrcodeGenerate->url', $url);
 
             $path = dirname(__DIR__, 2) . '/public/img/';
+            //dump('qrcodeGenerate->path', $path);
 
             // set qrcode
             $result = $this->builder
@@ -42,7 +44,7 @@ class QrCodeService
                 //->labelText($dateString)
                 //->labelAlignment(new LabelAlignmentCenter())
                 //->labelMargin(new Margin(15, 5, 5, 5))
-                ->logoPath($path.'logo-bleu.jpg')
+                ->logoPath($path.'logo.jpg')
                 ->logoResizeToWidth('25')
                 ->logoResizeToHeight('20')
                 ->foregroundColor(new Color(255,255,255, 1.00))
@@ -51,10 +53,14 @@ class QrCodeService
             ;
 
             //Save img png
-            $result->saveToFile($path.'qr-code/'.$slug.'.png');
+            $pathFullQrCode = $path.'qr-code/'.$slug.'.png';
+            //dump('qrcodeGenerate->pathFullQrCode', $pathFullQrCode);
+            $result->saveToFile($pathFullQrCode);
 
             return $result->getDataUri();
         } catch(\Exception $e) {
+            //dump('qrcodeGenerate->exception', $e->getMessage());
+
             return null;
         }
     }
