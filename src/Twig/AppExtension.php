@@ -145,13 +145,16 @@ class AppExtension extends AbstractExtension
     public function convertIntToLetter(string $montant): string
     {
         try {
+            setlocale(LC_ALL, 'fr_FR.UTF-8', 'fr_FR', 'fra', 'french');
+
             $formatter = \NumberFormatter::create('fr_FR', \NumberFormatter::SPELLOUT);
             $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
             $formatter->setAttribute(\NumberFormatter::ROUNDING_MODE, \NumberFormatter::ROUND_HALFUP);
 
-            return $formatter->format($montant);
+            return $formatter->format(intval($montant));
         } catch (\Exception $e) {
             //dump($e->getMessage());
+
             return $montant;
         }
     }

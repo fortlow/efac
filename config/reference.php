@@ -1209,7 +1209,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     generate_final_classes?: bool, // Default: true
  *     generate_final_entities?: bool, // Default: false
  * }
- * @psalm-type EndroidQrCodeConfig = array<string, mixed>
  * @psalm-type SymfonycastsVerifyEmailConfig = array{
  *     lifetime?: int, // The length of time in seconds that a signed URI is valid for after it is created. // Default: 3600
  * }
@@ -1561,6 +1560,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     }>,
  *     role_hierarchy?: array<string, string|list<scalar|null>>,
  * }
+ * @psalm-type EndroidQrCodeConfig = array<string, mixed>
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1571,13 +1571,13 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     twig?: TwigConfig,
  *     twig_extra?: TwigExtraConfig,
  *     monolog?: MonologConfig,
- *     endroid_qr_code?: EndroidQrCodeConfig,
  *     symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     tinymce?: TinymceConfig,
  *     stimulus?: StimulusConfig,
  *     turbo?: TurboConfig,
  *     webpack_encore?: WebpackEncoreConfig,
  *     security?: SecurityConfig,
+ *     endroid_qr_code?: EndroidQrCodeConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1591,13 +1591,13 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig_extra?: TwigExtraConfig,
  *         monolog?: MonologConfig,
  *         maker?: MakerConfig,
- *         endroid_qr_code?: EndroidQrCodeConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         tinymce?: TinymceConfig,
  *         stimulus?: StimulusConfig,
  *         turbo?: TurboConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         security?: SecurityConfig,
+ *         endroid_qr_code?: EndroidQrCodeConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1609,13 +1609,13 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig?: TwigConfig,
  *         twig_extra?: TwigExtraConfig,
  *         monolog?: MonologConfig,
- *         endroid_qr_code?: EndroidQrCodeConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         tinymce?: TinymceConfig,
  *         stimulus?: StimulusConfig,
  *         turbo?: TurboConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         security?: SecurityConfig,
+ *         endroid_qr_code?: EndroidQrCodeConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1628,13 +1628,13 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         web_profiler?: WebProfilerConfig,
  *         twig_extra?: TwigExtraConfig,
  *         monolog?: MonologConfig,
- *         endroid_qr_code?: EndroidQrCodeConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         tinymce?: TinymceConfig,
  *         stimulus?: StimulusConfig,
  *         turbo?: TurboConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         security?: SecurityConfig,
+ *         endroid_qr_code?: EndroidQrCodeConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

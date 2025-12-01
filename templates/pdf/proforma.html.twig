@@ -9,19 +9,18 @@
             src: url("https://mdn.github.io/css-examples/web-fonts/VeraSeBd.ttf");
         }
 
-        {% set urlLogoBg = url('app_home') ~ "/pdf/logobg.png" %}
         body {
             font-family: "Bitstream Vera Serif Bold", serif;
             font-size: 0.9rem !important;
             background-repeat:no-repeat;
             background-position: center center;
             background-size: 500px 330px;
-            background-image:url('{{ urlLogoBg }}');
+            background-image:url({{ logoB2m }});
             position: relative;
             min-height:100%;
-            filter:alpha(opacity=15);
-            opacity: 0.15;
-            -moz-opacity:0.15;
+            filter:alpha(opacity=50);
+            opacity: 1.21;
+            -moz-opacity:1.21;
             width: 100%;
             height: 100%;
             top: 0;
@@ -475,25 +474,25 @@
                                 <table class="text-black text-center" style="width: 100% !important; height: 50px !important;">
                                     <tr>
                                         <td>
-                                            <p class="mb-3"><small>Code banque</small></p>
+                                            <small class="mb-3">Code banque</small><br />
                                             <b>40025</b>
                                         </td>
                                         <td>
-                                            <p class="mb-3"><small class="mb-3">Code guichet</small></p>
+                                            <small class="mb-3">Code guichet</small><br />
                                             <b>05811</b>
                                         </td>
                                         <td>
-                                            <p class="mb-3"><small class="mb-3">Numéro de compte</small></p>
+                                            <small class="mb-3">Numéro de compte</small><br />
                                             <b>81101100245</b>
                                         </td>
                                         <td>
-                                            <p class="mb-3"><small class="mb-3">Clé</small></p>
+                                            <small class="mb-3">Clé</small><br />
                                             <b>53</b>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <p class="mb-3"><small class="mb-3">Domiciliation</small></p>
+                                            <small class="mb-3">Domiciliation</small><br />
                                             <p style="text-align: left !important; margin-left: .7em">
                                                 <b>UBA Boulevard</b><br />
                                                 LIBREVILLE GABON BP: 12035<br />
@@ -501,7 +500,7 @@
                                             </p>
                                         </td>
                                         <td colspan="2">
-                                            <p class="mb-3"><small class="mb-3">Titulaire du compte</small></p>
+                                            <small class="mb-3">Titulaire du compte</small><br />
                                             <p style="text-align: left !important; margin-left: .7em">
                                                 <b>B2M TECHNOLOGIES</b><br />
                                                 BP: 7822<br />

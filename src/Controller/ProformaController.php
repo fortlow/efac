@@ -19,6 +19,7 @@ use App\Service\UtilityService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,16 +36,22 @@ class ProformaController extends AbstractController
     private UtilityService $_utilityService;
     private QrCodeService $_qrCodeService;
 
+    private LoggerInterface $logger;
+
+
     /**
      * @param EntityManagerInterface $em
      * @param UtilityService $utileSrv
      * @param QrCodeService $qrCodeService
+     * @param LoggerInterface $logger
      */
-    public function __construct(EntityManagerInterface $em, UtilityService $utileSrv, QrCodeService $qrCodeService)
+    public function __construct(EntityManagerInterface $em, UtilityService $utileSrv,
+                                QrCodeService $qrCodeService, LoggerInterface $logger)
     {
         $this->_em = $em;
         $this->_utilityService = $utileSrv;
         $this->_qrCodeService = $qrCodeService;
+        $this->logger = $logger;
     }
     #[Route('/proforma', name: 'app_proforma'), IsGranted('ROLE_SALE')]
     public function index(ProformaRepository $proformaRepository): Response
@@ -468,12 +475,19 @@ class ProformaController extends AbstractController
             }
         }
 
+        $this->logger->info('getPdfProformaTest->Avant qrCodeGenerate');
+
         if(!is_null($proforma) && !is_null($client) && !is_null($lineProformas))
         {
+            $this->logger->info('getPdfProformaTest->Test 1 ok');
+
             if (
                 (is_null($proforma->getQrCode()) && is_null($proforma->getSecretCode())) ||
                 (strlen($proforma->getQrCode()) == 0 && strlen($proforma->getSecretCode()) == 0)
             ) {
+
+                $this->logger->info('getPdfProformaTest->Test 2 ok');
+
                 $slugCodeSecret = $this->generateUniqueLongCodeSecret();
                 $this->_qrCodeService->qrcodeGenerate('proforma', $slugCodeSecret);
                 $proforma->setQrCode($slugCodeSecret.'.png');
@@ -482,11 +496,13 @@ class ProformaController extends AbstractController
             }
         }
 
+        $this->logger->info('getPdfProformaTest->Apres qrCodeGenerate');
+
         $textOneFooter = $_ENV['APP_FOOTER_PDF_ONE'];
         $textTwoFooter = $_ENV['APP_FOOTER_PDF_TWO'];
 
-        return $this->render('admin/pdf/proforma-test.html.twig', [
-            'logoB2m' => $utileSrv->imageToBase64($this->getParameter('kernel.project_dir') . '/public/img/pdf/logob.png'),
+        return $this->render('pdf/proforma-test.html.twig', [
+            'logoB2m' => $utileSrv->imageToBase64($this->getParameter('kernel.project_dir') . '/public/img/pdf/logo.png'),
             'qrCode' => $utileSrv->imageToBase64($this->getParameter('kernel.project_dir') . '/public/img/qr-code/' . $proforma->getQrCode()),
             'proforma' => $proforma,
             'intercalaires' => $tabContentInterca,
