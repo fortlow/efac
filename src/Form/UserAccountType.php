@@ -49,6 +49,7 @@ class UserAccountType extends AbstractType
             ])
             ->add('new_password', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'data' => null,
                 'invalid_message' => 'Les champs du mot de passe doivent correspondre.',
                 'options' => ['attr' => ['class' => 'form-control mb-3']],
                 'first_options' => ['label' => 'Modifier le mot de passe'],

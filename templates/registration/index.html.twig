@@ -16,7 +16,7 @@
                         </div>
 
                         <!-- .sous-menu rubrique -->
-                        {# if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] #}
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
                             <div class="meta-bottom" style="text-align: center;">
                                 <div class="share-section">
                                     <div class="social-links">
@@ -25,7 +25,7 @@
                                 </div>
 
                             </div>
-                        {# endif #}
+                        {% endif %}
                         <!-- .sous-menu rubrique -->
 
                         <!-- start table -->
@@ -87,13 +87,13 @@
                                             {{ 'now'|date('d/m/y H:i') }}
                                         </td>
                                         <td class="odd" style="vertical-align: middle; text-align: center">
-                                            {# if app.user.roles is defined and app.user.roles is not null and 'ROLE_MANAGER' in app.user.roles #}
+                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_MANAGER' in app.user.roles %}
                                                 <a href="{{ path('app_edit_user', {'id':user.id }) }}" title="Modifier"><i class="bi bi-pencil-square h3"></i></a>
-                                            {# endif #}
+                                            {% endif %}
 
-                                            {# if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles #}
+                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
                                                 <a href="{{ path('app_delete_user', {'id':user.id }) }}" title="Supprimer" style="margin-left: .4em; color: orangered"><i class="bi bi-trash3 h4"></i></a>
-                                            {# endif #}
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% set nb = (nb + 1) %}

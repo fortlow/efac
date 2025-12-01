@@ -210,8 +210,6 @@ class RegistrationController extends AbstractController
 
         if(!is_null($user))
         {
-
-            dump($user);
             $flag = false;
             $form = $this->createForm(UserAccountType::class, $user);
             $form->handleRequest($request);
@@ -224,7 +222,7 @@ class RegistrationController extends AbstractController
                     $MyPassword = $form->get('new_password')->getData();
 
                     // Traitement du mot de passe, on écrase l'ancien mot de passe à tous les coups.
-                    if(!is_null($MyPassword))
+                    if(!is_null($MyPassword) && strlen($MyPassword)>0)
                     {
                         $userPwd = new User();
                         $user->setPassword($userPasswordHasher->hashPassword($userPwd, $MyPassword));

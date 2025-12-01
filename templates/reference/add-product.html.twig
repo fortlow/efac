@@ -16,7 +16,7 @@
                         <h3>Référentiel - Nouveau produit</h3>
                     </div>
 
-                    {# if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] #}
+                    {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] %}
                     <!-- .sous-menu rubrique -->
                     <div class="meta-bottom" style="text-align: center; margin-bottom: 2em;">
                         <div class="share-section">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <!-- .sous-menu rubrique -->
-                    {# endif #}
+                    {% endif %}
 
                     <div class="quick-contact-card" data-aos="slide-up" data-aos-delay="200">
                         <div class="contact-header">

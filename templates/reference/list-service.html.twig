@@ -15,7 +15,7 @@
                             <h3>Référentiel des services</h3>
                         </div>
 
-                        {# if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] #}
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] %}
                             <!-- .sous-menu rubrique -->
                             <div class="meta-bottom" style="text-align: center; margin-bottom: 2em;">
                                 <div class="share-section" style="vertical-align: middle">
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <!-- .sous-menu rubrique -->
-                        {# endif #}
+                        {% endif %}
 
                         <table id="myTable" class="display" style="width:100%; margin-top: 2rem;">
                             <thead>
@@ -57,12 +57,12 @@
                                         </td>
                                         <td class="odd">{{ ref.pricePerDay|number_format(0, '.', ' ') }} XAF</td>
                                         <td class="odd" style="text-align: center">
-                                            {# if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles #}
+                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
                                                 <a href="{{ path('app_reference_edit_service', { 'id':ref.id }) }}" title="Modifier" class="mr-3"><i class="bi bi-pencil-square h4"></i></a>
                                                 <a href="{{ path('app_reference_delete_service', { 'id':ref.id }) }}" title="Supprimer" style="margin-left: .7em; color: orangered"><i class="bi bi-trash3 h4"></i></a>
-                                            {# elseif app.user.roles is defined and app.user.roles is not null and 'ROLE_MANAGER' in app.user.roles #}
-                                                {# <a href="{{ path('app_reference_edit_service', { 'id':ref.id }) }}" title="Modifier" class="mr-3"><i class="bi bi-pencil-square h4"></i></a> #}
-                                            {# endif #}
+                                            {% elseif app.user.roles is defined and app.user.roles is not null and 'ROLE_MANAGER' in app.user.roles %}
+                                                <a href="{{ path('app_reference_edit_service', { 'id':ref.id }) }}" title="Modifier" class="mr-3"><i class="bi bi-pencil-square h4"></i></a>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% set nb = (nb + 1) %}

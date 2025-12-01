@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-/*use Symfony\Component\Security\Http\Attribute\IsGranted;*/
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ReferenceController extends AbstractController
 {
@@ -29,7 +29,7 @@ class ReferenceController extends AbstractController
         $this->_em = $em;
     }
 
-    #[Route('/bo/reference/list/service', name: 'app_reference_list_service')/*, IsGranted('ROLE_SALE')*/]
+    #[Route('/reference/list/service', name: 'app_reference_list_service'), IsGranted('ROLE_SALE')]
     public function listService(RefServiceRepository $refServiceRepository): Response
     {
         return $this->render('reference/list-service.html.twig', [
@@ -37,7 +37,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/reference/add/service', name: 'app_reference_add_service')/*, IsGranted('ROLE_SALE')*/]
+    #[Route('/reference/add/service', name: 'app_reference_add_service'), IsGranted('ROLE_SALE')]
     public function addService(Request $request, RefServiceRepository $refServiceRepository,
                                UtilityService $utilityService): Response
     {
@@ -88,7 +88,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/reference/edit/service/{id}', name: 'app_reference_edit_service')/*, IsGranted('ROLE_SALE')*/]
+    #[Route('/reference/edit/service/{id}', name: 'app_reference_edit_service'), IsGranted('ROLE_SALE')]
     public function editService(Request $request, RefServiceRepository $refServiceRepository,
                                 UtilityService $utilityService, int $id): Response
     {
@@ -139,7 +139,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/reference/delete/service/{id}', name: 'app_reference_delete_service')/*, IsGranted('ROLE_MANAGER')*/]
+    #[Route('/reference/delete/service/{id}', name: 'app_reference_delete_service'), IsGranted('ROLE_MANAGER')]
     public function deleteService(Request $request, RefServiceRepository $refServiceRepository, int $id): Response
     {
         try {
@@ -154,7 +154,7 @@ class ReferenceController extends AbstractController
         return $this->redirectToRoute('app_reference_list_service');
     }
 
-    #[Route('/bo/reference/list/product', name: 'app_reference_list_product')/*, IsGranted('ROLE_SALE')*/]
+    #[Route('/reference/list/product', name: 'app_reference_list_product'), IsGranted('ROLE_SALE')]
     public function listProduct(RefProductRepository $refProductRepository): Response
     {
         return $this->render('reference/list-product.html.twig', [
@@ -162,7 +162,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/reference/add/product', name: 'app_reference_add_product')/*, IsGranted('ROLE_SALE')*/]
+    #[Route('/reference/add/product', name: 'app_reference_add_product'), IsGranted('ROLE_SALE')]
     public function addProduct(Request $request, UtilityService $utilityService): Response
     {
         $form = $this->createForm(RefProductType::class, null, []);
@@ -206,7 +206,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/reference/edit/product/{id}', name: 'app_reference_edit_product')/*, IsGranted('ROLE_SALE')*/]
+    #[Route('/reference/edit/product/{id}', name: 'app_reference_edit_product'), IsGranted('ROLE_SALE')]
     public function editProduct(Request $request, RefProductRepository $refProductRepository,
                                 UtilityService $utilityService, int $id): Response
     {
@@ -253,7 +253,7 @@ class ReferenceController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/reference/delete/product/{id}', name: 'app_reference_delete_product')/*, IsGranted('ROLE_MANAGER')*/]
+    #[Route('/reference/delete/product/{id}', name: 'app_reference_delete_product'), IsGranted('ROLE_MANAGER')]
     public function deleteProduct(Request $request, RefProductRepository $refProductRepository, int $id): Response
     {
         try {
@@ -268,7 +268,7 @@ class ReferenceController extends AbstractController
         return $this->redirectToRoute('app_reference_list_product');
     }
 
-    #[Route('/bo/reference/get/info/product', name: 'app_ajax_get_info_product')]
+    #[Route('/reference/get/info/product', name: 'app_ajax_get_info_product')]
     public function getInfoRefProductAjax(Request $request, RefProductRepository $refProductRepository): JsonResponse
     {
         try {
@@ -285,7 +285,7 @@ class ReferenceController extends AbstractController
         }
     }
 
-    #[Route('/bo/reference/get/info/service', name: 'app_ajax_get_info_service')]
+    #[Route('/reference/get/info/service', name: 'app_ajax_get_info_service')]
     public function getInfoRefServiceAjax(Request $request, RefServiceRepository $refServiceRepository): JsonResponse
     {
         try {

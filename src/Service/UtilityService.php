@@ -69,7 +69,7 @@ class UtilityService
 
             // lignes de la facture
             foreach ($proforma->getLineProformas() as $lineProforma) {
-                dump('lineProforma', $lineProforma);
+                //dump('lineProforma', $lineProforma);
 
                 $lineBill = new LineBill();
                 $lineBill->setBill($bill);
@@ -81,16 +81,16 @@ class UtilityService
                 $lineBill->setAmountHt($lineProforma->getAmountHt());
                 $lineBill->setCreatedAt(new \DateTime('now'));
 
-                dump('prctDiscount : ', $proforma->getPrctDiscount());
+                //dump('prctDiscount : ', $proforma->getPrctDiscount());
 
                 // Calcul du montant de reduction si reduction
                 if(!is_null($proforma->getPrctDiscount())) {
                     $mntProdOrService = ( intval($lineProforma->getUnitPrice()) * intval($lineProforma->getQte()) );
                     $mntDiscountProdOrService = ( ($mntProdOrService * intval($proforma->getPrctDiscount())) / 100);
 
-                    dump('mntProdOrService', $mntProdOrService);
-                    dump('mntDiscountProdOrService', $mntDiscountProdOrService);
-                    //
+                    //dump('mntProdOrService', $mntProdOrService);
+                    //dump('mntDiscountProdOrService', $mntDiscountProdOrService);
+
                     $lineBill->setPrctDiscount($proforma->getPrctDiscount());
                     $lineBill->setAmountDiscount($mntDiscountProdOrService);
                 } else {
@@ -129,7 +129,7 @@ class UtilityService
             return true;
         } catch (\Exception $e) {
 
-            dump('Exception->proformaToBillTransformer : '. $e->getMessage());
+            //dump('Exception->proformaToBillTransformer : '. $e->getMessage());
 
             return false;
         }
@@ -146,7 +146,7 @@ class UtilityService
                 ->from('contact@b2mtechnologies.ga')
                 ->bcc('d.biy-nze@b2mtechnologies.ga')
                 ->to($data['to'])
-                ->subject('[B2MT] - '. $data['subject'])
+                ->subject('[eFAC] - '. $data['subject'])
                 ->htmlTemplate('emails/mail-send-recipient.html')
                 ->context([
                     'subject' => $data['subject'],
@@ -174,7 +174,7 @@ class UtilityService
                 ->from($data['from'])
                 ->to($data['to'])
                 ->bcc('d.biy-nze@b2mtechnologies.ga')
-                ->subject('[B2M TECHNOLOGIES] - '. $data['subject'])
+                ->subject('[eFAC] - '. $data['subject'])
                 ->htmlTemplate('emails/mail-send-editor.html')
                 ->context([
                     'subject' => $data['subject'],
@@ -200,10 +200,10 @@ class UtilityService
         return date('d') . random_int(10, 99) . random_int(20, 99);
     }
     /**
-     * @param $path
+     * @param string $path
      * @return string
      */
-    public function imageToBase64($path): string
+    public function imageToBase64(string $path): string
     {
         try {
             $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -212,7 +212,7 @@ class UtilityService
             return 'data:image/' . $type . ';base64,' . base64_encode($data);
         } catch (\Exception $e) {
             //dump('path', $path);
-            return "";
+            return '';
         }
     }
     /**

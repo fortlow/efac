@@ -16,7 +16,7 @@
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <!-- .sous-menu rubrique -->
-            {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
+            {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] %}
                 <div class="meta-bottom" style="text-align: center;">
                     <div class="share-section">
                         <div class="social-links" style="vertical-align: middle">
@@ -76,9 +76,9 @@
 
                                     <a href="{{ path('app_client_edit_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" class="profile-link">Modifier</a>
 
-                                    {# if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles #}
+                                    {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_ADMIN' in app.user.roles %}
                                         <br /><a href="{{ path('app_client_delete_contact', {'id':contact.id, 'idCli':contact.client.id}) }}" class="profile-link">Supprimer</a>
-                                    {# endif #}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div><!-- End Agent Card -->

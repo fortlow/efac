@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}eFac | Liste des Pro Forma client{% endblock %}
+
+{% block content %}
+
+    <!-- .dynamic content -->
+    <section id="privacy" class="privacy section">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <div class="privacy-content">
+
+                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300" style="text-align: center">
+                            <h3>Client - Liste des proforma de <span style="color: blue">{{ client.sreason|upper }}</span></h3>
+                        </div>
+
+                        <!-- .sous-menu rubrique -->
+                        {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_SALE'] %}
+                            <div class="meta-bottom" style="text-align: center;">
+                                <div class="share-section">
+                                    <div class="social-links" style="vertical-align: middle">
+                                        <a href="{{ path('app_client') }}" title="Listing des clients"><i class="bi bi-people h3"></i></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endif %}
+                        <!-- .sous-menu rubrique -->
+
+                        <!-- start table -->
+                        <table id="myTable" class="display">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th style="text-align: center">Numéro</th>
+                                <th>Object</th>
+                                <th>Raison sociale</th>
+                                <th style="text-align: center">Montant HT</th>
+                                <th style="text-align: center">Montant TVA</th>
+                                <th style="text-align: center">Montant TTC</th>
+                                <th style="text-align: center">Date</th>
+                                <th style="text-align: center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if proformas is defined and proformas is not null and proformas|length > 0 %}
+                                {% set nb = 1 %}
+                                {% for proforma in proformas %}
+                                    {% set mntHT = 0  %}
+                                    {% set mntTVA = 0  %}
+                                    {% set mntTTC = 0  %}
+
+                                    {% for line in proforma.lineProformas %}
+                                        {% set mntHT = (mntHT + line.amountHt)  %}
+                                    {% endfor %}
+
+                                    {% set mntTVA = (mntHT * 19)/100  %}
+                                    {% set mntTTC = (mntHT * 1.19)  %}
+
+                                    <tr>
+                                        <td class="odd">{{ nb }}</td>
+                                        <td class="odd" style="text-align: center"><a href="{{ path('app_proforma_view_proforma', {'id':proforma.id}) }}" title="Voir la proforma" target="_blank">{{ proforma.numero }}</a></td>
+                                        <td class="odd">{{ proforma.subject }}</td>
+                                        <td class="odd">{{ proforma.client.sreason }}</td>
+                                        <td class="odd" style="text-align: center">{{ mntHT|number_format(0, '.', '  ') }}</td>
+                                        <td class="odd" style="text-align: center">{{ mntTVA|number_format(0, '.', '  ') }}</td>
+                                        <td class="odd" style="text-align: center">{{ mntTTC|number_format(0, '.', '  ') }}</td>
+                                        <td class="odd" style="text-align: center">{{ proforma.createdAt|date('d/m/Y') }}</td>
+                                        <td class="odd" style="text-align: center">
+                                            <a href="{{ path('app_proforma_view_proforma', {'id':proforma.id}) }}" title="Voir la proforma" target="_blank"><i class="bi bi-file-earmark-pdf h5"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% set nb = (nb + 1) %}
+                                {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <br /><i><small style="color: red">Tous les montants sont en F. CFA</small></i>
+                        <!-- end table -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.dynamic content -->
+{% endblock %}
+
