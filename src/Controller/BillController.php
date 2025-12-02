@@ -398,7 +398,7 @@ class BillController extends AbstractController
 
             $dompdf = new Dompdf($pdfOptions);
             $data = [
-                'logoB2m'  => $utileSrv->imageToBase64($this->getParameter('kernel.project_dir') . '/public/img/pdf/logob.png'),
+                'logoB2m'  => $utileSrv->imageToBase64($this->getParameter('kernel.project_dir') . '/public/img/pdf/logo.png'),
                 'qrCode' => $utileSrv->imageToBase64($this->getParameter('kernel.project_dir') . '/public/img/qr-code/' . $bill->getQrCode()),
                 'bill' => $bill,
                 'intercalaires' => $tabContentInterca,
