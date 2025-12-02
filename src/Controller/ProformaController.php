@@ -444,7 +444,7 @@ class ProformaController extends AbstractController
             ['content-type' => 'text/plain']
         );
     }
-    #[Route('/proforma/view/proforma/test/{id}', name: 'app_proforma_view_proforma_test'), IsGranted('ROLE_SALE')]
+    #[Route('/proforma/view/test/{id}', name: 'app_proforma_view_proforma_test'), IsGranted('ROLE_SALE')]
     public function getPdfProformaTest(ProformaRepository $proformaRepository,
                                        IntercalProformaRepository $intercalProformaRepository,
                                        UtilityService $utileSrv, int $id): Response
