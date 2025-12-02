@@ -66,32 +66,32 @@
                         <img width="220px" src="{{ logoB2m }}" alt="LOGO-B2MT">
                     </td>
                     <td style="vertical-align: top; border: none; text-align: right; width:55%; font-size: 0.8rem !important;">
-                        <p class="mb-2 fw-bold">B2M TECHNOLOGIES</p>
-                        <p class="mb-0">SA au Capital de 5 000 000 F CFA</p>
-                        <p class="mb-0">N° du RCCM : GA-LBV-01-20200-B12-00140 / N° NIF : 202201003877-K</p>
-                        <p class="mb-0">BP 7822 Libreville</p>
-                        <p class="mb-0">Tel. +241 011 73 49 49 / +241 062 23 38 40 / +241 077 39 84 46</p>
-                        <p class="mb-0">contact@b2mtecchnologies.ga - https://b2mtechnologies.ga</p>
+                        <span class="mb-2 fw-bold">B2M TECHNOLOGIES</span><br />
+                        <span class="mb-0">SA au Capital de 5 000 000 F CFA</span><br />
+                        <span class="mb-0">N° du RCCM : GA-LBV-01-20200-B12-00140 / N° NIF : 202201003877-K</span><br />
+                        <span class="mb-0">BP 7822 Libreville</span><br />
+                        <span class="mb-0">Tel. +241 011 73 49 49 / +241 062 23 38 40 / +241 077 39 84 46</span><br />
+                        <span class="mb-0">contact@b2mtecchnologies.ga - https://b2mtechnologies.ga</span>
                     </td>
                 </tr>
             </table>
 
             <table style="width:100%; border: none">
                 <tr>
-                    <td style="vertical-align: middle; border: none; font-size: 1.1rem" width="40%">
+                    <td style="vertical-align: middle; border: none; font-size: 1.1rem; width:40%">
                         <p class="mb-0">Date: {{ bill.createdAt|date('d/m/Y') }}</p>
                         <p class="mb-0 fw-bold">Facture N°: {{ bill.numero }}</p>
                     </td>
-                    <td style="vertical-align: top; text-align: left" width="60%">
-                        <p class="card-subtitle fw-bold mb-0">{{ client.sreason }}</p>
-                        <p class="card-subtitle mb-0">{{ client.address }}</p>
-                        <p class="card-subtitle mb-0">{{ client.city }} - {{ client.country }}</p>
-                        <p class="card-subtitle mb-0">{{ client.phone }}</p>
-                        <p class="card-subtitle mb-0">
+                    <td style="vertical-align: top; text-align: left; width:60%">
+                        <span class="card-subtitle fw-bold mb-0">{{ client.sreason }}</span><br />
+                        <span class="card-subtitle mb-0">{{ client.address }}</span><br />
+                        <span class="card-subtitle mb-0">{{ client.city }} - {{ client.country }}</span><br />
+                        <span class="card-subtitle mb-0">{{ client.phone }}</span><br />
+                        <span class="card-subtitle mb-0">
                             {% if client.email is defined and client.phone is not null %}
                                 {{ client.email }}
                             {% endif %}
-                        </p>
+                        </span>
                     </td>
                 </tr>
                 <tr>
@@ -534,7 +534,7 @@
                             {% endif %}
                         {% endif %}
                     </td>
-                    <td class="border-0" style="width: 35% !important;">
+                    <td class="border-0" style="width: 34% !important;">
                         <p class="fw-bold"><u>Pour B2M Technologies</u></p>
                         <p class="fw-bold"><img src="{{ qrCode }}" alt="QR Code" style="border-radius: 5px"></p>
                     </td>
