@@ -12,7 +12,6 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method RefProduct|null find($id, $lockMode = null, $lockVersion = null)
  * @method RefProduct|null findOneBy(array $criteria, array $orderBy = null)
- * @method RefProduct[]    findAll()
  * @method RefProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RefProductRepository extends ServiceEntityRepository

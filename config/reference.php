@@ -1225,20 +1225,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     images_upload_credentials?: scalar|null,
  *     images_reuse_filename?: scalar|null,
  * }
- * @psalm-type StimulusConfig = array{
- *     controller_paths?: list<scalar|null>,
- *     controllers_json?: scalar|null, // Default: "%kernel.project_dir%/assets/controllers.json"
- * }
- * @psalm-type TurboConfig = array{
- *     broadcast?: bool|array{
- *         enabled?: bool, // Default: true
- *         entity_template_prefixes?: list<scalar|null>,
- *         doctrine_orm?: bool|array{ // Enable the Doctrine ORM integration
- *             enabled?: bool, // Default: true
- *         },
- *     },
- *     default_transport?: scalar|null, // Default: "default"
- * }
  * @psalm-type WebpackEncoreConfig = array{
  *     output_path: scalar|null, // The path where Encore is building the assets - i.e. Encore.setOutputPath()
  *     crossorigin?: false|"anonymous"|"use-credentials", // crossorigin value when Encore.enableIntegrityHashes() is used, can be false (default), anonymous or use-credentials // Default: false
@@ -1561,6 +1547,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     role_hierarchy?: array<string, string|list<scalar|null>>,
  * }
  * @psalm-type EndroidQrCodeConfig = array<string, mixed>
+ * @psalm-type StimulusConfig = array{
+ *     controller_paths?: list<scalar|null>,
+ *     controllers_json?: scalar|null, // Default: "%kernel.project_dir%/assets/controllers.json"
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1573,11 +1563,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     monolog?: MonologConfig,
  *     symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     tinymce?: TinymceConfig,
- *     stimulus?: StimulusConfig,
- *     turbo?: TurboConfig,
  *     webpack_encore?: WebpackEncoreConfig,
  *     security?: SecurityConfig,
  *     endroid_qr_code?: EndroidQrCodeConfig,
+ *     stimulus?: StimulusConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1593,11 +1582,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         maker?: MakerConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         tinymce?: TinymceConfig,
- *         stimulus?: StimulusConfig,
- *         turbo?: TurboConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         security?: SecurityConfig,
  *         endroid_qr_code?: EndroidQrCodeConfig,
+ *         stimulus?: StimulusConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1611,11 +1599,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         monolog?: MonologConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         tinymce?: TinymceConfig,
- *         stimulus?: StimulusConfig,
- *         turbo?: TurboConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         security?: SecurityConfig,
  *         endroid_qr_code?: EndroidQrCodeConfig,
+ *         stimulus?: StimulusConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1630,11 +1617,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         monolog?: MonologConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         tinymce?: TinymceConfig,
- *         stimulus?: StimulusConfig,
- *         turbo?: TurboConfig,
  *         webpack_encore?: WebpackEncoreConfig,
  *         security?: SecurityConfig,
  *         endroid_qr_code?: EndroidQrCodeConfig,
+ *         stimulus?: StimulusConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

@@ -36,58 +36,49 @@
                                 <p>La création de l'entête de la facture et la saisie des détails de la facture.</p>
                             </div>
 
-                            {% if form is defined and form is not null %} }
-                                {{ form_start(form) }}
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <!-- begin form -->
-                                        {% if bill is defined and bill is not null and produits is defined and produits is not null and services is defined and services is not null %}
-                                            <form action="{{ path('app_bill_add_next', {'id':bill.id, 'mode':mode}) }}" method="post">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- begin form -->
+                                    {% if bill is defined and bill is not null and produits is defined and produits is not null and services is defined and services is not null %}
+                                        <form action="{{ path('app_bill_add_next', {'id':bill.id, 'mode':mode}) }}" method="post">
 
-                                                {% if mode is defined and mode is not null and mode == 1 %}
-                                                    {% include '/proforma/in/_product.html.twig' %}
-                                                {% elseif mode is defined and mode is not null and mode == 2 %}
-                                                    {% include '/proforma/in/_service.html.twig' %}
-                                                {% else %}
-                                                    {% include '/proforma/in/_product_service.html.twig' %}
-                                                {% endif %}
+                                            {% include '/bill/in/_product_service.html.twig' %}
 
-                                                <!-- .sous-menu bas rubrique -->
-                                                <div class="row">
-                                                    <div class="col-lg-6" style="text-align: left; margin-bottom: 2em;">
-                                                        <a href="#" title="Ajouter une ligne" style="color: navy; margin-left: 5px" onclick="addLine()"><i class="bi bi-plus-square-dotted h2"></i></a>
-                                                        <a href="#" title="Supprimer une ligne" style="color: darkred" onclick="deleteLine()"><i class="bi bi-dash-square-dotted h2"></i></a>
-                                                    </div>
-                                                    <div class="col-lg-6" style="text-align: right; margin-bottom: 2em;">
-                                                        <a href="#" title="Ajouter un intercalaire" style="color: navy; margin-left: 5px" onclick="addInterca()"><i class="bi bi-plus-square-dotted h2"></i></a>
-                                                        <a href="#" title="Supprimer un intercalaire" style="color: darkred" onclick="deleteInterca()"><i class="bi bi-dash-square-dotted h2"></i></a>
-                                                    </div>
+                                            <!-- .sous-menu bas rubrique -->
+                                            <div class="row">
+                                                <div class="col-lg-6" style="text-align: left; margin-bottom: 2em;">
+                                                    <a href="#" title="Ajouter une ligne" style="color: navy; margin-left: 5px" onclick="addLine()"><i class="bi bi-plus-square-dotted h2"></i></a>
+                                                    <a href="#" title="Supprimer une ligne" style="color: darkred" onclick="deleteLine()"><i class="bi bi-dash-square-dotted h2"></i></a>
                                                 </div>
-                                                <!-- .sous-menu rubrique -->
-
-                                                <div class="row">
-                                                    {# <div class="col-lg-12"><div><span style="color: darkred">*</span> : champ obligatoire</div></div> #}
-                                                    <div class="btnrow row mx-auto gap-4">
-                                                        <input name="idbill" id="idbill" type="hidden" value="{{ bill.id }}">
-                                                        <input name="nbline" id="nbline" type="hidden" value="1">
-                                                        <input name="interca" id="interca" type="hidden" value="0">
-                                                        <input name="mode" id="mode" type="hidden" value="{{ mode }}">
-                                                    </div>
+                                                <div class="col-lg-6" style="text-align: right; margin-bottom: 2em;">
+                                                    <a href="#" title="Ajouter un intercalaire" style="color: navy; margin-left: 5px" onclick="addInterca()"><i class="bi bi-plus-square-dotted h2"></i></a>
+                                                    <a href="#" title="Supprimer un intercalaire" style="color: darkred" onclick="deleteInterca()"><i class="bi bi-dash-square-dotted h2"></i></a>
                                                 </div>
+                                            </div>
+                                            <!-- .sous-menu rubrique -->
 
+                                            <div class="row">
+                                                {# <div class="col-lg-12"><div><span style="color: darkred">*</span> : champ obligatoire</div></div> #}
                                                 <div class="btnrow row mx-auto gap-4">
-                                                    <button type="submit" class="btn-submit">
-                                                        <span>Valider pour créer la facture</span>
-                                                        <i class="bi bi-arrow-right"></i>
-                                                    </button>
+                                                    <input name="idbill" id="idbill" type="hidden" value="{{ bill.id }}">
+                                                    <input name="nbline" id="nbline" type="hidden" value="1">
+                                                    <input name="interca" id="interca" type="hidden" value="0">
+                                                    <input name="mode" id="mode" type="hidden" value="{{ mode }}">
                                                 </div>
-                                            </form>
-                                        {% endif %}
-                                        <!-- end form -->
-                                    </div>
+                                            </div>
+
+                                            <div class="btnrow row mx-auto gap-4">
+                                                <button type="submit" class="btn-submit">
+                                                    <span>Valider pour créer la facture</span>
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                    <!-- end form -->
                                 </div>
-                                {{ form_end(form) }}
-                            {% endif %}
+                            </div>
+
                         </div>
                     </div>
                 </div>

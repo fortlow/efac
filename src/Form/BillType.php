@@ -36,10 +36,10 @@ class BillType extends AbstractType
 
         $builder
             ->add('client', EntityType::class, [
-                'autocomplete' => true,
                 'class' => Client::class,
                 'label' => 'Client',
                 'placeholder' => 'Sélectionnez',
+                'autocomplete' => true,
                 'choice_value' => 'id',
                 'choice_label' => 'sreason',
                 'query_builder' => function (ClientRepository $er) {

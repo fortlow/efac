@@ -9,16 +9,6 @@
     array (
     ),
   ),
-  '@hotwired/turbo' => 
-  array (
-    'version' => '7.3.0',
-    'dependencies' => 
-    array (
-    ),
-    'extraFiles' => 
-    array (
-    ),
-  ),
   'tom-select' => 
   array (
     'version' => '2.4.3',
@@ -86,6 +76,26 @@
   'tom-select/dist/css/tom-select.bootstrap5.css' => 
   array (
     'version' => '2.4.3',
+    'dependencies' => 
+    array (
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  '@hotwired/turbo' => 
+  array (
+    'version' => '7.3.0',
+    'dependencies' => 
+    array (
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  '@symfony/stimulus-bridge' => 
+  array (
+    'version' => '4.0.1',
     'dependencies' => 
     array (
     ),

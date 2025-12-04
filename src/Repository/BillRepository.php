@@ -13,7 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Bill|null find($id, $lockMode = null, $lockVersion = null)
  * @method Bill|null findOneBy(array $criteria, array $orderBy = null)
- * @method Bill[]    findAll()
  * @method Bill[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class BillRepository extends ServiceEntityRepository
@@ -84,5 +83,10 @@ class BillRepository extends ServiceEntityRepository
             ->getResult()
             ;
 
+    }
+
+    public function findAll(): array
+    {
+        return $this->findBy([], ['created_at' => 'DESC']);
     }
 }

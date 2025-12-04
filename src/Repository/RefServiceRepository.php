@@ -12,7 +12,6 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method RefService|null find($id, $lockMode = null, $lockVersion = null)
  * @method RefService|null findOneBy(array $criteria, array $orderBy = null)
- * @method RefService[]    findAll()
  * @method RefService[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RefServiceRepository extends ServiceEntityRepository
@@ -39,6 +38,7 @@ class RefServiceRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     public function findAll(): array
     {
         return $this->findBy([], ['name' => 'ASC']);
