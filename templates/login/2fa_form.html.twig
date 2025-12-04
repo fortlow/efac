@@ -22,39 +22,55 @@
     <div class="container-login100">
         <div class="wrap-login100">
 
-            <form action="{{ path('app_login') }}" method="post" class="login100-form validate-form">
+            <form action="{{ checkPathUrl ? checkPathUrl: path(checkPathRoute) }}" method="post" class="login100-form validate-form">
 
-                <span class="login100-form-title p-b-43">Veuillez saisir vos identifiants de connexion</span>
 
-                {% if error %}
-                    <div class="txtError">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                <span class="login100-form-title p-b-43">Authentification à deux facteurs</span><br />
+
+                <span class="p-b-43">
+                    <b>Veuillez saisir le code à 6 chiffres envoyé par mail.</b>
+                </span><br />
+
+                {# <p class="label"><label for="_auth_code">{{ "auth_code"|trans({}, 'SchebTwoFactorBundle') }} {{ twoFactorProvider }}:</label></p>  #}
+
+                {% if authenticationError %}
+                    <div class="txtError"><strong>{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</strong></div>
                 {% endif %}
 
-                {% if messageErrorCli is defined and messageErrorCli is not null %}
-                    <div class="txtError">{{ messageErrorCli }}</div>
+                <div class="widget wrap-input100">
+                    <input
+                            id="_auth_code"
+                            type="text"
+                            class="input100 form-control"
+                            name="{{ authCodeParameterName }}"
+                            autocomplete="one-time-code"
+                            autofocus
+                            inputmode="numeric"
+                            pattern="[0-9]*"
+                    />
+                    <span class="focus-input100"></span>
+                    <span class="label-input100">Code</span>
+                </div>
+
+                {% if displayTrustedOption %}
+                    <br /><div class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="{{ trustedParameterName }}" /> {{ "trusted"|trans({}, 'SchebTwoFactorBundle') }}</label></div><br />
                 {% endif %}
 
-
-                <div class="wrap-input100 validate-input" data-validate = "Email invalide">
-                    <input class="input100" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Email" required>
-                    <span class="focus-input100"></span>
-                    <span class="label-input100">Email</span>
-                </div>
-
-                <div class="wrap-input100 validate-input" data-validate="Mot de passe obligatoire">
-                    <input class="input100" type="password" id="password" name="_password" placeholder="Mot de passe..." required>
-                    <span class="focus-input100"></span>
-                    <span class="label-input100">Mot de passe</span>
-                </div>
-
-                <div style="text-align: center">
-                    <a href="#" class="txt1">Mot de passe oublié?</a><br /><br />
-                </div>
+                {% if isCsrfProtectionEnabled %}
+                    <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+                {% endif %}
 
                 <div class="container-login100-form-btn">
                     <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
-                    <button class="login100-form-btn" type="submit">Identifiez-vous</button>
+                    <button class="login100-form-btn" type="submit">Valider le code</button>
                 </div>
+
+                <br />
+                <p class="cancel">
+                    <a href="{{ logoutPath }}">
+                        <button class="login100-form-btn">{{ "cancel"|trans({}, 'SchebTwoFactorBundle') }}</button>
+                    </a>
+                </p>
 
             </form>
 

@@ -1,0 +1,20 @@
+# See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
+scheb_two_factor:
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+
+    email:
+        digits: 6
+        enabled: true
+        sender_email: contact@efac.tech
+        sender_name: eFAC
+        template: login/2fa_form.html.twig
+    trusted_device:
+      enabled: true
+      lifetime: 5184000              # lifetime in second
+      extend_lifetime: false
+      cookie_name: trusted_device
+      cookie_secure: false
+      cookie_same_site: "lax"
+      cookie_path: "/"
