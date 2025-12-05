@@ -33,12 +33,12 @@
                             <thead>
                             <tr>
                                 <th style="width: 2%">#</th>
-                                <th style="width: 18%">Nom</th>
-                                <th style="width: 14%">Prénom</th>
-                                <th style="width: 20%">Email</th>
+                                <th style="width: 20%">Nom</th>
+                                <th style="width: 15%">Prénom</th>
+                                <th style="width: 21%">Email</th>
                                 <th style="width: 10%">Rôle</th>
-                                <th style="width: 18%;">Fonction</th>
-                                <th style="width: 12%; text-align: center">Connecté(e) le</th>
+                                <th style="width: 13%; text-align: center" title="Date de la dernière connexion">Connecté(e)</th>
+                                <th style="width: 13%; text-align: center" title="Date de la dernière déconnexion">Déconnecté(e)</th>
                                 <th style="width: 6%; text-align: center">Actions</th>
                             </tr>
                             </thead>
@@ -75,19 +75,18 @@
                                                 {% endif %}
                                             {% endif %}
                                         </td>
-                                        <td class="odd" style="vertical-align: middle">
-                                            {% if user.position is defined and user.position is not null %}
-                                                {{ user.position }}
+                                        <td class="odd" style="vertical-align: middle; text-align: center">
+                                            {% if user.startcnxAt is defined and user.startcnxAt is not null %}
+                                                {{ user.startcnxAt|date('d/m/y H:i') }}
                                             {% endif %}
                                         </td>
                                         <td class="odd" style="vertical-align: middle; text-align: center">
                                             {% if user.lastcnxAt is defined and user.lastcnxAt is not null %}
-                                                {{ user.lastcnxAt|date('d/m/Y H:i') }} (UTC)
+                                                {{ user.lastcnxAt|date('d/m/y H:i') }}
                                             {% endif %}
-                                            {{ 'now'|date('d/m/y H:i') }}
                                         </td>
                                         <td class="odd" style="vertical-align: middle; text-align: center">
-                                            {% if app.user.roles is defined and app.user.roles is not null and 'ROLE_MANAGER' in app.user.roles %}
+                                            {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN','ROLE_MANAGER'] %}
                                                 <a href="{{ path('app_edit_user', {'id':user.id }) }}" title="Modifier"><i class="bi bi-pencil-square h3"></i></a>
                                             {% endif %}
 

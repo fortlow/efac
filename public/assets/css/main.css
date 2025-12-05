@@ -9249,3 +9249,96 @@ label.required:after {
     -moz-border-radius: 20px;
     border-radius: 20px;
 }
+
+/*--------------------------------------------------------------
+# Style de la bannière de consentement
+--------------------------------------------------------------*/
+
+/* --- Bannière --- */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.15);
+    z-index: 9999;
+    transition: opacity .3s ease;
+}
+
+.cookie-banner.hidden {
+    display: none;
+}
+
+.cookie-content {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+}
+
+.cookie-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* --- Boutons --- */
+.cookie-btn {
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+}
+
+.cookie-btn.primary {
+    background: #004aad;
+    color: white;
+}
+
+.cookie-btn.secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+/* --- Modal --- */
+.cookie-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.cookie-modal.hidden {
+    display: none;
+}
+
+.cookie-modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 95%;
+    max-width: 500px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.cookie-option {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    gap: 10px;
+}
+
+.cookie-modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+

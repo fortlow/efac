@@ -55,6 +55,9 @@ class User implements UserInterface , PasswordAuthenticatedUserInterface, TwoFac
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $position = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $startcnx_at = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -237,5 +240,17 @@ class User implements UserInterface , PasswordAuthenticatedUserInterface, TwoFac
     public function eraseCredentials(): void
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getStartcnxAt(): ?\DateTime
+    {
+        return $this->startcnx_at;
+    }
+
+    public function setStartcnxAt(?\DateTime $startcnx_at): static
+    {
+        $this->startcnx_at = $startcnx_at;
+
+        return $this;
     }
 }

@@ -2,6 +2,8 @@
   <dictionary name="project">
     <words>
       <w>accordionremove</w>
+      <w>cnpdcp</w>
+      <w>confidentialite</w>
       <w>dline</w>
       <w>endroid</w>
       <w>ffac</w>
@@ -16,6 +18,7 @@
       <w>popperjs</w>
       <w>samesite</w>
       <w>sitename</w>
+      <w>startcnx</w>
       <w>throwables</w>
       <w>tmplog</w>
       <w>toogle</w>

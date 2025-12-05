@@ -1,0 +1,45 @@
+<!-- Bandeau de consentement cookies -->
+<div id="cookie-banner" class="cookie-banner hidden">
+    <div class="cookie-content">
+        <p>
+            Nous utilisons des cookies pour améliorer votre expérience, analyser la navigation
+            et assurer le bon fonctionnement de notre plateforme. Vous pouvez accepter,
+            refuser ou personnaliser vos préférences.
+            <a href="{{ path('app_utilisation_cookies') }}" target="_blank">En savoir plus</a>.
+        </p>
+
+        <div class="cookie-buttons">
+            <button id="cookie-settings-btn" class="cookie-btn">Personnaliser</button>
+            <button id="cookie-reject-btn" class="cookie-btn secondary">Tout refuser</button>
+            <button id="cookie-accept-btn" class="cookie-btn primary">Tout accepter</button>
+        </div>
+    </div>
+</div>
+
+<!-- Fenêtre de personnalisation -->
+<div id="cookie-modal" class="cookie-modal hidden">
+    <div class="cookie-modal-content">
+        <h2>Paramètres des cookies</h2>
+        <p>Choisissez les types de cookies que vous souhaitez autoriser.</p>
+
+        <label class="cookie-option">
+            <input type="checkbox" checked disabled>
+            <span>Cookies nécessaires (obligatoires)</span>
+        </label>
+
+        <label class="cookie-option">
+            <input type="checkbox" id="analytics-cookies">
+            <span>Cookies de performance et d’analyse</span>
+        </label>
+
+        <label class="cookie-option">
+            <input type="checkbox" id="personalization-cookies">
+            <span>Cookies de personnalisation</span>
+        </label>
+
+        <div class="cookie-modal-actions">
+            <button id="cookie-save-btn" class="cookie-btn primary">Enregistrer</button>
+            <button id="cookie-cancel-btn" class="cookie-btn secondary">Annuler</button>
+        </div>
+    </div>
+</div>

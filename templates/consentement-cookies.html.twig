@@ -1,0 +1,69 @@
+<script>
+    // --- Vérifier si le consentement existe déjà ---
+    document.addEventListener("DOMContentLoaded", function () {
+        const consent = localStorage.getItem("cookie-consent");
+
+        if (!consent) {
+            document.getElementById("cookie-banner").classList.remove("hidden");
+        }
+    });
+
+    // --- Boutons du bandeau ---
+    document.getElementById("cookie-accept-btn").onclick = function () {
+        saveConsent({ analytics: true, personalization: true });
+    };
+
+    document.getElementById("cookie-reject-btn").onclick = function () {
+        saveConsent({ analytics: false, personalization: false });
+    };
+
+    document.getElementById("cookie-settings-btn").onclick = function () {
+        document.getElementById("cookie-modal").classList.remove("hidden");
+    };
+
+    // --- Boutons du modal ---
+    document.getElementById("cookie-cancel-btn").onclick = function () {
+        document.getElementById("cookie-modal").classList.add("hidden");
+    };
+
+    document.getElementById("cookie-save-btn").onclick = function () {
+        const analytics = document.getElementById("analytics-cookies").checked;
+        const personalization = document.getElementById("personalization-cookies").checked;
+
+        saveConsent({ analytics, personalization });
+    };
+
+    // --- Fonction de sauvegarde ---
+    function saveConsent(options) {
+        localStorage.setItem("cookie-consent", JSON.stringify(options));
+
+        // Masquer modal + bannière
+        document.getElementById("cookie-modal").classList.add("hidden");
+        document.getElementById("cookie-banner").classList.add("hidden");
+
+        // Activer les scripts autorisés
+        applyCookieSettings(options);
+    }
+
+    // --- Activer les cookies selon consentement ---
+    function applyCookieSettings(options) {
+        if (options.analytics) {
+            loadScript("analytics.js");
+        }
+        if (options.personalization) {
+            loadScript("personalization.js");
+        }
+    }
+
+    // --- Fonction pour charger dynamiquement un script ---
+    function loadScript(src) {
+        const script = document.createElement("script");
+        script.src = src;
+        document.head.appendChild(script);
+    }
+
+    // --- Fonction pour rouvrir le panneau depuis un bouton/menu ---
+    function openCookieSettings() {
+        document.getElementById("cookie-modal").classList.remove("hidden");
+    }
+</script>
