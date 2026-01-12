@@ -53,6 +53,7 @@
                     {% if app.user.roles is defined and app.user.roles is not null and app.user.roles[0] in ['ROLE_ADMIN', 'ROLE_MANAGER'] %}
                         <li><a href="{{ path('app_user') }}">Utilisateurs</a></li>
                     {% endif %}
+                    <li><a href="#">Contacter le support technique</a></li>
                     <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                 </ul>
             </li>

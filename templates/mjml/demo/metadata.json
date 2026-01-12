@@ -1,0 +1,13 @@
+{
+  "name": "Demo",
+  "description": "Demo template",
+  "template": "template.mjml",
+  "attributes": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      }
+    }
+  }
+}

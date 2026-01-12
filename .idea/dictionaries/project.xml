@@ -2,6 +2,8 @@
   <dictionary name="project">
     <words>
       <w>accordionremove</w>
+      <w>axllent</w>
+      <w>catapule</w>
       <w>cnpdcp</w>
       <w>confidentialite</w>
       <w>dline</w>
@@ -13,15 +15,19 @@
       <w>idproforma</w>
       <w>imgzoom</w>
       <w>importcss</w>
+      <w>jdrouet</w>
       <w>l'url</w>
+      <w>mailpit</w>
       <w>navmenu</w>
       <w>popperjs</w>
       <w>samesite</w>
+      <w>schickling</w>
       <w>sitename</w>
       <w>startcnx</w>
       <w>throwables</w>
       <w>tmplog</w>
       <w>toogle</w>
+      <w>urlrenewpwd</w>
     </words>
   </dictionary>
 </component>

@@ -322,8 +322,6 @@ class BillController extends AbstractController
         try {
             $bill = $billRepository->find($id);
 
-            if(!is_null($bill) && $bill->getClient()->isIsBlrClient()) $flagBlr = true;
-
             // suppression des lignes line_bill
             $lineBillRepository->removeLineBillBlrForClient($bill);
 

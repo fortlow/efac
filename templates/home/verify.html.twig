@@ -1,0 +1,93 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}eFac | Contrôle des documents {% endblock %}
+
+{% block content %}
+
+    <section id="service-details" class="service-details section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row" style="text-align: center">
+                <div class="col-lg-12 mx-auto" style="text-align: center">
+                    <div class="service-sidebar">
+
+                        <div class="privacy-section" data-aos="fade-up" data-aos-delay="300">
+                            <h3>Contrôle des documents</h3>
+                        </div>
+
+                        <div class="quick-contact-card" data-aos="slide-up" data-aos-delay="200">
+                            <div class="contact-header">
+                                <h4>Vous avez scanné le qr-code d'une Pro Forma ou d'une facture générée par eFac.</h4>
+                                <p>
+                                    Veuillez vérifier si les données de notre base de données correspondent à celle de votre Pro Forma ou facture.<br />
+                                    Si ce n'est pas le cas, il s'agit d'une Pro Forma ou Facture contrefaite.
+                                </p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <!-- begin content -->
+                                    <div style="text-align: left">
+                                        {% if target is defined and target is not null and document is defined and document is not null %}
+                                            {% if target == 'proforma' %}
+                                                <strong><b>Document généré par eFac.</b></strong>
+                                                <br /><br />
+                                                <strong style="font-size: larger" class="text-success">
+                                                    <i class="bi bi-check2-square h1"></i> Document authentifié!<br />
+                                                </strong>
+                                                <br />
+                                                <b>Numéro de la Pro Forma</b> : {{ document.numero }} <br />
+                                                <b>Date de création</b> : {{ document.createdAt|date('d/m/Y') }} <br />
+                                                <b>Objet de la Pro Forma</b> : {{ document.subject }} <br />
+
+                                                <b>Client</b> : {{ document.client.sreason|upper }} <br />
+
+                                            {% elseif target == 'bill' %}
+                                                <strong><b>Document généré par eFac.</b></strong>
+                                                <br /><br />
+                                                <strong style="font-size: larger" class="text-success">
+                                                    <i class="bi bi-check2-square h1"></i> Document authentifié!<br />
+                                                </strong>
+                                                <br />
+                                                <b>Numéro de la facture</b> : {{ document.numero }} <br />
+                                                <b>Date de création</b> : {{ document.createdAt|date('d/m/Y') }} <br />
+                                                <b>Date échéance</b> : {{ document.dueDate|date('d/m/Y') }} <br />
+                                                <b>Objet de la facture</b> : {{ document.subject }} <br />
+
+                                                <b>Client</b> : {{ document.client.sreason|upper }} <br />
+                                            {% else %}
+                                                <strong style="font-size: larger" class="text-danger">
+                                                    Ce document n'est pas authentique.<br /><br />
+                                                    Évitez ce type d'opération qui s'apparente à une falsification de documents.
+                                                    <br /><br />
+                                                    Merci pour votre compréhension!
+                                                </strong>
+                                            {% endif %}
+                                        {% else %}
+                                            <strong style="font-size: larger" class="text-danger">
+                                                Ce document n'est pas authentique.<br /><br />
+                                                Évitez ce type d'opération qui s'apparente à une falsification de documents.
+                                                <br /><br />
+                                                Merci pour votre compréhension!
+                                            </strong>
+                                        {% endif %}
+                                    </div>
+                                    <!-- end content -->
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div style="text-align: left">
+                                        <b>QR-code original :</b> <br />
+                                        <img src="{{ qrCode }}" alt="QR Code" style="border-radius: 5px">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
