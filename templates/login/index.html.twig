@@ -15,6 +15,52 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/vendor/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('tmplog/css/main.css') }}">
+
+    <style>
+        /* Positionnement de l'icône œil à droite du champ */
+        .wrap-input100 {
+            position: relative !important;
+        }
+
+        .password-icon {
+            position: absolute !important;
+            right: 15px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-icon svg {
+            width: 20px !important;
+            height: 20px !important;
+            color: #999;
+            transition: color 0.2s;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .password-icon svg:hover {
+            color: #333;
+        }
+
+        /* Espace à droite pour que le texte ne chevauche pas l'icône */
+        #password {
+            padding-right: 45px !important;
+        }
+
+        /* Suppression de l'œil natif du navigateur (Chrome, Edge, Safari) */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear,
+        input[type="password"]::-webkit-contacts-auto-fill-button,
+        input[type="password"]::-webkit-credentials-auto-fill-button,
+        input[type="password"]::-webkit-textfield-decoration-container {
+            display: none !important;
+            visibility: hidden !important;
+        }
+    </style>
 </head>
 <body style="background-color: #666666;">
 
@@ -60,7 +106,58 @@
 
             </form>
 
-            <div class="login100-more" style="background-image: url('{{ asset('tmplog/images/bg-01.jpg') }}');"></div>
+            <div class="login100-more" style="background-image: url('{{ asset('tmplog/images/bg-01.jpg') }}'); position: relative;"></div>
+            <div style="
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                padding: 30px;
+                background: rgba(0, 0, 0, 0.55);
+                border-radius: 12px;
+                width: 85%;
+            ">
+                <h1 style="
+                    color: #ffffff;
+                    font-size: 2rem;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    letter-spacing: 6px;
+                    margin-bottom: 15px;
+                    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+                ">Services et solutions SMS</h1>
+
+                <div style="
+                    width: 60px;
+                    height: 3px;
+                    background: #ffffff;
+                    margin: 0 auto 20px auto;
+                    border-radius: 2px;
+                "></div>
+
+                <p style="
+                    color: #f0f0f0;
+                    font-size: 1rem;
+                    line-height: 1.7;
+                    margin: 0;
+                ">
+                    <strong style="color: #ffffff; font-size: 1.3rem;">
+                        Pour vos solutions complètes de messagerie d'entreprise
+                    </strong><br><br>
+
+                    Notre service SMS professionnel prend en charge de nombreux cas d'utilisation,
+                    garantissant des taux de délivrabilité optimaux.<br />Il intègre également des systèmes de protection
+                    contre la fraude à la pointe du secteur,<br />des fonctionnalités de personnalisation et bien plus encore.
+                    <br /><br />
+
+                    <strong style="color: #ffffff; font-size: 1.3rem;">Pour tous les secteurs d'activité</strong><br><br>
+
+                    Des startups technologiques aux grandes entreprises, nous avons appris à relever les défis
+                    communs à tous les secteurs.<br />Notre prochain objectif est de vous aider à lancer votre service SMS
+                    professionnel en toute simplicité.
+                </p>
+            </div>
         </div>
     </div>
 </div>
@@ -75,6 +172,27 @@
 <script src="{{ asset('tmplog/vendor/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('tmplog/vendor/countdowntime/countdowntime.js') }}"></script>
 <script src="{{ asset('tmplog/js/main.js') }}"></script>
+<script>
+    feather.replace();
+
+    const eye           = document.querySelector(".feather-eye");
+    const eyeOff        = document.querySelector(".feather-eye-off");
+    const passwordField = document.querySelector("#password");
+
+    eyeOff.style.display = "none";
+
+    eye.addEventListener("click", () => {
+        eye.style.display    = "none";
+        eyeOff.style.display = "block";
+        passwordField.type   = "text";
+    });
+
+    eyeOff.addEventListener("click", () => {
+        eyeOff.style.display = "none";
+        eye.style.display    = "block";
+        passwordField.type   = "password";
+    });
+</script>
 
 </body>
 </html>
