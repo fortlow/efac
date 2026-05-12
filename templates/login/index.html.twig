@@ -33,17 +33,29 @@
             align-items: center;
         }
 
-        .password-icon svg {
-            width: 20px !important;
-            height: 20px !important;
-            color: #999;
-            transition: color 0.2s;
+        .password-toggle {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            margin-top: 30px;
+            z-index: 10;
+            color: #999999;
+            pointer-events: auto;
         }
 
-        .password-icon svg:hover {
-            color: #333;
+        .password-toggle:hover {
+            color: #333333;
+        }
+
+        .password-toggle i {
+            font-size: 18px;
+            line-height: 1;
         }
 
         /* Espace à droite pour que le texte ne chevauche pas l'icône */
@@ -91,6 +103,9 @@
                     <input class="input100" type="password" id="password" name="_password" placeholder="Mot de passe..." required>
                     <span class="focus-input100"></span>
                     <span class="label-input100">Mot de passe</span>
+                    <span id="togglePassword" class="password-toggle" role="button" aria-label="Afficher ou masquer le mot de passe">
+                        <i class="fa fa-eye"></i>
+                    </span>
                 </div>
 
                 <div style="text-align: center">
@@ -106,57 +121,58 @@
 
             </form>
 
-            <div class="login100-more" style="background-image: url('{{ asset('tmplog/images/bg-01.jpg') }}'); position: relative;"></div>
-            <div style="
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                padding: 30px;
-                background: rgba(0, 0, 0, 0.55);
-                border-radius: 12px;
-                width: 85%;
-            ">
-                <h1 style="
-                    color: #ffffff;
-                    font-size: 2rem;
-                    font-weight: 900;
-                    text-transform: uppercase;
-                    letter-spacing: 6px;
-                    margin-bottom: 15px;
-                    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-                ">Services et solutions SMS</h1>
-
+            <div class="login100-more" style="background-image: url('{{ asset('tmplog/images/bg-01.jpg') }}'); position: relative;">
                 <div style="
-                    width: 60px;
-                    height: 3px;
-                    background: #ffffff;
-                    margin: 0 auto 20px auto;
-                    border-radius: 2px;
-                "></div>
-
-                <p style="
-                    color: #f0f0f0;
-                    font-size: 1rem;
-                    line-height: 1.7;
-                    margin: 0;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-align: center;
+                    padding: 30px;
+                    background: rgba(0, 0, 0, 0.55);
+                    border-radius: 12px;
+                    width: 85%;
                 ">
-                    <strong style="color: #ffffff; font-size: 1.3rem;">
-                        Pour vos solutions complètes de messagerie d'entreprise
-                    </strong><br><br>
+                    <h1 style="
+                        color: #ffffff;
+                        font-size: 1.2rem;
+                        font-weight: 900;
+                        text-transform: uppercase;
+                        letter-spacing: 3px;
+                        margin-bottom: 15px;
+                        text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+                    ">Services et solutions SMS</h1>
 
-                    Notre service SMS professionnel prend en charge de nombreux cas d'utilisation,
-                    garantissant des taux de délivrabilité optimaux.<br />Il intègre également des systèmes de protection
-                    contre la fraude à la pointe du secteur,<br />des fonctionnalités de personnalisation et bien plus encore.
-                    <br /><br />
+                    <div style="
+                        width: 60px;
+                        height: 3px;
+                        background: #ffffff;
+                        margin: 0 auto 20px auto;
+                        border-radius: 2px;
+                    "></div>
 
-                    <strong style="color: #ffffff; font-size: 1.3rem;">Pour tous les secteurs d'activité</strong><br><br>
+                    <p style="
+                        color: #f0f0f0;
+                        font-size: 1rem;
+                        line-height: 1.7;
+                        margin: 0;
+                    ">
+                        <strong style="color: #ffffff; font-size: 1.3rem;">
+                            Pour vos solutions complètes de messagerie d'entreprise
+                        </strong><br><br>
 
-                    Des startups technologiques aux grandes entreprises, nous avons appris à relever les défis
-                    communs à tous les secteurs.<br />Notre prochain objectif est de vous aider à lancer votre service SMS
-                    professionnel en toute simplicité.
-                </p>
+                        Notre service SMS professionnel prend en charge de nombreux cas d'utilisation,
+                        garantissant des taux de délivrabilité optimaux.<br />Il intègre également des systèmes de protection
+                        contre la fraude à la pointe du secteur,<br />des fonctionnalités de personnalisation et bien plus encore.
+                        <br /><br />
+
+                        <strong style="color: #ffffff; font-size: 1.3rem;">Pour tous les secteurs d'activité</strong><br><br>
+
+                        Des startups technologiques aux grandes entreprises, nous avons appris à relever les défis
+                        communs à tous les secteurs.<br />Notre prochain objectif est de vous aider à lancer votre service SMS
+                        professionnel en toute simplicité.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -173,25 +189,34 @@
 <script src="{{ asset('tmplog/vendor/countdowntime/countdowntime.js') }}"></script>
 <script src="{{ asset('tmplog/js/main.js') }}"></script>
 <script>
-    feather.replace();
+    if (window.feather && typeof feather.replace === 'function') {
+        feather.replace();
+    }
 
-    const eye           = document.querySelector(".feather-eye");
-    const eyeOff        = document.querySelector(".feather-eye-off");
-    const passwordField = document.querySelector("#password");
+    // Toggle password visibility function
+    function togglePasswordVisibility() {
+        const passwordField = document.querySelector("#password");
+        const toggleBtn = document.querySelector("#togglePassword");
 
-    eyeOff.style.display = "none";
+        if (!passwordField || !toggleBtn) return;
 
-    eye.addEventListener("click", () => {
-        eye.style.display    = "none";
-        eyeOff.style.display = "block";
-        passwordField.type   = "text";
-    });
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleBtn.innerHTML = '<i class="fa fa-eye-slash"></i>';
+        } else {
+            passwordField.type = "password";
+            toggleBtn.innerHTML = '<i class="fa fa-eye"></i>';
+        }
+    }
 
-    eyeOff.addEventListener("click", () => {
-        eyeOff.style.display = "none";
-        eye.style.display    = "block";
-        passwordField.type   = "password";
-    });
+    const togglePasswordBtn = document.querySelector("#togglePassword");
+    if (togglePasswordBtn) {
+        togglePasswordBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            togglePasswordVisibility();
+        });
+    }
 </script>
 
 </body>
