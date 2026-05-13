@@ -61,6 +61,9 @@ class User implements UserInterface , PasswordAuthenticatedUserInterface, TwoFac
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $mobile_phone = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -265,6 +268,18 @@ class User implements UserInterface , PasswordAuthenticatedUserInterface, TwoFac
     public function setToken(?string $token): static
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getMobilePhone(): ?string
+    {
+        return $this->mobile_phone;
+    }
+
+    public function setMobilePhone(?string $mobile_phone): static
+    {
+        $this->mobile_phone = $mobile_phone;
 
         return $this;
     }
