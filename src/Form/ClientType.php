@@ -60,14 +60,6 @@ class ClientType extends AbstractType
                         ->orderBy('r.label', 'ASC');
                 },
             ])
-            ->add('num_account', TextType::class, [
-                'label' => 'Numéro de compte',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Numéro de compte...',
-                    'title' => 'Numéro de compte',
-                ],
-            ])
             ->add('num_command', TextType::class, [
                 'label' => 'N° bon de commande',
                 'attr' => [
@@ -93,22 +85,6 @@ class ClientType extends AbstractType
                     'title' => 'Adresse complémentaire du client',
                 ],
                 'required' => false,
-            ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ville du client...',
-                    'title' => 'Ville du client',
-                ],
-            ])
-            ->add('country', TextType::class, [
-                'label' => 'Pays',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Pays du client...',
-                    'title' => 'Pays du client',
-                ],
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Téléphone',
@@ -147,6 +123,60 @@ class ClientType extends AbstractType
                     'choice_value' => 'id',
                     'choice_label'  => 'label',
                     'attr' => ['class' => 'form-control',],
+                ])
+                ->add('num_account', TextType::class, [
+                    'label' => 'Numéro de compte',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Numéro de compte...',
+                        'title' => 'Numéro de compte',
+                    ],
+                ])
+                ->add('city', TextType::class, [
+                    'label' => 'Ville',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Ville du client...',
+                        'title' => 'Ville du client',
+                    ],
+                ])
+                ->add('country', TextType::class, [
+                    'label' => 'Pays',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Pays du client...',
+                        'title' => 'Pays du client',
+                    ],
+                ])
+            ;
+        } else {
+            $builder
+                ->add('num_account', TextType::class, [
+                    'label' => 'Numéro de compte',
+                    'data' => $idClient,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Numéro de compte...',
+                        'title' => 'Numéro de compte',
+                    ],
+                ])
+                ->add('city', TextType::class, [
+                    'label' => 'Ville',
+                    'data' => 'Libreville',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Ville du client...',
+                        'title' => 'Ville du client',
+                    ],
+                ])
+                ->add('country', TextType::class, [
+                    'label' => 'Pays',
+                    'data' => 'Gabon',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Pays du client...',
+                        'title' => 'Pays du client',
+                    ],
                 ])
             ;
         }

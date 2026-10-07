@@ -1,6 +1,6 @@
 <?php
 // src/EventListener/UserPostUpdateListener.php
-
+/*
 namespace App\EventListener;
 
 use App\Entity\User;
@@ -27,10 +27,9 @@ class UserPostUpdateListener
         $this->_em = $em;
         $this->_texter = $texter;
     }
-
+*/
     /**
-     * @throws TransportExceptionInterface
-     */
+
     public function postUpdate(PostUpdateEventArgs $args): void
     {
         $this->_logger->info('UserPostUpdateListener->postUpdate IN');
@@ -65,3 +64,4 @@ class UserPostUpdateListener
         $this->_logger->info('UserPostUpdateListener->postUpdate OUT');
     }
 }
+    */

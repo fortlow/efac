@@ -44,10 +44,10 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/client/add', name: 'app_client_add'), IsGranted('ROLE_SALE')]
-    public function add(Request $request): Response
+    public function add(Request $request, ClientRepository $clientRepository): Response
     {
         $form = $this->createForm(ClientType::class, null, [
-            'label' => null,
+            'label' => $this->generateNumAccount($clientRepository),
             'translator' => 'created',
         ]);
         $form->handleRequest($request);
@@ -303,5 +303,17 @@ final class ClientController extends AbstractController
             'bills' => $bills,
             'client' => $client,
         ]);
+    }
+
+    /**
+     * @param ClientRepository $clientRepository
+     * @return string
+     */
+    public function generateNumAccount(ClientRepository $clientRepository): string
+    {
+        $prefix = '500';
+        $nbClient = $clientRepository->count() + 1;
+
+        return $prefix . date('ym') .'0'. $nbClient;
     }
 }

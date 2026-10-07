@@ -82,6 +82,10 @@
 
             <form action="{{ path('app_login') }}" method="post" class="login100-form validate-form">
 
+                <div style="text-align: center;">
+                    <a href="{{ path('app_home') }}"><img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 120px"></a>
+                </div><br />
+
                 <span class="login100-form-title p-b-43">Veuillez saisir vos identifiants de connexion</span>
 
                 {% if error %}
@@ -131,7 +135,8 @@
                     padding: 30px;
                     background: rgba(0, 0, 0, 0.55);
                     border-radius: 12px;
-                    width: 85%;
+                    {# width: 85%; #}
+                    height: 80%;
                 ">
                     <h1 style="
                         color: #ffffff;
@@ -141,37 +146,61 @@
                         letter-spacing: 3px;
                         margin-bottom: 15px;
                         text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-                    ">Services et solutions SMS</h1>
+                    " size="2">Prenez le contrôle de votre facturation</h1>
 
                     <div style="
-                        width: 60px;
+                        width: 100%;
                         height: 3px;
                         background: #ffffff;
                         margin: 0 auto 20px auto;
                         border-radius: 2px;
-                    "></div>
+                        top: 2rem;
+                        text-align: center;
+                    ">
 
-                    <p style="
+                    {# <p style="
                         color: #f0f0f0;
                         font-size: 1rem;
                         line-height: 1.7;
                         margin: 0;
-                    ">
-                        <strong style="color: #ffffff; font-size: 1.3rem;">
-                            Pour vos solutions complètes de messagerie d'entreprise
-                        </strong><br><br>
+                    ">  #}
+                        <div style="color: #f0f0f0; font-size: 1rem; line-height: 1.7; margin-top: 10px; text-align: center; {# width: 60%; #}">
+                            <br /><strong style="color: #ffffff; font-size: 1.3rem;">Marre de perdre du temps sur Excel ?</strong>
+                            <br>
+                            Notre application vous permet de créer des factures professionnelles, de suivre vos paiements
+                            en temps réel et d'automatiser vos relances. Simple, rapide et sécurisée.
+                            <br />
+                            <ul>
+                                <li>Gagnez du temps, facturez en un clic.</li>
+                                <li>La facturation enfin simplifiée.</li>
+                                <li>Zéro prise de tête, des factures pros.</li>
+                                <li>Pilotez la trésorerie de votre PME facilement.</li>
+                            </ul>
 
-                        Notre service SMS professionnel prend en charge de nombreux cas d'utilisation,
-                        garantissant des taux de délivrabilité optimaux.<br />Il intègre également des systèmes de protection
-                        contre la fraude à la pointe du secteur,<br />des fonctionnalités de personnalisation et bien plus encore.
-                        <br /><br />
-
-                        <strong style="color: #ffffff; font-size: 1.3rem;">Pour tous les secteurs d'activité</strong><br><br>
-
-                        Des startups technologiques aux grandes entreprises, nous avons appris à relever les défis
-                        communs à tous les secteurs.<br />Notre prochain objectif est de vous aider à lancer votre service SMS
-                        professionnel en toute simplicité.
-                    </p>
+                            <br />
+                            <strong style="color: #ffffff; font-size: 1.3rem;">Les bénéfices clés pour votre entreprise:</strong>
+                            <ul>
+                                <li><b>Gain de temps :</b> Créez vos factures en 30 secondes chrono.</li>
+                                <li><b>Trésorerie :</b> Suivez vos paiements et relancez automatiquement.</li>
+                                <li><b>Image :</b> Des documents irréprochables pour vos clients.</li>
+                                <li><b>Sérénité :</b> Une comptabilité claire, sans formules Excel complexes</li>
+                            </ul>
+                            <br />
+                            <strong style="color: #ffffff; font-size: 1.3rem;">Le logiciel de facturation pensé pour votre quotidien.</strong><br>
+                            Indépendants et dirigeants de PME, libérez-vous de la paperasse.
+                            Notre solution intuitive vous permet de générer des factures et des proformas conformes, de suivre vos encaissements
+                            en temps réel et de vous concentrer sur l'essentiel : développer votre activité.
+                            <br /><br />
+                            <ul>
+                                <li><strong><b>Les bénéfices clés pour votre entreprise :</b></strong></li>
+                                <li><b>Gain de temps :</b> Créez vos factures en 30 secondes chrono.</li>
+                                <li><b>Trésorerie :</b> Suivez vos paiements et relancez automatiquement.</li>
+                                <li><b>Image :</b> Des documents irréprochables pour vos clients.</li>
+                                <li><b>Sérénité :</b> Une comptabilité claire, sans formules Excel complexes</li>
+                            </ul>
+                        </div>
+                    {# </p>  #}
+                    </div>
                 </div>
             </div>
         </div>

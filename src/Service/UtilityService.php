@@ -223,6 +223,68 @@ class UtilityService
             return '';
         }
     }
+
+    public function upload(File $fileCsv): bool
+    {
+        try {
+            $tabSubscribers = \file($fileCsv);
+            $matches = null;
+            $nb = 1;
+
+            foreach ($tabSubscribers as $line)
+            {
+                $subscriber = new Subscriber();
+                $tabLine = explode(',', $line);
+                $nameSubscriber = $tabLine[0];
+                $phoneSubscriber = trim($tabLine[1]);
+
+                $this->_logger->info("Ligne ". $nb ." : '". $nameSubscriber ."' - '". $phoneSubscriber ."'");
+
+                if(preg_match('/^(241)([6|7])(\\d+){7}/', $phoneSubscriber, $matches) && strlen($nameSubscriber) > 2)
+                {
+                    if($this->_subsciberRepo->findOneBy(['phone' => $phoneSubscriber]) == null) {
+                        // On sauvegarde l'abonné
+                        $subscriber->setFullName($nameSubscriber);
+                        $subscriber->setPhone($phoneSubscriber);
+                        $subscriber->setCreatedAt(new \DateTime('now'));
+                        $this->_em->persist($subscriber);
+                    } else {
+                        // message erreur : ce numéro de téléphone est déjà enregistré
+                        $this->_logger->info("Line n° ". $nb .": ce numéro de téléphone (". $phoneSubscriber .") est déjà enregistré");
+
+                        $logMsg = new LogMessage();
+                        $logMsg->setLevel('warning');
+                        $logMsg->setMessage("Line n° ". $nb .": ce numéro de téléphone (". $phoneSubscriber .") est déjà enregistré");
+                        $logMsg->setCreatedAt(new \DateTime('now'));
+                        $this->_em->persist($logMsg);
+                    }
+                } else {
+                    // Message erreur : le format du numéro de téléphone est incorrect ou nom de l'abonné trop court
+                    $this->_logger->info("Line n° ". $nb .": le format du numéro de téléphone (". $phoneSubscriber .") est incorrect ou nom ('". $nameSubscriber ."') de l'abonné trop court");
+
+                    $logMsg = new LogMessage();
+                    $logMsg->setLevel('danger');
+                    $logMsg->setMessage("Line n° ". $nb .": le format du numéro de téléphone (". $phoneSubscriber .") est incorrect ou nom ('". $nameSubscriber ."') de l'abonné trop court");
+                    $logMsg->setCreatedAt(new \DateTime('now'));
+                    $this->_em->persist($logMsg);
+                }
+                $nb++;
+            }
+            $this->_em->flush();
+
+            return true;
+        } catch (\Exception $e) {
+            $logMsg = new LogMessage();
+            $logMsg->setLevel('warning');
+            $logMsg->setMessage($e->getMessage());
+            $logMsg->setCreatedAt(new \DateTime('now'));
+            $this->_em->persist($logMsg);
+            $this->_em->flush();
+
+            return false;
+        }
+    }
+
     /**
      * @return string
      */

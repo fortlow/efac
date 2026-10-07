@@ -7,7 +7,7 @@ scheb_two_factor:
     email:
         digits: 6
         enabled: true
-        sender_email: contact@efac.tech
+        sender_email: contact@b2mtechnologies.ga
         sender_name: eFAC
         template: login/2fa_form.html.twig
     trusted_device:
